@@ -1,28 +1,44 @@
 package handlers
 
 import (
+	"strings"
+
 	"github.com/HRemonen/kanban-board/database"
 	"github.com/HRemonen/kanban-board/model"
+	"github.com/HRemonen/kanban-board/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
 
 func CreateUser(c *fiber.Ctx) error {
 	db := database.DB.Db
-	user := new(model.User)
+	payload := new(model.SingUpInput)
 
-	err := c.BodyParser(user)
+	err := c.BodyParser(payload)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": err})
 	}
 
-	err = db.Create(&user).Error
+	if payload.Password != payload.PasswordConfirm {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Passwords do not match"})
+	}
+
+	hash, _ := utils.HashPassword(payload.Password)
+
+	newUser := model.User{
+		Username: payload.Username,
+		Email:    strings.ToLower(payload.Email),
+		Password: hash,
+	}
+
+	err = db.Create(&newUser).Error
+
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create user", "data": err})
 	}
 
-	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has created", "data": user})
+	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has created", "data": newUser})
 }
 
 func GetAllUsers(c *fiber.Ctx) error {

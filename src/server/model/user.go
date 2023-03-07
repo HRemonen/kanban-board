@@ -5,6 +5,13 @@ import (
 	"gorm.io/gorm"
 )
 
+type SingUpInput struct {
+	Username        string `json:"username"`
+	Email           string `json:"email"`
+	Password        string `json:"password"`
+	PasswordConfirm string `json:"passwordConfirm"`
+}
+
 type User struct {
 	gorm.Model
 	ID       uuid.UUID `gorm:"type:uuid;"`
