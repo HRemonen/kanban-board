@@ -1,8 +1,8 @@
-FROM golang:1.19.0
+FROM golang:1.20.0
 
 WORKDIR /usr/src/app
 
-RUN go install github.com/cosmtrek/air@latest
+RUN go install github.com/HRemonen/kanban-board@latest
 
 COPY . .
 
