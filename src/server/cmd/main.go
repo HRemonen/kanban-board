@@ -14,10 +14,11 @@ func main() {
 	database.Connect()
 
 	app := fiber.New()
+
 	app.Use(logger.New())
 	app.Use(cors.New())
 
-	router.SetupRoutes(app)
+	router.PrivateRoutes(app)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
