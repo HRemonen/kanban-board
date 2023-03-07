@@ -45,7 +45,7 @@ func GetAllUsers(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var users []model.User
 
-	db.Find(&users)
+	db.Omit("password").Find(&users)
 
 	if len(users) == 0 {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Users not found", "data": nil})
@@ -58,9 +58,11 @@ func GetSingleUser(c *fiber.Ctx) error {
 	db := database.DB.Db
 
 	id := c.Params("id")
+
 	var user model.User
 
-	db.Find(&user, "id = ?", id)
+	db.Omit("password").Find(&user, "id = ?", id)
+
 	if user.ID == uuid.Nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
 	}
@@ -77,6 +79,7 @@ func UpdateUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	db.Find(&user, "id = ?", id)
+
 	if user.ID == uuid.Nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
 	}
@@ -99,6 +102,7 @@ func DeleteUserByID(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	db.Find(&user, "id = ?", id)
+
 	if user.ID == uuid.Nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
 	}
