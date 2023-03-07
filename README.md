@@ -37,16 +37,23 @@ Kanban boards are useful for several reasons:
 
 3. Clone this repository
 
-4. Build and run the application using Docker Compose:
+4. Develop and run the application using Docker Compose:
 
 ```
 cd kanban-board
-docker-compose up
+docker compose -f docker-compose.dev.yml up
+```
+
+5. Build and run the application using Docker Compose:
+
+```
+cd kanban-board
+docker compose up --build
 ```
 
 This will start the API server and database in one container, and the frontend in another container.
 
-5. Access the application by going to `http://localhost:3000` in your web browser.
+6. Access the application by going to `http://localhost:3000` in your web browser.
 
 ## Desing Ideas
 
