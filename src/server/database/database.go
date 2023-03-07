@@ -14,14 +14,12 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-// Database instance
 type Dbinstance struct {
 	Db *gorm.DB
 }
 
 var DB Dbinstance
 
-// Connect function
 func Connect() {
 	p := config.Config("DB_PORT")
 

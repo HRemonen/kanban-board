@@ -12,9 +12,7 @@ func PrivateRoutes(app *fiber.App) {
 
 	user := v1.Group("/user")
 
-	user.Get("/", middleware.JWTProtected(), handlers.GetAllUsers)
 	user.Get("/:id", middleware.JWTProtected(), handlers.GetSingleUser)
-	user.Post("/", middleware.JWTProtected(), handlers.CreateUser)
 	user.Put("/:id", middleware.JWTProtected(), handlers.UpdateUser)
 	user.Delete("/:id", middleware.JWTProtected(), handlers.DeleteUserByID)
 }

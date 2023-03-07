@@ -18,6 +18,7 @@ func main() {
 	app.Use(logger.New())
 	app.Use(cors.New())
 
+	router.PublicRoutes(app)
 	router.PrivateRoutes(app)
 
 	app.Get("/", func(c *fiber.Ctx) error {
