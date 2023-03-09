@@ -12,7 +12,7 @@ import (
 
 func CreateUser(c *fiber.Ctx) error {
 	db := database.DB.Db
-	payload := new(model.SingUpInput)
+	payload := new(model.RegisterUserInput)
 
 	err := c.BodyParser(payload)
 
@@ -27,7 +27,7 @@ func CreateUser(c *fiber.Ctx) error {
 	hash, _ := utils.HashPassword(payload.Password)
 
 	newUser := model.User{
-		Username: payload.Username,
+		Name:     payload.Name,
 		Email:    strings.ToLower(payload.Email),
 		Password: hash,
 	}
@@ -88,7 +88,7 @@ func UpdateUser(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": err})
 	}
-	user.Username = updateUserData.Username
+	user.Name = updateUserData.Username
 
 	db.Save(&user)
 
