@@ -6,7 +6,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	_ "github.com/lib/pq"
 
+	"github.com/HRemonen/kanban-board/config"
 	"github.com/HRemonen/kanban-board/database"
+	"github.com/HRemonen/kanban-board/handlers"
 	"github.com/HRemonen/kanban-board/router"
 )
 
@@ -15,11 +17,16 @@ func main() {
 
 	app := fiber.New()
 
+	config.GoogleConfig()
+
 	app.Use(logger.New())
 	app.Use(cors.New())
 
 	router.PublicRoutes(app)
 	router.PrivateRoutes(app)
+
+	app.Get("/google_login", handlers.GoogleLogin)
+	//app.Post("/google_callback", controllers.GoogleCallback)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")

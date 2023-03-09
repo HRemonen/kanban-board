@@ -51,7 +51,7 @@ func GetAllUsers(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Users not found", "data": nil})
 	}
 
-	return c.Status(200).JSON(fiber.Map{"status": "sucess", "message": "Users Found", "data": users})
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Users Found", "data": users})
 }
 
 func GetSingleUser(c *fiber.Ctx) error {
