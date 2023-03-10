@@ -34,7 +34,10 @@ func CreateUser(c *fiber.Ctx) error {
 
 	err = db.Create(&newUser).Error
 
-	if err != nil {
+	if err != nil && strings.Contains(err.Error(), "ERROR: duplicate key value violates unique constraint") {
+		return c.Status(409).JSON(fiber.Map{"status": "fail", "message": "User with that email already exists"})
+
+	} else if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create user", "data": err})
 	}
 
@@ -71,7 +74,7 @@ func GetSingleUser(c *fiber.Ctx) error {
 
 func UpdateUser(c *fiber.Ctx) error {
 	type updateUser struct {
-		Username string `json:"username"`
+		Name string `json:"name"`
 	}
 	db := database.DB.Db
 	var user model.User
@@ -83,12 +86,14 @@ func UpdateUser(c *fiber.Ctx) error {
 	if user.ID == uuid.Nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
 	}
+
 	var updateUserData updateUser
+
 	err := c.BodyParser(&updateUserData)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": err})
 	}
-	user.Name = updateUserData.Username
+	user.Name = updateUserData.Name
 
 	db.Save(&user)
 
