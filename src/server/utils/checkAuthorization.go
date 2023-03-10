@@ -17,7 +17,7 @@ func CheckAuthorization(c *fiber.Ctx) (model.User, error) {
 
 	var user model.User
 
-	db.Omit("password").Find(&user, "id = ?", id)
+	db.Find(&user, "id = ?", id)
 
 	if user.ID == uuid.Nil {
 		return user, errors.New("User not found")

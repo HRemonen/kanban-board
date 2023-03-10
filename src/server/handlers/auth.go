@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/HRemonen/kanban-board/database"
@@ -17,36 +16,42 @@ func Login(c *fiber.Ctx) error {
 	err := c.BodyParser(payload)
 
 	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": err})
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
 	}
 
 	var user model.User
 	result := db.First(&user, "email = ?", strings.ToLower(payload.Email))
 
 	if result.Error != nil {
-		return c.Status(401).JSON(fiber.Map{"status": "fail", "message": "User not found, check username"})
+		return c.Status(401).JSON(fiber.Map{"status": "fail", "message": "User not found, check username", "data": nil})
 	}
 
-	fmt.Println(user.Password)
-
 	if !utils.CheckPasswordHash(payload.Password, user.Password) {
-		return c.Status(401).JSON(fiber.Map{"status": "fail", "message": "Invalid password"})
+		return c.Status(401).JSON(fiber.Map{"status": "fail", "message": "Invalid password", "data": nil})
 	}
 
 	if user.Provider == "Google" {
-		c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "fail", "message": "Use OAuth for google login"})
+		c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "fail", "message": "Use OAuth for google login", "data": nil})
 	}
 
 	token, err := utils.GenerateNewAccessToken(user.ID)
 
 	if err != nil {
-		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error(), "data": nil})
 	}
+
+	type LoginData struct {
+		Token string
+		User  model.User
+	}
+
+	var data LoginData
+	data.Token = token
+	data.User = user
 
 	return c.Status(201).JSON(fiber.Map{
 		"status":  "success",
 		"message": "Logged in successfully",
-		"token":   token,
-		"user":    user,
+		"data":    data,
 	})
 }
