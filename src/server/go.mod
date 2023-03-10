@@ -6,7 +6,7 @@ require github.com/gofiber/fiber/v2 v2.42.0
 
 require (
 	cloud.google.com/go/compute/metadata v0.2.0 // indirect
-	github.com/golang-jwt/jwt/v4 v4.0.0 // indirect
+	github.com/golang-jwt/jwt/v4 v4.4.3 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
@@ -23,6 +23,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/gofiber/jwt/v2 v2.2.7
+	github.com/gofiber/jwt/v3 v3.3.6
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/joho/godotenv v1.5.1

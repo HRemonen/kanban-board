@@ -7,6 +7,7 @@ import (
 	"github.com/HRemonen/kanban-board/model"
 	"github.com/HRemonen/kanban-board/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 )
 
@@ -69,6 +70,15 @@ func GetSingleUser(c *fiber.Ctx) error {
 	if user.ID == uuid.Nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
 	}
+
+	authUser := c.Locals("user").(*jwt.Token)
+	claims := authUser.Claims.(jwt.MapClaims)
+	authUserId := claims["sub"].(string)
+
+	if user.ID.String() != authUserId {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action"})
+	}
+
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": user})
 }
 

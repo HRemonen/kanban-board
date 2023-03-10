@@ -10,7 +10,6 @@ import (
 func JWTProtected() func(*fiber.Ctx) error {
 	config := jwtMiddleware.Config{
 		SigningKey:   []byte(config.Config("JWT_SECRET_KEY")),
-		ContextKey:   "jwt", // used in private routes
 		ErrorHandler: jwtError,
 	}
 
@@ -20,13 +19,13 @@ func JWTProtected() func(*fiber.Ctx) error {
 func jwtError(c *fiber.Ctx, err error) error {
 	if err.Error() == "Missing or malformed JWT" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": true,
-			"msg":   err.Error(),
+			"error":   true,
+			"message": err.Error(),
 		})
 	}
 
 	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
-		"error": true,
-		"msg":   err.Error(),
+		"error":   true,
+		"message": err.Error(),
 	})
 }

@@ -23,6 +23,7 @@ func main() {
 	app.Use(cors.New())
 
 	router.PublicRoutes(app)
+	router.PrivateRoutes(app)
 
 	app.Get("/login", handlers.GoogleLogin)
 	app.Get("/login-callback", handlers.GoogleCallback)

@@ -13,9 +13,6 @@ func PublicRoutes(app *fiber.App) {
 
 	user.Get("/", handlers.GetAllUsers)
 	user.Post("/", handlers.CreateUser)
-	user.Get("/:id", handlers.GetSingleUser)
-	user.Put("/:id", handlers.UpdateUser)
-	user.Delete("/:id", handlers.DeleteUserByID)
 
 	auth := v1.Group("/auth")
 

@@ -24,13 +24,13 @@ func Login(c *fiber.Ctx) error {
 	result := db.First(&user, "email = ?", strings.ToLower(payload.Email))
 
 	if result.Error != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "User not found, check username"})
+		return c.Status(401).JSON(fiber.Map{"status": "fail", "message": "User not found, check username"})
 	}
 
 	fmt.Println(user.Password)
 
 	if !utils.CheckPasswordHash(payload.Password, user.Password) {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Invalid password"})
+		return c.Status(401).JSON(fiber.Map{"status": "fail", "message": "Invalid password"})
 	}
 
 	if user.Provider == "Google" {
