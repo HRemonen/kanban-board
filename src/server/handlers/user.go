@@ -7,8 +7,6 @@ import (
 	"github.com/HRemonen/kanban-board/model"
 	"github.com/HRemonen/kanban-board/utils"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v4"
-	"github.com/google/uuid"
 )
 
 func CreateUser(c *fiber.Ctx) error {
@@ -59,24 +57,12 @@ func GetAllUsers(c *fiber.Ctx) error {
 }
 
 func GetSingleUser(c *fiber.Ctx) error {
-	db := database.DB.Db
+	user, err := utils.CheckAuthorization(c)
 
-	id := c.Params("id")
-
-	var user model.User
-
-	db.Omit("password").Find(&user, "id = ?", id)
-
-	if user.ID == uuid.Nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
-	}
-
-	authUser := c.Locals("user").(*jwt.Token)
-	claims := authUser.Claims.(jwt.MapClaims)
-	authUserId := claims["sub"].(string)
-
-	if user.ID.String() != authUserId {
+	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
 		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action"})
+	} else if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user"})
 	}
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": user})
@@ -87,22 +73,22 @@ func UpdateUser(c *fiber.Ctx) error {
 		Name string `json:"name"`
 	}
 	db := database.DB.Db
-	var user model.User
 
-	id := c.Params("id")
+	user, err := utils.CheckAuthorization(c)
 
-	db.Find(&user, "id = ?", id)
-
-	if user.ID == uuid.Nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
+	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action"})
+	} else if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user"})
 	}
 
 	var updateUserData updateUser
 
-	err := c.BodyParser(&updateUserData)
+	err = c.BodyParser(&updateUserData)
 	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": err})
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input"})
 	}
+
 	user.Name = updateUserData.Name
 
 	db.Save(&user)
@@ -112,17 +98,17 @@ func UpdateUser(c *fiber.Ctx) error {
 
 func DeleteUserByID(c *fiber.Ctx) error {
 	db := database.DB.Db
-	var user model.User
 
-	id := c.Params("id")
+	user, err := utils.CheckAuthorization(c)
 
-	db.Find(&user, "id = ?", id)
-
-	if user.ID == uuid.Nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
+	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action"})
+	} else if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user"})
 	}
 
-	err := db.Delete(&user, "id = ?", id).Error
+	err = db.Delete(&user, "id = ?", user.ID).Error
+
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Failed to delete user", "data": nil})
 	}
