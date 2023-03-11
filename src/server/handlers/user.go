@@ -42,7 +42,7 @@ func CreateUser(c *fiber.Ctx) error {
 
 	userResponse := model.FilteredResponse(&newUser)
 
-	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has created", "data": userResponse})
+	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has been created", "data": userResponse})
 }
 
 func GetAllUsers(c *fiber.Ctx) error {

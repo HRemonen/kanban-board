@@ -9,12 +9,15 @@ func PublicRoutes(app *fiber.App) {
 	api := app.Group("/api")
 	v1 := api.Group("/v1")
 
+	auth := v1.Group("/auth")
+
+	auth.Post("/login", handlers.Login)
+
 	user := v1.Group("/user")
 
 	user.Get("/", handlers.GetAllUsers)
 	user.Post("/", handlers.CreateUser)
 
-	auth := v1.Group("/auth")
+	// board := v1.Group("/board")
 
-	auth.Post("/login", handlers.Login)
 }
