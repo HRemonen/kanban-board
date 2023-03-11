@@ -9,6 +9,33 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func GetAllUsers(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var users []model.User
+
+	db.Omit("password").Find(&users)
+
+	if len(users) == 0 {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Users not found", "data": nil})
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Users found", "data": users})
+}
+
+func GetSingleUser(c *fiber.Ctx) error {
+	user, err := utils.CheckAuthorization(c)
+
+	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
+	} else if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
+	}
+
+	userResponse := model.FilteredResponse(&user)
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": userResponse})
+}
+
 func CreateUser(c *fiber.Ctx) error {
 	db := database.DB.Db
 	payload := new(model.RegisterUserInput)
@@ -43,33 +70,6 @@ func CreateUser(c *fiber.Ctx) error {
 	userResponse := model.FilteredResponse(&newUser)
 
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has been created", "data": userResponse})
-}
-
-func GetAllUsers(c *fiber.Ctx) error {
-	db := database.DB.Db
-	var users []model.User
-
-	db.Omit("password").Find(&users)
-
-	if len(users) == 0 {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Users not found", "data": nil})
-	}
-
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Users Found", "data": users})
-}
-
-func GetSingleUser(c *fiber.Ctx) error {
-	user, err := utils.CheckAuthorization(c)
-
-	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
-		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
-	} else if err != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
-	}
-
-	userResponse := model.FilteredResponse(&user)
-
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": userResponse})
 }
 
 func UpdateUser(c *fiber.Ctx) error {
