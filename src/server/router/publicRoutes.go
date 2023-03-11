@@ -18,6 +18,8 @@ func PublicRoutes(app *fiber.App) {
 	user.Get("/", handlers.GetAllUsers)
 	user.Post("/", handlers.CreateUser)
 
-	// board := v1.Group("/board")
+	board := v1.Group("/board")
+
+	board.Get("/", handlers.GetAllBoards)
 
 }
