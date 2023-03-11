@@ -7,13 +7,14 @@ import (
 	"github.com/HRemonen/kanban-board/model"
 	"github.com/HRemonen/kanban-board/utils"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm/clause"
 )
 
 func GetAllUsers(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var users []model.User
 
-	db.Omit("password").Find(&users)
+	db.Preload(clause.Associations).Find(&users)
 
 	if len(users) == 0 {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Users not found", "data": nil})

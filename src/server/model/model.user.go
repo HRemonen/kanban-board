@@ -16,6 +16,7 @@ type User struct {
 	Photo     string    `gorm:"default:'default.png';"`
 	Verified  bool      `gorm:"default:false;"`
 	Provider  string    `gorm:"default:'local';"`
+	Boards    []Board   `gorm:"many2many:boards;"`
 	CreatedAt time.Time `gorm:"not null"`
 	UpdatedAt time.Time `gorm:"not null"`
 }
@@ -51,6 +52,7 @@ type UserResponse struct {
 	Provider  string    `json:"provider,omitempty"`
 	Photo     string    `json:"photo,omitempty"`
 	Verified  bool      `json:"verified,omitempty"`
+	Boards    []Board   `gorm:"many2many:boards;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
