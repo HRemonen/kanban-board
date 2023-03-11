@@ -1,16 +1,20 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Board struct {
-	ID          uint   `gorm:"primaryKey"`
-	Name        string `gorm:"not null"`
+	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
+	Name        string    `gorm:"type:varchar(100);not null"`
 	Description string
-	Lists       []List
-	TeamID      uint
-	Team        Team
-	OwnerID     uint
-	Owner       User
+	Lists       []List `gorm:"ForeignKey:BoardID"`
+	TeamID      uuid.UUID
+	Team        Team `gorm:"ForeignKey:TeamID"`
+	OwnerID     uuid.UUID
+	Owner       User `gorm:"ForeignKey:OwnerID"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }

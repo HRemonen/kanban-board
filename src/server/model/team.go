@@ -1,8 +1,10 @@
 package model
 
+import "github.com/google/uuid"
+
 type Team struct {
-	ID      uint    `gorm:"primaryKey"`
-	Name    string  `gorm:"not null"`
-	Members []*User `gorm:"many2many:user_teams;"`
-	Boards  []*Board
+	ID     uuid.UUID `gorm:"type:uuid;primary_key;"`
+	Name   string    `gorm:"not null"`
+	Users  []*User   `gorm:"many2many:user_teams;"`
+	Boards []*Board
 }
