@@ -16,7 +16,6 @@ type User struct {
 	Photo     string    `gorm:"default:'default.png';"`
 	Verified  bool      `gorm:"default:false;"`
 	Provider  string    `gorm:"default:'local';"`
-	Boards    []*Board  `gorm:"many2many:board_user"`
 	CreatedAt time.Time `gorm:"not null"`
 	UpdatedAt time.Time `gorm:"not null"`
 }

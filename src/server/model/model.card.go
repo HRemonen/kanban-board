@@ -12,7 +12,6 @@ type Card struct {
 	Description string
 	Position    uint `gorm:"not null"`
 	ListID      uuid.UUID
-	List        List `gorm:"ForeignKey:ListID;references:ID;"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }

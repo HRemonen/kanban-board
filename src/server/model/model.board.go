@@ -13,6 +13,7 @@ type Board struct {
 	Description string
 	UserID      uuid.UUID
 	User        UserResponse `gorm:"ForeignKey:UserID"`
+	Lists       []List       `gorm:"ForeignKey:BoardID;references:ID;"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
