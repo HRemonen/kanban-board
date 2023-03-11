@@ -40,12 +40,7 @@ func Login(c *fiber.Ctx) error {
 		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error(), "data": nil})
 	}
 
-	type LoginData struct {
-		Token string
-		User  model.User
-	}
-
-	var data LoginData
+	var data model.LoginData
 	data.Token = token
 	data.User = user
 

@@ -38,6 +38,11 @@ type LoginUserInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
+type LoginData struct {
+	Token string `json:"token" binding:"required"`
+	User  User   `json:"user" binding:"required"`
+}
+
 type UserResponse struct {
 	ID        string `json:"id,omitempty"`
 	Name      string `json:"name,omitempty"`
