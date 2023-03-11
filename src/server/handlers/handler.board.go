@@ -7,6 +7,19 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func GetAllBoards(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var boards []model.Board
+
+	db.Preload("User").Find(&boards)
+
+	if len(boards) == 0 {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Boards not found", "data": nil})
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Boards found", "data": boards})
+}
+
 func CreateBoard(c *fiber.Ctx) error {
 	db := database.DB.Db
 	user, err := utils.ExtractUser(c)
@@ -39,17 +52,4 @@ func CreateBoard(c *fiber.Ctx) error {
 	}
 
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "Board has been created", "data": newBoard})
-}
-
-func GetAllBoards(c *fiber.Ctx) error {
-	db := database.DB.Db
-	var boards []model.Board
-
-	db.Find(&boards)
-
-	if len(boards) == 0 {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Boards not found", "data": nil})
-	}
-
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Boards found", "data": boards})
 }
