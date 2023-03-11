@@ -5,13 +5,14 @@ import (
 	"github.com/HRemonen/kanban-board/model"
 	"github.com/HRemonen/kanban-board/utils"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm/clause"
 )
 
 func GetAllBoards(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var boards []model.Board
 
-	db.Preload("User").Find(&boards)
+	db.Preload(clause.Associations).Find(&boards)
 
 	if len(boards) == 0 {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Boards not found", "data": nil})
@@ -28,8 +29,6 @@ func CreateBoard(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
 	}
 
-	userResponse := model.FilteredResponse(&user)
-
 	payload := new(model.BoardUserInput)
 
 	err = c.BodyParser(payload)
@@ -41,8 +40,7 @@ func CreateBoard(c *fiber.Ctx) error {
 	newBoard := model.Board{
 		Name:        payload.Name,
 		Description: payload.Description,
-		UserID:      userResponse.ID,
-		User:        userResponse,
+		UserID:      user.ID,
 	}
 
 	err = db.Create(&newBoard).Error

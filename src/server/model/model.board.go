@@ -12,8 +12,8 @@ type Board struct {
 	Name        string    `gorm:"type:varchar(100);not null"`
 	Description string
 	UserID      uuid.UUID
-	User        UserResponse `gorm:"ForeignKey:UserID"`
-	Lists       []List       `gorm:"ForeignKey:BoardID;references:ID;"`
+	Users       User   `gorm:"ForeignKey:UserID"`
+	Lists       []List `gorm:"ForeignKey:BoardID;references:ID;"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
