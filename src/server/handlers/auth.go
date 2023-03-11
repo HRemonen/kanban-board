@@ -40,9 +40,11 @@ func Login(c *fiber.Ctx) error {
 		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error(), "data": nil})
 	}
 
+	userResponse := model.FilteredResponse(&user)
+
 	var data model.LoginData
 	data.Token = token
-	data.User = user
+	data.User = userResponse
 
 	return c.Status(201).JSON(fiber.Map{
 		"status":  "success",

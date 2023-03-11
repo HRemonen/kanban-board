@@ -28,19 +28,19 @@ func (user *User) BeforeCreate(*gorm.DB) error {
 
 type RegisterUserInput struct {
 	Name            string `json:"name" binding:"required"`
-	Email           string `json:"email" bindinig:"required"`
+	Email           string `json:"email" binding:"required, email"`
 	Password        string `json:"password" binding:"required"`
 	PasswordConfirm string `json:"passwordConfirm" binding:"required"`
 }
 
 type LoginUserInput struct {
-	Email    string `json:"email" bindinig:"required"`
+	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
 type LoginData struct {
-	Token string `json:"token" binding:"required"`
-	User  User   `json:"user" binding:"required"`
+	Token string       `json:"token" binding:"required"`
+	User  UserResponse `json:"user" binding:"required"`
 }
 
 type UserResponse struct {

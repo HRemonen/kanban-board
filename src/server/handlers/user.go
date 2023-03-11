@@ -40,7 +40,9 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create user", "data": nil})
 	}
 
-	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has created", "data": newUser})
+	userResponse := model.FilteredResponse(&newUser)
+
+	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has created", "data": userResponse})
 }
 
 func GetAllUsers(c *fiber.Ctx) error {
@@ -65,7 +67,9 @@ func GetSingleUser(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
 	}
 
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": user})
+	userResponse := model.FilteredResponse(&user)
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": userResponse})
 }
 
 func UpdateUser(c *fiber.Ctx) error {
@@ -93,7 +97,9 @@ func UpdateUser(c *fiber.Ctx) error {
 
 	db.Save(&user)
 
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "users Found", "data": user})
+	userResponse := model.FilteredResponse(&user)
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "users Found", "data": userResponse})
 }
 
 func DeleteUserByID(c *fiber.Ctx) error {
