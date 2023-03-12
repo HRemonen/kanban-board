@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Card struct {
@@ -14,4 +15,10 @@ type Card struct {
 	ListID      uuid.UUID
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+}
+
+func (card *Card) BeforeCreate(*gorm.DB) error {
+	card.ID = uuid.New()
+
+	return nil
 }

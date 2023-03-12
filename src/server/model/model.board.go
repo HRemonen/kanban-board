@@ -12,10 +12,13 @@ type Board struct {
 	Name        string    `gorm:"type:varchar(100);not null"`
 	Description string
 	UserID      uuid.UUID
-	Users       User   `gorm:"ForeignKey:UserID"`
-	Lists       []List `gorm:"ForeignKey:BoardID;references:ID;"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	User        *User `gorm:"ForeignKey:UserID"`
+	TeamID      uuid.UUID
+	Team        *Team   `gorm:"ForeignKey:TeamID"`
+	Lists       []*List `gorm:"ForeignKey:BoardID;references:ID;"`
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (board *Board) BeforeCreate(*gorm.DB) error {

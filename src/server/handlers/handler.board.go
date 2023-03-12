@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+
 	"github.com/HRemonen/kanban-board/database"
 	"github.com/HRemonen/kanban-board/model"
 	"github.com/HRemonen/kanban-board/utils"
@@ -37,10 +39,25 @@ func CreateBoard(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
 	}
 
+	newTeam := model.Team{
+		Name: "Team, " + payload.Name,
+	}
+
+	fmt.Println(&newTeam)
+
+	err = db.Create(&newTeam).Error
+
+	db.Model(&newTeam).Association("Users").Append(&user)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create a new team for board", "data": err.Error()})
+	}
+
 	newBoard := model.Board{
 		Name:        payload.Name,
 		Description: payload.Description,
 		UserID:      user.ID,
+		TeamID:      newTeam.ID,
 	}
 
 	err = db.Create(&newBoard).Error
