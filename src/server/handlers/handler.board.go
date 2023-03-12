@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-
 	"github.com/HRemonen/kanban-board/database"
 	"github.com/HRemonen/kanban-board/model"
 	"github.com/HRemonen/kanban-board/utils"
@@ -39,31 +37,41 @@ func CreateBoard(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
 	}
 
-	newTeam := model.Team{
-		Name: "Team, " + payload.Name,
-	}
-
-	fmt.Println(&newTeam)
-
-	err = db.Create(&newTeam).Error
-
-	db.Model(&newTeam).Association("Users").Append(&user)
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create a new team for board", "data": err.Error()})
-	}
-
 	newBoard := model.Board{
 		Name:        payload.Name,
 		Description: payload.Description,
 		UserID:      user.ID,
-		TeamID:      newTeam.ID,
 	}
 
 	err = db.Create(&newBoard).Error
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create a new board", "data": err.Error()})
+	}
+
+	newList := model.List{
+		Name:     "In progress",
+		Position: 1,
+		BoardID:  newBoard.ID,
+	}
+
+	err = db.Create(&newList).Error
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create a initial list for the board", "data": err.Error()})
+	}
+
+	newCard := model.Card{
+		Title:       "Initial card",
+		Description: "You can create cards here",
+		Position:    1,
+		ListID:      newList.ID,
+	}
+
+	err = db.Create(&newCard).Error
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create an initial card for the list", "data": err.Error()})
 	}
 
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "Board has been created", "data": newBoard})

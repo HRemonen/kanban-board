@@ -12,9 +12,7 @@ type Board struct {
 	Name        string    `gorm:"type:varchar(100);not null"`
 	Description string
 	UserID      uuid.UUID
-	User        *User `gorm:"ForeignKey:UserID"`
-	TeamID      uuid.UUID
-	Team        *Team   `gorm:"ForeignKey:TeamID"`
+	User        *User   `gorm:"ForeignKey:UserID"`
 	Lists       []*List `gorm:"ForeignKey:BoardID;references:ID;"`
 
 	CreatedAt time.Time
