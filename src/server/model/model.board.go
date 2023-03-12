@@ -25,6 +25,15 @@ func (board *Board) BeforeCreate(*gorm.DB) error {
 	return nil
 }
 
+type APIBoard struct {
+	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
+	Name        string    `gorm:"type:varchar(100);not null"`
+	Description string
+	UserID      uuid.UUID
+	User        *User   `gorm:"ForeignKey:UserID"`
+	Lists       []*List `gorm:"ForeignKey:BoardID;references:ID;"`
+}
+
 type BoardUserInput struct {
 	Name        string `json:"name" binding:"required"`
 	Description string `json:"description"`

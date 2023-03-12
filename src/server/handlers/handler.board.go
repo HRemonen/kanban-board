@@ -9,9 +9,9 @@ import (
 
 func GetAllBoards(c *fiber.Ctx) error {
 	db := database.DB.Db
-	var boards []model.Board
+	var boards []model.APIBoard
 
-	db.Preload("User").Preload("Lists.Cards").Find(&boards)
+	db.Model(&model.Board{}).Preload("User").Preload("Lists.Cards").Find(&boards)
 
 	if len(boards) == 0 {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Boards not found", "data": nil})
