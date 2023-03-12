@@ -44,6 +44,13 @@ type LoginData struct {
 	User  UserResponse `json:"user" binding:"required"`
 }
 
+type APIUser struct {
+	ID     uuid.UUID `gorm:"type:uuid;primary_key;"`
+	Name   string    `gorm:"type:varchar(100);not null"`
+	Email  string    `gorm:"type:varchar(100);uniqueIndex;not null"`
+	Boards []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
+}
+
 type UserResponse struct {
 	ID        uuid.UUID `json:"id,omitempty"`
 	Name      string    `json:"name,omitempty"`

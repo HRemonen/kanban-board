@@ -12,9 +12,9 @@ import (
 
 func GetAllUsers(c *fiber.Ctx) error {
 	db := database.DB.Db
-	var users []model.User
+	var users []model.APIUser
 
-	db.Preload(clause.Associations).Find(&users)
+	db.Model(&model.User{}).Preload(clause.Associations).Find(&users)
 
 	if len(users) == 0 {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Users not found", "data": nil})

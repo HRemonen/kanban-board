@@ -5,14 +5,13 @@ import (
 	"github.com/HRemonen/kanban-board/model"
 	"github.com/HRemonen/kanban-board/utils"
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm/clause"
 )
 
 func GetAllBoards(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var boards []model.Board
 
-	db.Preload(clause.Associations).Find(&boards)
+	db.Preload("User").Preload("Lists.Cards").Find(&boards)
 
 	if len(boards) == 0 {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Boards not found", "data": nil})
