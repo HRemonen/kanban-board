@@ -22,7 +22,8 @@ func PublicRoutes(app *fiber.App) {
 
 	board.Get("/", handlers.GetAllBoards)
 	board.Get("/:id", handlers.GetSingleBoard)
-	board.Post("/:id/create-list", handlers.CreateBoardList)
-	board.Delete("/:id/delete-list/:list", handlers.DeleteBoardList)
+	board.Post("/:id/list", handlers.CreateBoardList)
+	board.Put("/:id/list/:list", handlers.UpdateBoardListPosition)
+	board.Delete("/:id/list/:list", handlers.DeleteBoardList)
 
 }
