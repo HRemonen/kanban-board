@@ -10,6 +10,13 @@ import (
 	"gorm.io/gorm/clause"
 )
 
+// GetAllBoards ... Get all boards
+// @Summary Get all boards
+// @Description get all boards
+// @Tags Boards
+// @Success 200 {array} model.APIBoard
+// @Failure 404 {object} object
+// @Router /board [get]
 func GetAllBoards(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var boards []model.APIBoard
@@ -23,6 +30,13 @@ func GetAllBoards(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Boards found", "data": boards})
 }
 
+// GetSingleBoard ... Get a single board
+// @Summary Get a single board
+// @Description get a single board
+// @Tags Boards
+// @Success 200 {object} model.APIBoard
+// @Failure 404 {object} object
+// @Router /board/{id} [get]
 func GetSingleBoard(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var board model.APIBoard
@@ -38,6 +52,15 @@ func GetSingleBoard(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Board found", "data": board})
 }
 
+// CreateBoard ... Create a new board
+// @Summary Create a new board
+// @Description create a new board
+// @Tags Boards
+// @Accept json
+// @Param board body model.BoardUserInput
+// @Success 201 {object} model.APIBoard
+// @Failure 500 {object} object
+// @Router /board [post]
 func CreateBoard(c *fiber.Ctx) error {
 	db := database.DB.Db
 	user, err := utils.ExtractUser(c)
@@ -94,6 +117,15 @@ func CreateBoard(c *fiber.Ctx) error {
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "Board has been created", "data": newBoard})
 }
 
+// CreateBoardList ... Create a new list for a board
+// @Summary Create a new list for a board
+// @Description create a new list for a board
+// @Tags Boards
+// @Accept json
+// @Param list body model.ListUserInput
+// @Success 201 {object} model.List
+// @Failure 404, 500 {object} object
+// @Router /board/{id}/list [post]
 func CreateBoardList(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var board model.Board
@@ -133,6 +165,15 @@ func CreateBoardList(c *fiber.Ctx) error {
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "A new list has been created", "data": newList})
 }
 
+// UpdateBoardListPosition ... Update list position in the board
+// @Summary Update list position in the board
+// @Description update list position in the board
+// @Tags Boards
+// @Accept json
+// @Param list body model.ListPositionInput
+// @Success 200 {object} object
+// @Failure 404, 500 {object} object
+// @Router /board/{id}/list/{list} [put]
 func UpdateBoardListPosition(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var board model.Board
@@ -189,6 +230,13 @@ func UpdateBoardListPosition(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "List positions updated", "data": nil})
 }
 
+// DeleteBoardList ... Delete a list from board
+// @Summary Delete a list from board
+// @Description delete a list from board
+// @Tags Boards
+// @Success 200 {object} object
+// @Failure 404, 500 {object} object
+// @Router /board/{id}/list/{list} [delete]
 func DeleteBoardList(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var board model.Board
@@ -216,7 +264,7 @@ func DeleteBoardList(c *fiber.Ctx) error {
 	err := db.Select(clause.Associations).Delete(&list).Error
 
 	if err != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Failed to delete list", "data": nil})
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Failed to delete list", "data": nil})
 	}
 
 	db.Model(&model.List{}).Where("position > ?", list.Position).Update("position", gorm.Expr("position - 1"))
