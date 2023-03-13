@@ -26,3 +26,7 @@ func (list *List) BeforeCreate(*gorm.DB) error {
 type ListUserInput struct {
 	Name string `json:"name" binding:"required"`
 }
+
+type ListPositionInput struct {
+	Position uint `json:"position" binding:"required"`
+}
