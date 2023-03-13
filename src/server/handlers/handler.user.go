@@ -16,7 +16,7 @@ import (
 // @Tags Users
 // @Success 200 {array} model.User
 // @Failure 404 {object} object
-// @Router / [get]
+// @Router /user [get]
 func GetAllUsers(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var users []model.APIUser
@@ -36,7 +36,7 @@ func GetAllUsers(c *fiber.Ctx) error {
 // @Tags Users
 // @Success 200 {object} model.UserResponse
 // @Failure 401, 404 {object} object
-// @Router / {id} [get]
+// @Router /user/{id} [get]
 func GetSingleUser(c *fiber.Ctx) error {
 	user, err := utils.CheckAuthorization(c)
 
@@ -59,7 +59,7 @@ func GetSingleUser(c *fiber.Ctx) error {
 // @Param user body model.RegisterUserInput
 // @Success 201 {object} object
 // @Failure 409,500 {object} object
-// @Router / [post]
+// @Router /user [post]
 func CreateUser(c *fiber.Ctx) error {
 	db := database.DB.Db
 	payload := new(model.RegisterUserInput)
@@ -104,7 +104,7 @@ func CreateUser(c *fiber.Ctx) error {
 // @Param name body string true "Name"
 // @Success 200 {object} model.UserResponse
 // @Failure 401, 404, 500 {object} object
-// @Router / {id} [put]
+// @Router /user/{id} [put]
 func UpdateUser(c *fiber.Ctx) error {
 	type updateUser struct {
 		Name string `json:"name"`
@@ -141,7 +141,7 @@ func UpdateUser(c *fiber.Ctx) error {
 // @Tags Users
 // @Success 200 {object} object
 // @Failure 401, 404, 500 {object} object
-// @Router / {id} [delete]
+// @Router /user/{id} [delete]
 func DeleteUserByID(c *fiber.Ctx) error {
 	db := database.DB.Db
 
