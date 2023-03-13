@@ -22,5 +22,6 @@ func PublicRoutes(app *fiber.App) {
 
 	board.Get("/", handlers.GetAllBoards)
 	board.Get("/:id", handlers.GetSingleBoard)
+	board.Post("/:id/create-list", handlers.CreateBoardList)
 
 }

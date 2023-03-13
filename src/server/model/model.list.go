@@ -22,3 +22,7 @@ func (list *List) BeforeCreate(*gorm.DB) error {
 
 	return nil
 }
+
+type ListUserInput struct {
+	Name string `json:"name" binding:"required"`
+}

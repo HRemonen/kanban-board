@@ -91,3 +91,42 @@ func CreateBoard(c *fiber.Ctx) error {
 
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "Board has been created", "data": newBoard})
 }
+
+func CreateBoardList(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var board model.Board
+
+	boardID := c.Params("id")
+
+	db.Find(&board, "id = ?", boardID)
+
+	if board.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Board not found", "data": nil})
+	}
+
+	payload := new(model.ListUserInput)
+
+	err := c.BodyParser(payload)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
+	}
+
+	var currentPosition uint
+
+	db.Model(&model.List{}).Select("COALESCE(MAX(position), 1)").Row().Scan(&currentPosition)
+
+	newList := model.List{
+		Name:     payload.Name,
+		Position: currentPosition + 1,
+		BoardID:  board.ID,
+	}
+
+	err = db.Create(&newList).Error
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create a initial list for the board", "data": err.Error()})
+	}
+
+	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "A new list has been created", "data": newList})
+}
