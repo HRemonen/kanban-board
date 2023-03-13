@@ -16,7 +16,7 @@ import (
 // @Param login body model.LoginUserInput
 // @Success 201 {object} model.LoginData
 // @Failure 401, 500 {object} object
-// @Router /auth/login [get]
+// @Router /auth/login [post]
 func Login(c *fiber.Ctx) error {
 	db := database.DB.Db
 	payload := new(model.LoginUserInput)

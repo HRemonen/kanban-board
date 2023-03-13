@@ -9,6 +9,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// GoogleLogin ... Google OAuth login
+// @Summary Google OAuth login
+// @Description Google OAuth login
+// @Tags Login
+// @Router /google/login [post]
 func GoogleLogin(c *fiber.Ctx) error {
 	url := config.AppConfig.GoogleLoginConfig.AuthCodeURL(config.Config("RANDOM_STATE"))
 
