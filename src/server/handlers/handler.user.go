@@ -56,7 +56,7 @@ func GetSingleUser(c *fiber.Ctx) error {
 // @Description Create new user
 // @Tags Users
 // @Accept json
-// @Param user body model.RegisterUserInput
+// @Param user body model.RegisterUserInput true "User data"
 // @Success 201 {object} object
 // @Failure 409,500 {object} object
 // @Router /user [post]
@@ -101,7 +101,8 @@ func CreateUser(c *fiber.Ctx) error {
 // @Description update user name by ID
 // @Tags Users
 // @Accept json
-// @Param name body string true "Name"
+// @Param id path string true "User ID"
+// @Param name body string true "Updated Name"
 // @Success 200 {object} model.UserResponse
 // @Failure 401, 404, 500 {object} object
 // @Router /user/{id} [put]
@@ -139,6 +140,7 @@ func UpdateUser(c *fiber.Ctx) error {
 // @Summary Delete user by ID
 // @Description delete user by ID
 // @Tags Users
+// @Param id path string true "User ID"
 // @Success 200 {object} object
 // @Failure 401, 404, 500 {object} object
 // @Router /user/{id} [delete]

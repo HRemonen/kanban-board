@@ -34,6 +34,7 @@ func GetAllBoards(c *fiber.Ctx) error {
 // @Summary Get a single board
 // @Description get a single board
 // @Tags Boards
+// @Param id path string true "Board ID"
 // @Success 200 {object} model.APIBoard
 // @Failure 404 {object} object
 // @Router /board/{id} [get]
@@ -122,7 +123,8 @@ func CreateBoard(c *fiber.Ctx) error {
 // @Description create a new list for a board
 // @Tags Boards
 // @Accept json
-// @Param list body model.ListUserInput
+// @Param id path string true "Board ID"
+// @Param list body model.ListUserInput true "List body"
 // @Success 201 {object} model.List
 // @Failure 404, 500 {object} object
 // @Router /board/{id}/list [post]
@@ -170,7 +172,9 @@ func CreateBoardList(c *fiber.Ctx) error {
 // @Description update list position in the board
 // @Tags Boards
 // @Accept json
-// @Param list body model.ListPositionInput
+// @Param id path string true "Board ID"
+// @Param list path string true "List ID"
+// @Param position body model.ListPositionInput true "List position"
 // @Success 200 {object} object
 // @Failure 404, 500 {object} object
 // @Router /board/{id}/list/{list} [put]
@@ -234,6 +238,8 @@ func UpdateBoardListPosition(c *fiber.Ctx) error {
 // @Summary Delete a list from board
 // @Description delete a list from board
 // @Tags Boards
+// @Param id path string true "Board ID"
+// @Param list path string true "List ID"
 // @Success 200 {object} object
 // @Failure 404, 500 {object} object
 // @Router /board/{id}/list/{list} [delete]
