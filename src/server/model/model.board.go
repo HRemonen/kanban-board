@@ -10,7 +10,7 @@ import (
 type Board struct {
 	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
 	Name        string    `gorm:"type:varchar(100);not null"`
-	Description string
+	Description string    `gorm:"type:varchar(100);"`
 	UserID      uuid.UUID
 	User        *User   `gorm:"ForeignKey:UserID"`
 	Lists       []*List `gorm:"ForeignKey:BoardID;references:ID;"`
@@ -28,7 +28,7 @@ func (board *Board) BeforeCreate(*gorm.DB) error {
 type APIBoard struct {
 	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
 	Name        string    `gorm:"type:varchar(100);not null"`
-	Description string
+	Description string    `gorm:"type:varchar(100);"`
 	UserID      uuid.UUID
 	User        *User   `gorm:"ForeignKey:UserID"`
 	Lists       []*List `gorm:"ForeignKey:BoardID;references:ID;"`

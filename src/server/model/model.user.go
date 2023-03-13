@@ -9,16 +9,16 @@ import (
 
 type User struct {
 	ID        uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name      string    `gorm:"type:varchar(100);not null"`
-	Email     string    `gorm:"type:varchar(100);uniqueIndex;not null"`
-	Password  string    `gorm:"not null"`
+	Name      string    `gorm:"type:varchar(100);not null;"`
+	Email     string    `gorm:"type:varchar(100);uniqueIndex;not null;"`
+	Password  string    `gorm:"not null;"`
 	Role      string    `gorm:"type:varchar(20);default:'user';"`
 	Photo     string    `gorm:"default:'default.png';"`
 	Verified  bool      `gorm:"default:false;"`
 	Provider  string    `gorm:"default:'local';"`
 	Boards    []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
-	CreatedAt time.Time `gorm:"not null"`
-	UpdatedAt time.Time `gorm:"not null"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (user *User) BeforeCreate(*gorm.DB) error {

@@ -9,9 +9,9 @@ import (
 
 type Card struct {
 	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Title       string    `gorm:"not null"`
-	Description string
-	Position    uint `gorm:"not null"`
+	Title       string    `gorm:"type:varchar(100);default:'Card title';"`
+	Description string    `gorm:"type:varchar(100);"`
+	Position    uint      `gorm:"type:integer;not null;"`
 	ListID      uuid.UUID
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
