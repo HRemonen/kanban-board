@@ -8,7 +8,6 @@ import (
 
 	"github.com/HRemonen/kanban-board/config"
 	"github.com/HRemonen/kanban-board/database"
-	"github.com/HRemonen/kanban-board/handlers"
 	"github.com/HRemonen/kanban-board/router"
 )
 
@@ -24,9 +23,6 @@ func main() {
 
 	router.PublicRoutes(app)
 	router.PrivateRoutes(app)
-
-	app.Get("/login", handlers.GoogleLogin)
-	app.Get("/login-callback", handlers.GoogleCallback)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")

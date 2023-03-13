@@ -35,7 +35,7 @@ func GetSingleBoard(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Board not found", "data": nil})
 	}
 
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Boards found", "data": board})
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Board found", "data": board})
 }
 
 func CreateBoard(c *fiber.Ctx) error {
