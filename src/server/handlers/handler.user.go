@@ -10,6 +10,13 @@ import (
 	"gorm.io/gorm/clause"
 )
 
+// GetAllUsers ... Get all users
+// @Summary Get all users
+// @Description get all users
+// @Tags Users
+// @Success 200 {array} model.User
+// @Failure 404 {object} object
+// @Router / [get]
 func GetAllUsers(c *fiber.Ctx) error {
 	db := database.DB.Db
 	var users []model.APIUser
@@ -23,6 +30,13 @@ func GetAllUsers(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Users found", "data": users})
 }
 
+// GetSingleUser ... Get a single user by ID
+// @Summary Get a single user by ID
+// @Description get a single user by ID
+// @Tags Users
+// @Success 200 {object} model.UserResponse
+// @Failure 401, 404 {object} object
+// @Router / {id} [get]
 func GetSingleUser(c *fiber.Ctx) error {
 	user, err := utils.CheckAuthorization(c)
 
@@ -37,6 +51,15 @@ func GetSingleUser(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": userResponse})
 }
 
+// CreateUser ... Create User
+// @Summary Create new user based on paramters
+// @Description Create new user
+// @Tags Users
+// @Accept json
+// @Param user body model.RegisterUserInput
+// @Success 201 {object} object
+// @Failure 409,500 {object} object
+// @Router / [post]
 func CreateUser(c *fiber.Ctx) error {
 	db := database.DB.Db
 	payload := new(model.RegisterUserInput)
@@ -73,6 +96,15 @@ func CreateUser(c *fiber.Ctx) error {
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has been created", "data": userResponse})
 }
 
+// UpdateUser ... Update user name by ID
+// @Summary Update user name by ID
+// @Description update user name by ID
+// @Tags Users
+// @Accept json
+// @Param name body string true "Name"
+// @Success 200 {object} model.UserResponse
+// @Failure 401, 404, 500 {object} object
+// @Router / {id} [put]
 func UpdateUser(c *fiber.Ctx) error {
 	type updateUser struct {
 		Name string `json:"name"`
@@ -100,9 +132,16 @@ func UpdateUser(c *fiber.Ctx) error {
 
 	userResponse := model.FilteredResponse(&user)
 
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "users Found", "data": userResponse})
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User updated", "data": userResponse})
 }
 
+// UpdateUser ... Delete user by ID
+// @Summary Delete user by ID
+// @Description delete user by ID
+// @Tags Users
+// @Success 200 {object} object
+// @Failure 401, 404, 500 {object} object
+// @Router / {id} [delete]
 func DeleteUserByID(c *fiber.Ctx) error {
 	db := database.DB.Db
 
