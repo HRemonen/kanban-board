@@ -10,6 +10,11 @@ import (
 	"github.com/google/uuid"
 )
 
+// ExtractUser ... Extract the user from the request
+// @Summary Extract the user from the request
+// @Description Checks if the request.user is in the database
+// @Description and returns the user or error.
+// @Tags Utils
 func ExtractUser(c *fiber.Ctx) (model.User, error) {
 	db := database.DB.Db
 

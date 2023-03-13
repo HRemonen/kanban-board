@@ -8,6 +8,11 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
+// GenerateNewAccessToken ... Generate new JWT token
+// @Summary Generate new JWT token
+// @Description Generates a new JWT token
+// @Description and returns the token or error.
+// @Tags Utils
 func GenerateNewAccessToken(payload interface{}) (string, error) {
 	secret := config.Config("JWT_SECRET_KEY")
 

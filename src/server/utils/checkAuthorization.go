@@ -10,6 +10,11 @@ import (
 	"github.com/google/uuid"
 )
 
+// CheckAuthorization ... Check authorization of the user
+// @Summary Check authorization of the user
+// @Description Checks if the user sending request is actually the user
+// @Description which holds the wanted resource.
+// @Tags Utils
 func CheckAuthorization(c *fiber.Ctx) (model.User, error) {
 	db := database.DB.Db
 

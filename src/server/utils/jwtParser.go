@@ -41,6 +41,11 @@ func extractToken(c *fiber.Ctx) string {
 	return ""
 }
 
+// verifyToken ... Verify a JWT token
+// @Summary Verify a JWT token
+// @Description Verify a JWT token
+// @Description and returns the token or error.
+// @Tags Utils
 func verifyToken(c *fiber.Ctx) (*jwt.Token, error) {
 	tokenString := extractToken(c)
 
