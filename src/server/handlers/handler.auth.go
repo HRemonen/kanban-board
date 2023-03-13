@@ -9,6 +9,14 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Login ... Login user
+// @Summary Login user
+// @Description login user and generate JWT token
+// @Tags Login
+// @Param login body model.LoginUserInput
+// @Success 201 {object} model.LoginData
+// @Failure 401, 500 {object} object
+// @Router /auth/login [get]
 func Login(c *fiber.Ctx) error {
 	db := database.DB.Db
 	payload := new(model.LoginUserInput)

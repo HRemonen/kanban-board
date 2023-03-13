@@ -6,8 +6,11 @@ import (
 )
 
 func PublicRoutes(app *fiber.App) {
+
+	// Google specific routes
 	google := app.Group("/google")
 
+	// Oauth routes
 	google.Get("/login", handlers.GoogleLogin)
 	google.Get("/login-callback", handlers.GoogleCallback)
 

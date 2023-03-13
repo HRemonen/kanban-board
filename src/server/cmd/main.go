@@ -11,6 +11,22 @@ import (
 	"github.com/HRemonen/kanban-board/router"
 )
 
+// @title           Kanri API
+// @description     Kanri is a Kanban board application
+// @termsOfService  http://github.com/HRemonen/kanban-board/
+
+// @contact.name   API Support
+// @contact.url    http://github.com/HRemonen/kanban-board/
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
+// @BasePath  /api/v1
+
+// @externalDocs.description  OpenAPI
+// @externalDocs.url          https://swagger.io/resources/open-api/
+
 func main() {
 	database.Connect()
 
