@@ -5,6 +5,7 @@ import (
 	"github.com/HRemonen/kanban-board/model"
 	"github.com/HRemonen/kanban-board/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 func GetAllBoards(c *fiber.Ctx) error {
@@ -18,6 +19,21 @@ func GetAllBoards(c *fiber.Ctx) error {
 	}
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Boards found", "data": boards})
+}
+
+func GetSingleBoard(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var board model.APIBoard
+
+	boardID := c.Params("id")
+
+	db.Model(&model.Board{}).Preload("User").Preload("Lists.Cards").Find(&board, "id = ?", boardID)
+
+	if board.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Board not found", "data": nil})
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Boards found", "data": board})
 }
 
 func CreateBoard(c *fiber.Ctx) error {
