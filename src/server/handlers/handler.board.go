@@ -6,6 +6,8 @@ import (
 	"github.com/HRemonen/kanban-board/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func GetAllBoards(c *fiber.Ctx) error {
@@ -129,4 +131,39 @@ func CreateBoardList(c *fiber.Ctx) error {
 	}
 
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "A new list has been created", "data": newList})
+}
+
+func DeleteBoardList(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var board model.Board
+
+	boardID := c.Params("id")
+
+	db.Find(&board, "id = ?", boardID)
+
+	if board.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Board not found", "data": nil})
+	}
+
+	var list model.List
+
+	listID := c.Params("list")
+
+	db.Find(&list, "id = ?", listID)
+
+	if board.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "List not found", "data": nil})
+	} else if board.ID != list.BoardID {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
+	}
+
+	err := db.Select(clause.Associations).Delete(&list).Error
+
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Failed to delete list", "data": nil})
+	}
+
+	db.Model(&model.List{}).Where("position > ?", list.Position).Update("position", gorm.Expr("position - 1"))
+
+	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "List deleted", "data": nil})
 }
