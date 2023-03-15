@@ -1,0 +1,14 @@
+basePath: /api/v1
+host: localhost:8080
+info:
+  contact:
+    name: API Support
+    url: http://github.com/HRemonen/kanban-board/
+  description: Kanri is a Kanban board application
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://github.com/HRemonen/kanban-board/
+  title: Kanri API
+paths: {}
+swagger: "2.0"

@@ -8,4 +8,4 @@ COPY . .
 
 RUN go mod tidy
 
-CMD ["air", "./cmd/main.go", "-b", "0.0.0.0"]
+CMD ["air", "main.go", "-b", "0.0.0.0"]

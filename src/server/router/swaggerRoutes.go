@@ -3,7 +3,7 @@ package router
 import (
 	"github.com/gofiber/fiber/v2"
 
-	swagger "github.com/arsmn/fiber-swagger/v2"
+	"github.com/gofiber/swagger"
 )
 
 func SwaggerRoute(app *fiber.App) {

@@ -1,0 +1,19 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Kanri is a Kanban board application",
+        "title": "Kanri API",
+        "termsOfService": "http://github.com/HRemonen/kanban-board/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://github.com/HRemonen/kanban-board/"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {}
+}
