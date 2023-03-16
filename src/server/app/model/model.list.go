@@ -9,7 +9,7 @@ import (
 
 type List struct {
 	ID        uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name      string    `gorm:"type:varchar(100);default:'List title';"`
+	Name      string    `gorm:"type:varchar(100);default:'Todo';"`
 	Position  uint      `gorm:"type:integer;not null;"`
 	Cards     []Card    `gorm:"ForeignKey:ListID;references:ID;"`
 	BoardID   uuid.UUID
