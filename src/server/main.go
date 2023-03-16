@@ -6,9 +6,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	_ "github.com/lib/pq"
 
-	"github.com/HRemonen/kanban-board/config"
-	"github.com/HRemonen/kanban-board/database"
-	"github.com/HRemonen/kanban-board/router"
+	"github.com/HRemonen/kanban-board/app/config"
+	"github.com/HRemonen/kanban-board/app/database"
+	"github.com/HRemonen/kanban-board/pkg/router"
 )
 
 // @title           Kanri API
