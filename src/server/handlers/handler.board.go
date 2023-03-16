@@ -150,7 +150,7 @@ func CreateBoardList(c *fiber.Ctx) error {
 
 	var currentPosition uint
 
-	db.Model(&model.List{}).Select("COALESCE(MAX(position), 1)").Row().Scan(&currentPosition)
+	db.Model(&model.List{}).Select("COALESCE(MAX(position), 1)").Where("board_id = ?", board.ID).Row().Scan(&currentPosition)
 
 	newList := model.List{
 		Name:     payload.Name,
@@ -212,10 +212,10 @@ func UpdateBoardListPosition(c *fiber.Ctx) error {
 
 	if payload.Position < currentPosition {
 		// shift items between new and old position up by 1
-		err = db.Model(&model.List{}).Where("position between ? and ?", payload.Position, currentPosition).Update("position", gorm.Expr("position + 1")).Error
+		err = db.Model(&model.List{}).Where("board_id = ? AND position between ? and ?", board.ID, payload.Position, currentPosition).Update("position", gorm.Expr("position + 1")).Error
 	} else {
 		// shift items between new and old position up by 1
-		err = db.Model(&model.List{}).Where("position between ? and ?", currentPosition, payload.Position).Update("position", gorm.Expr("position - 1")).Error
+		err = db.Model(&model.List{}).Where("board_id = ? AND position between ? and ?", board.ID, currentPosition, payload.Position).Update("position", gorm.Expr("position - 1")).Error
 	}
 
 	if err != nil {
@@ -273,7 +273,7 @@ func DeleteBoardList(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Failed to delete list", "data": nil})
 	}
 
-	db.Model(&model.List{}).Where("position > ?", list.Position).Update("position", gorm.Expr("position - 1"))
+	db.Model(&model.List{}).Where("board_id = ? AND position > ?", board.ID, list.Position).Update("position", gorm.Expr("position - 1"))
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "List deleted", "data": nil})
 }
