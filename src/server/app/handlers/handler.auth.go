@@ -16,6 +16,7 @@ import (
 // @Param login_attrs body model.LoginUserInput true "Login attributes"
 // @Success 201 {object} model.LoginData
 // @Failure 401 {object} object
+// @Failure 404 {object} object
 // @Failure 500 {object} object
 // @Router /auth/login [post]
 func Login(c *fiber.Ctx) error {
@@ -32,7 +33,7 @@ func Login(c *fiber.Ctx) error {
 	result := db.First(&user, "email = ?", strings.ToLower(payload.Email))
 
 	if result.Error != nil {
-		return c.Status(401).JSON(fiber.Map{"status": "fail", "message": "User not found, check username", "data": nil})
+		return c.Status(404).JSON(fiber.Map{"status": "fail", "message": "User not found, check username", "data": nil})
 	}
 
 	if !utils.CheckPasswordHash(payload.Password, user.Password) {

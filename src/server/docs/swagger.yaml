@@ -133,6 +133,11 @@ definitions:
     - password
     - passwordConfirm
     type: object
+  model.UpdateUser:
+    properties:
+      name:
+        type: string
+    type: object
   model.User:
     properties:
       boards:
@@ -214,6 +219,10 @@ paths:
             $ref: '#/definitions/model.LoginData'
         "401":
           description: Unauthorized
+          schema:
+            type: object
+        "404":
+          description: Not Found
           schema:
             type: object
         "500":
@@ -423,7 +432,7 @@ paths:
         "201":
           description: Created
           schema:
-            type: object
+            $ref: '#/definitions/model.UserResponse'
         "409":
           description: Conflict
           schema:
@@ -503,7 +512,7 @@ paths:
         name: name
         required: true
         schema:
-          type: string
+          $ref: '#/definitions/model.UpdateUser'
       responses:
         "200":
           description: OK

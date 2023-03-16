@@ -44,6 +44,10 @@ type LoginData struct {
 	User  UserResponse `json:"user" binding:"required"`
 }
 
+type UpdateUser struct {
+	Name string `json:"name"`
+}
+
 type APIUser struct {
 	ID     uuid.UUID `gorm:"type:uuid;primary_key;"`
 	Name   string    `gorm:"type:varchar(100);not null"`

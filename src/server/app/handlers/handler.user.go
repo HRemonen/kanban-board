@@ -59,7 +59,7 @@ func GetSingleUser(c *fiber.Ctx) error {
 // @Tags Users
 // @Accept json
 // @Param user_attrs body model.RegisterUserInput true "User attributes"
-// @Success 201 {object} object
+// @Success 201 {object} model.UserResponse
 // @Failure 409 {object} object
 // @Failure 500 {object} object
 // @Router /user [post]
@@ -105,16 +105,14 @@ func CreateUser(c *fiber.Ctx) error {
 // @Tags Users
 // @Accept json
 // @Param id path string true "User ID"
-// @Param name body string true "User name"
+// @Param name body model.UpdateUser true "User name"
 // @Success 200 {object} model.UserResponse
 // @Failure 401 {object} object
 // @Failure 404 {object} object
 // @Failure 500 {object} object
 // @Router /user/{id} [put]
 func UpdateUser(c *fiber.Ctx) error {
-	type updateUser struct {
-		Name string `json:"name"`
-	}
+
 	db := database.DB.Db
 
 	user, err := utils.CheckAuthorization(c)
@@ -125,7 +123,7 @@ func UpdateUser(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
 	}
 
-	var updateUserData updateUser
+	var updateUserData model.UpdateUser
 
 	err = c.BodyParser(&updateUserData)
 	if err != nil {

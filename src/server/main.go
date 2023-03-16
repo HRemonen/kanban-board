@@ -8,6 +8,7 @@ import (
 
 	"github.com/HRemonen/kanban-board/app/config"
 	"github.com/HRemonen/kanban-board/app/database"
+	_ "github.com/HRemonen/kanban-board/docs"
 	"github.com/HRemonen/kanban-board/pkg/router"
 )
 

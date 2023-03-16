@@ -54,6 +54,12 @@ const docTemplate = `{
                             "type": "object"
                         }
                     },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -365,7 +371,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object"
+                            "$ref": "#/definitions/model.UserResponse"
                         }
                     },
                     "409": {
@@ -443,7 +449,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/model.UpdateUser"
                         }
                     }
                 ],
@@ -717,6 +723,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "passwordConfirm": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UpdateUser": {
+            "type": "object",
+            "properties": {
+                "name": {
                     "type": "string"
                 }
             }
