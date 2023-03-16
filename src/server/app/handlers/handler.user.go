@@ -34,8 +34,10 @@ func GetAllUsers(c *fiber.Ctx) error {
 // @Summary Get a single user by ID
 // @Description get a single user by ID
 // @Tags Users
+// @Param id path string true "User ID"
 // @Success 200 {object} model.UserResponse
-// @Failure 401, 404 {object} object
+// @Failure 401 {object} object
+// @Failure 404 {object} object
 // @Router /user/{id} [get]
 func GetSingleUser(c *fiber.Ctx) error {
 	user, err := utils.CheckAuthorization(c)
@@ -56,9 +58,10 @@ func GetSingleUser(c *fiber.Ctx) error {
 // @Description Create new user
 // @Tags Users
 // @Accept json
-// @Param user body model.RegisterUserInput true "User data"
+// @Param user_attrs body model.RegisterUserInput true "User attributes"
 // @Success 201 {object} object
-// @Failure 409,500 {object} object
+// @Failure 409 {object} object
+// @Failure 500 {object} object
 // @Router /user [post]
 func CreateUser(c *fiber.Ctx) error {
 	db := database.DB.Db
@@ -102,9 +105,11 @@ func CreateUser(c *fiber.Ctx) error {
 // @Tags Users
 // @Accept json
 // @Param id path string true "User ID"
-// @Param name body string true "Updated Name"
+// @Param name body string true "User name"
 // @Success 200 {object} model.UserResponse
-// @Failure 401, 404, 500 {object} object
+// @Failure 401 {object} object
+// @Failure 404 {object} object
+// @Failure 500 {object} object
 // @Router /user/{id} [put]
 func UpdateUser(c *fiber.Ctx) error {
 	type updateUser struct {
@@ -142,7 +147,9 @@ func UpdateUser(c *fiber.Ctx) error {
 // @Tags Users
 // @Param id path string true "User ID"
 // @Success 200 {object} object
-// @Failure 401, 404, 500 {object} object
+// @Failure 401 {object} object
+// @Failure 404 {object} object
+// @Failure 500 {object} object
 // @Router /user/{id} [delete]
 func DeleteUserByID(c *fiber.Ctx) error {
 	db := database.DB.Db

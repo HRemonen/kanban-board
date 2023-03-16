@@ -13,9 +13,10 @@ import (
 // @Summary Login user
 // @Description login user and generate JWT token
 // @Tags Login
-// @Param login body model.LoginUserInput
+// @Param login_attrs body model.LoginUserInput true "Login attributes"
 // @Success 201 {object} model.LoginData
-// @Failure 401, 500 {object} object
+// @Failure 401 {object} object
+// @Failure 500 {object} object
 // @Router /auth/login [post]
 func Login(c *fiber.Ctx) error {
 	db := database.DB.Db

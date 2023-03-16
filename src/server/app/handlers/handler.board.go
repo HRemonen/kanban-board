@@ -58,7 +58,7 @@ func GetSingleBoard(c *fiber.Ctx) error {
 // @Description create a new board
 // @Tags Boards
 // @Accept json
-// @Param board body model.BoardUserInput
+// @Param board_attrs body model.BoardUserInput true "Board attributes"
 // @Success 201 {object} model.APIBoard
 // @Failure 500 {object} object
 // @Router /board [post]
@@ -124,9 +124,10 @@ func CreateBoard(c *fiber.Ctx) error {
 // @Tags Boards
 // @Accept json
 // @Param id path string true "Board ID"
-// @Param list body model.ListUserInput true "List body"
+// @Param list_attrs body model.ListUserInput true "List attributes"
 // @Success 201 {object} model.List
-// @Failure 404, 500 {object} object
+// @Failure 404 {object} object
+// @Failure 500 {object} object
 // @Router /board/{id}/list [post]
 func CreateBoardList(c *fiber.Ctx) error {
 	db := database.DB.Db
@@ -176,7 +177,8 @@ func CreateBoardList(c *fiber.Ctx) error {
 // @Param list path string true "List ID"
 // @Param position body model.ListPositionInput true "List position"
 // @Success 200 {object} object
-// @Failure 404, 500 {object} object
+// @Failure 404 {object} object
+// @Failure 500 {object} object
 // @Router /board/{id}/list/{list} [put]
 func UpdateBoardListPosition(c *fiber.Ctx) error {
 	db := database.DB.Db
@@ -241,7 +243,8 @@ func UpdateBoardListPosition(c *fiber.Ctx) error {
 // @Param id path string true "Board ID"
 // @Param list path string true "List ID"
 // @Success 200 {object} object
-// @Failure 404, 500 {object} object
+// @Failure 404 {object} object
+// @Failure 500 {object} object
 // @Router /board/{id}/list/{list} [delete]
 func DeleteBoardList(c *fiber.Ctx) error {
 	db := database.DB.Db

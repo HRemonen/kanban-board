@@ -24,9 +24,6 @@ import (
 // @host      localhost:8080
 // @BasePath  /api/v1
 
-// @externalDocs.description  OpenAPI
-// @externalDocs.url          https://swagger.io/resources/open-api/
-
 func main() {
 	database.Connect()
 
@@ -39,6 +36,7 @@ func main() {
 
 	router.PublicRoutes(app)
 	router.PrivateRoutes(app)
+	router.SwaggerRoute(app)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
