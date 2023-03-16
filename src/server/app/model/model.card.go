@@ -13,7 +13,7 @@ type Card struct {
 	Description string    `gorm:"type:varchar(100);"`
 	Position    uint      `gorm:"type:integer;not null;"`
 	Status      string    `gorm:"type:varchar(10);default:'open';"`
-	Label       string    `gorm:"type:varchar(10);;"`
+	Label       string    `gorm:"type:varchar(10);"`
 	ListID      uuid.UUID
 	CreatedAt   time.Time
 	UpdatedAt   time.Time

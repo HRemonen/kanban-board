@@ -60,6 +60,7 @@ func GetSingleBoard(c *fiber.Ctx) error {
 // @Accept json
 // @Param board_attrs body model.BoardUserInput true "Board attributes"
 // @Success 201 {object} model.APIBoard
+// @Failure 400 {object} object
 // @Failure 500 {object} object
 // @Router /board [post]
 func CreateBoard(c *fiber.Ctx) error {

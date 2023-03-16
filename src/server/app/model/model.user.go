@@ -28,20 +28,20 @@ func (user *User) BeforeCreate(*gorm.DB) error {
 }
 
 type RegisterUserInput struct {
-	Name            string `json:"name" binding:"required"`
+	Name            string `json:"name" binding:"required, alpha"`
 	Email           string `json:"email" binding:"required, email"`
-	Password        string `json:"password" binding:"required"`
+	Password        string `json:"password" binding:"required, gte=8, eqfield=PasswordConfirm"`
 	PasswordConfirm string `json:"passwordConfirm" binding:"required"`
 }
 
 type LoginUserInput struct {
-	Email    string `json:"email" binding:"required"`
+	Email    string `json:"email" binding:"required, email"`
 	Password string `json:"password" binding:"required"`
 }
 
 type LoginData struct {
-	Token string       `json:"token" binding:"required"`
-	User  UserResponse `json:"user" binding:"required"`
+	Token string       `json:"token"`
+	User  UserResponse `json:"user"`
 }
 
 type UpdateUser struct {
@@ -49,9 +49,9 @@ type UpdateUser struct {
 }
 
 type APIUser struct {
-	ID     uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name   string    `gorm:"type:varchar(100);not null"`
-	Email  string    `gorm:"type:varchar(100);uniqueIndex;not null"`
+	ID     uuid.UUID `json:"id,omitempty"`
+	Name   string    `json:"name,omitempty"`
+	Email  string    `json:"email,omitempty"`
 	Boards []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
 }
 
@@ -63,7 +63,7 @@ type UserResponse struct {
 	Provider  string    `json:"provider,omitempty"`
 	Photo     string    `json:"photo,omitempty"`
 	Verified  bool      `json:"verified,omitempty"`
-	Boards    []Board   `gorm:"many2many:boards;"`
+	Boards    []Board   `gorm:"ForeignKey:UserID;references:ID;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
