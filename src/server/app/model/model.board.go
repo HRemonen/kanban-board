@@ -9,7 +9,7 @@ import (
 
 type Board struct {
 	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name        string    `gorm:"type:varchar(100);not null"`
+	Name        string    `gorm:"type:varchar(20);not null"`
 	Description string    `gorm:"type:varchar(100);"`
 	UserID      uuid.UUID
 	User        *User   `gorm:"ForeignKey:UserID"`
@@ -35,6 +35,6 @@ type APIBoard struct {
 }
 
 type BoardUserInput struct {
-	Name        string `json:"name" binding:"required, alpha"`
+	Name        string `json:"name" binding:"required, alpha, lte=20"`
 	Description string `json:"description" binding:"alpha"`
 }
