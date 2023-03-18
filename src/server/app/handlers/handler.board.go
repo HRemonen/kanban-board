@@ -4,11 +4,14 @@ import (
 	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
 	"github.com/HRemonen/kanban-board/pkg/utils"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
+
+var validate = validator.New()
 
 // GetAllBoards ... Get all boards
 // @Summary Get all boards
@@ -61,6 +64,8 @@ func GetSingleBoard(c *fiber.Ctx) error {
 // @Param board_attrs body model.BoardUserInput true "Board attributes"
 // @Success 201 {object} model.APIBoard
 // @Failure 400 {object} object
+// @Failure 404 {object} object
+// @Failure 422 {object} object
 // @Failure 500 {object} object
 // @Router /board [post]
 func CreateBoard(c *fiber.Ctx) error {
@@ -68,7 +73,7 @@ func CreateBoard(c *fiber.Ctx) error {
 	user, err := utils.ExtractUser(c)
 
 	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
 	}
 
 	payload := new(model.BoardUserInput)
@@ -77,6 +82,12 @@ func CreateBoard(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
+	}
+
+	err = validate.Struct(payload)
+
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
 	}
 
 	newBoard := model.Board{
