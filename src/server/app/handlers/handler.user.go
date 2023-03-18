@@ -61,6 +61,7 @@ func GetSingleUser(c *fiber.Ctx) error {
 // @Param user_attrs body model.RegisterUserInput true "User attributes"
 // @Success 201 {object} model.UserResponse
 // @Failure 409 {object} object
+// @Failure 422 {object} object
 // @Failure 500 {object} object
 // @Router /user [post]
 func CreateUser(c *fiber.Ctx) error {
@@ -75,6 +76,12 @@ func CreateUser(c *fiber.Ctx) error {
 
 	if payload.Password != payload.PasswordConfirm {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Passwords do not match", "data": nil})
+	}
+
+	err = validate.Struct(payload)
+
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
 	}
 
 	hash, _ := utils.HashPassword(payload.Password)
@@ -109,6 +116,7 @@ func CreateUser(c *fiber.Ctx) error {
 // @Success 200 {object} model.UserResponse
 // @Failure 401 {object} object
 // @Failure 404 {object} object
+// @Failure 422 {object} object
 // @Failure 500 {object} object
 // @Router /user/{id} [put]
 func UpdateUser(c *fiber.Ctx) error {
@@ -126,8 +134,15 @@ func UpdateUser(c *fiber.Ctx) error {
 	var updateUserData model.UpdateUser
 
 	err = c.BodyParser(&updateUserData)
+
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
+	}
+
+	err = validate.Struct(updateUserData)
+
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
 	}
 
 	user.Name = updateUserData.Name

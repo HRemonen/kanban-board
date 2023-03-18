@@ -11,7 +11,7 @@ type User struct {
 	ID       uuid.UUID `gorm:"type:uuid;primary_key;"`
 	Name     string    `gorm:"type:varchar(100);not null;"`
 	Email    string    `gorm:"type:varchar(100);uniqueIndex;not null;"`
-	Password string    `gorm:"type:not null;"`
+	Password string    `gorm:"not null;"`
 	Role     string    `gorm:"type:varchar(20);default:'user';"`
 	Photo    string    `gorm:"default:'default.png';"`
 	Verified bool      `gorm:"default:false;"`
@@ -29,14 +29,14 @@ func (user *User) BeforeCreate(*gorm.DB) error {
 }
 
 type RegisterUserInput struct {
-	Name            string `json:"name" validate:"required, alpha"`
-	Email           string `json:"email" validate:"required, email"`
-	Password        string `json:"password" validate:"required, gte=8, lte=32, eqfield=PasswordConfirm"`
+	Name            string `json:"name" validate:"required,ascii"`
+	Email           string `json:"email" validate:"required,email"`
+	Password        string `json:"password" validate:"required,gte=8,eqfield=PasswordConfirm"`
 	PasswordConfirm string `json:"passwordConfirm" validate:"required"`
 }
 
 type LoginUserInput struct {
-	Email    string `json:"email" validate:"required, email"`
+	Email    string `json:"email" validate:"required"`
 	Password string `json:"password" validate:"required"`
 }
 
@@ -46,7 +46,7 @@ type LoginData struct {
 }
 
 type UpdateUser struct {
-	Name string `json:"name"`
+	Name string `json:"name" validate:"required,ascii"`
 }
 
 type APIUser struct {
