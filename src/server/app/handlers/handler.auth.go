@@ -17,6 +17,7 @@ import (
 // @Success 201 {object} model.LoginData
 // @Failure 401 {object} object
 // @Failure 404 {object} object
+// @Failure 422 {object} object
 // @Failure 500 {object} object
 // @Router /auth/login [post]
 func Login(c *fiber.Ctx) error {
@@ -29,7 +30,14 @@ func Login(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
 	}
 
+	err = validate.Struct(payload)
+
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
+	}
+
 	var user model.User
+
 	result := db.First(&user, "email = ?", strings.ToLower(payload.Email))
 
 	if result.Error != nil {
