@@ -113,10 +113,7 @@ func CreateBoard(c *fiber.Ctx) error {
 	}
 
 	newCard := model.Card{
-		Title:       "Initial card",
-		Description: "You can create cards here",
-		Position:    1,
-		ListID:      newList.ID,
+		ListID: newList.ID,
 	}
 
 	err = db.Create(&newCard).Error
@@ -167,7 +164,7 @@ func CreateBoardList(c *fiber.Ctx) error {
 
 	var currentPosition uint
 
-	db.Model(&model.List{}).Select("COALESCE(MAX(position), 1)").Where("board_id = ?", board.ID).Row().Scan(&currentPosition)
+	db.Model(&model.List{}).Select("COALESCE(MAX(position), 0)").Where("board_id = ?", board.ID).Row().Scan(&currentPosition)
 
 	newList := model.List{
 		Name:     payload.Name,

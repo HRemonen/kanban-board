@@ -29,5 +29,5 @@ type ListUserInput struct {
 }
 
 type ListPositionInput struct {
-	Position uint `json:"position" validate:"required,numeric,gte=0"`
+	Position uint `json:"position" validate:"numeric,gte=0"`
 }

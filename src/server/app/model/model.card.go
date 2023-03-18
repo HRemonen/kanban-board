@@ -9,9 +9,9 @@ import (
 
 type Card struct {
 	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Title       string    `gorm:"type:varchar(20);default:'Card title';"`
+	Title       string    `gorm:"type:varchar(20);default:'Initial card';"`
 	Description string    `gorm:"type:varchar(100);"`
-	Position    uint      `gorm:"type:integer;not null;"`
+	Position    uint      `gorm:"type:integer;default:0;"`
 	Status      string    `gorm:"type:varchar(10);default:'open';"`
 	Label       string    `gorm:"type:varchar(10);"`
 	ListID      uuid.UUID
@@ -34,7 +34,7 @@ type CardUserInput struct {
 }
 
 type CardPositionInput struct {
-	Position uint `json:"position" validate:"required,numeric,gte=0"`
+	Position uint `json:"position" validate:"numeric,gte=0"`
 }
 
 type CardStatusInput struct {
