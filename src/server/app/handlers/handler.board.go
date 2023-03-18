@@ -122,3 +122,58 @@ func CreateBoard(c *fiber.Ctx) error {
 
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "Board has been created", "data": newBoard})
 }
+
+// DeleteBoardByID ... Delete a board by ID
+// @Summary Delete a board by ID
+// @Description delete a board by ID
+// @Tags Boards
+// @Param id path string true "Board ID"
+// @Success 200 {object} object
+// @Failure 401 {object} object
+// @Failure 404 {object} object
+// @Router /board/{id} [delete]
+func DeleteBoardByID(c *fiber.Ctx) error {
+	db := database.DB.Db
+	user, err := utils.ExtractUser(c)
+
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
+	}
+
+	var board model.Board
+
+	boardID := c.Params("id")
+
+	db.Model(&model.Board{}).Preload("Lists.Cards").Find(&board, "id = ?", boardID)
+
+	if board.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Board not found", "data": nil})
+	}
+
+	if board.UserID != user.ID {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
+	}
+
+	// Loop through the board list's cards and delete each card
+	for _, column := range board.Lists {
+		for _, card := range column.Cards {
+			if err := db.Delete(&card).Error; err != nil {
+				return err
+			}
+		}
+	}
+
+	err = db.Delete(&board.Lists).Error
+
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Failed to delete board lists", "data": nil})
+	}
+
+	err = db.Delete(&board).Error
+
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Failed to delete board", "data": nil})
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Board deleted", "data": nil})
+}
