@@ -103,9 +103,7 @@ func CreateBoard(c *fiber.Ctx) error {
 	}
 
 	newList := model.List{
-		Name:     "In progress",
-		Position: 1,
-		BoardID:  newBoard.ID,
+		BoardID: newBoard.ID,
 	}
 
 	err = db.Create(&newList).Error
@@ -159,6 +157,12 @@ func CreateBoardList(c *fiber.Ctx) error {
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
+	}
+
+	err = validate.Struct(payload)
+
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
 	}
 
 	var currentPosition uint

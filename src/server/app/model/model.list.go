@@ -10,7 +10,7 @@ import (
 type List struct {
 	ID       uuid.UUID `gorm:"type:uuid;primary_key;"`
 	Name     string    `gorm:"type:varchar(20);default:'Todo';"`
-	Position uint      `gorm:"type:integer;not null;"`
+	Position uint      `gorm:"type:integer;default:0;"`
 	Cards    []Card    `gorm:"ForeignKey:ListID;references:ID;"`
 	BoardID  uuid.UUID
 
@@ -29,5 +29,5 @@ type ListUserInput struct {
 }
 
 type ListPositionInput struct {
-	Position uint `json:"position" validate:"required, numeric, gte=1"`
+	Position uint `json:"position" validate:"required,numeric,gte=0"`
 }
