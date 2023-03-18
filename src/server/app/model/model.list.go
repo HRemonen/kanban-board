@@ -8,11 +8,12 @@ import (
 )
 
 type List struct {
-	ID        uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name      string    `gorm:"type:varchar(20);default:'Todo';"`
-	Position  uint      `gorm:"type:integer;not null;"`
-	Cards     []Card    `gorm:"ForeignKey:ListID;references:ID;"`
-	BoardID   uuid.UUID
+	ID       uuid.UUID `gorm:"type:uuid;primary_key;"`
+	Name     string    `gorm:"type:varchar(20);default:'Todo';"`
+	Position uint      `gorm:"type:integer;not null;"`
+	Cards    []Card    `gorm:"ForeignKey:ListID;references:ID;"`
+	BoardID  uuid.UUID
+
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -24,9 +25,9 @@ func (list *List) BeforeCreate(*gorm.DB) error {
 }
 
 type ListUserInput struct {
-	Name string `json:"name" binding:"required, alpha, lte=20"`
+	Name string `json:"name" validate:"required, alpha, gte=1, lte=20"`
 }
 
 type ListPositionInput struct {
-	Position uint `json:"position" binding:"required, numeric, gte=1"`
+	Position uint `json:"position" validate:"required, numeric, gte=1"`
 }

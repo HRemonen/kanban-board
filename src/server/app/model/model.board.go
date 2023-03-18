@@ -35,6 +35,6 @@ type APIBoard struct {
 }
 
 type BoardUserInput struct {
-	Name        string `json:"name" binding:"required, alpha, lte=20"`
-	Description string `json:"description" binding:"alpha"`
+	Name        string `json:"name" validate:"required, alpha, gte=3, lte=20"`
+	Description string `json:"description" validate:"alphanum, lte=100"`
 }

@@ -8,15 +8,16 @@ import (
 )
 
 type User struct {
-	ID        uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name      string    `gorm:"type:varchar(100);not null;"`
-	Email     string    `gorm:"type:varchar(100);uniqueIndex;not null;"`
-	Password  string    `gorm:"not null;"`
-	Role      string    `gorm:"type:varchar(20);default:'user';"`
-	Photo     string    `gorm:"default:'default.png';"`
-	Verified  bool      `gorm:"default:false;"`
-	Provider  string    `gorm:"default:'local';"`
-	Boards    []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
+	ID       uuid.UUID `gorm:"type:uuid;primary_key;"`
+	Name     string    `gorm:"type:varchar(100);not null;"`
+	Email    string    `gorm:"type:varchar(100);uniqueIndex;not null;"`
+	Password string    `gorm:"type:not null;"`
+	Role     string    `gorm:"type:varchar(20);default:'user';"`
+	Photo    string    `gorm:"default:'default.png';"`
+	Verified bool      `gorm:"default:false;"`
+	Provider string    `gorm:"default:'local';"`
+	Boards   []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
+
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -28,15 +29,15 @@ func (user *User) BeforeCreate(*gorm.DB) error {
 }
 
 type RegisterUserInput struct {
-	Name            string `json:"name" binding:"required, alpha"`
-	Email           string `json:"email" binding:"required, email"`
-	Password        string `json:"password" binding:"required, gte=8, eqfield=PasswordConfirm"`
-	PasswordConfirm string `json:"passwordConfirm" binding:"required"`
+	Name            string `json:"name" validate:"required, alpha"`
+	Email           string `json:"email" validate:"required, email"`
+	Password        string `json:"password" validate:"required, gte=8, lte=32, eqfield=PasswordConfirm"`
+	PasswordConfirm string `json:"passwordConfirm" validate:"required"`
 }
 
 type LoginUserInput struct {
-	Email    string `json:"email" binding:"required, email"`
-	Password string `json:"password" binding:"required"`
+	Email    string `json:"email" validate:"required, email"`
+	Password string `json:"password" validate:"required"`
 }
 
 type LoginData struct {
