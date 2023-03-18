@@ -216,6 +216,12 @@ func UpdateBoardListPosition(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
 	}
 
+	err = validate.Struct(payload)
+
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
+	}
+
 	var list model.List
 
 	listID := c.Params("list")
