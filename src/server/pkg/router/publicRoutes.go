@@ -36,4 +36,8 @@ func PublicRoutes(app *fiber.App) {
 	board.Put("/:id/list/:list", handlers.UpdateBoardListPosition)
 	board.Delete("/:id/list/:list", handlers.DeleteBoardList)
 
+	card := v1.Group("/card")
+
+	card.Get("/:id", handlers.GetSingleCard)
+
 }
