@@ -5,6 +5,7 @@ import (
 	"github.com/HRemonen/kanban-board/app/model"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 // GetSingleCard ... Get a single card by ID
@@ -28,4 +29,79 @@ func GetSingleCard(c *fiber.Ctx) error {
 	}
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Card found", "data": card})
+}
+
+// UpdateListCardPosition ... Update card position on the list
+// @Summary Update card position on the list
+// @Description update card position on the list
+// @Tags Cards
+// @Accept json
+// @Param id path string true "List ID"
+// @Param card path string true "Card ID"
+// @Param position body model.CardPositionInput true "Card position"
+// @Success 200 {object} object
+// @Failure 404 {object} object
+// @Failure 422 {object} object
+// @Failure 500 {object} object
+// @Router /list/{id}/card/{card} [put]
+func UpdateListCardPosition(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var list model.List
+
+	listID := c.Params("id")
+
+	db.Find(&list, "id = ?", listID)
+
+	if list.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "List not found", "data": nil})
+	}
+
+	payload := new(model.CardPositionInput)
+
+	err := c.BodyParser(payload)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
+	}
+
+	err = validate.Struct(payload)
+
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
+	}
+
+	var card model.Card
+
+	cardID := c.Params("card")
+
+	db.Find(&card, "id = ?", cardID)
+
+	currentPosition := card.Position
+
+	if payload.Position == currentPosition {
+		return c.Status(304).JSON(fiber.Map{"status": "success", "message": "Position not modified", "data": nil}) // nothing to update
+	}
+
+	if payload.Position < currentPosition {
+		// shift items between new and old position up by 1
+		err = db.Model(&model.Card{}).Where("list_id = ? AND position between ? and ?", list.ID, payload.Position, currentPosition).Update("position", gorm.Expr("position + 1")).Error
+	} else {
+		// shift items between new and old position down by 1
+		err = db.Model(&model.Card{}).Where("list_id = ? AND position between ? and ?", list.ID, currentPosition, payload.Position).Update("position", gorm.Expr("position - 1")).Error
+	}
+
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not update list positions", "data": nil})
+	}
+
+	card.Position = payload.Position
+
+	err = db.Save(&card).Error
+
+	if err != nil {
+		// rollback position update on error
+		db.Model(&card).Where("position = ?", currentPosition).Update("position", payload.Position)
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Card positions updated", "data": nil})
 }

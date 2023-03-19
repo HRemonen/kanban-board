@@ -65,9 +65,9 @@ func CreateBoardList(c *fiber.Ctx) error {
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "A new list has been created", "data": newList})
 }
 
-// UpdateBoardListPosition ... Update list position in the board
-// @Summary Update list position in the board
-// @Description update list position in the board
+// UpdateBoardListPosition ... Update list position on the board
+// @Summary Update list position on the board
+// @Description update list position on the board
 // @Tags Boards
 // @Accept json
 // @Param id path string true "Board ID"
@@ -120,7 +120,7 @@ func UpdateBoardListPosition(c *fiber.Ctx) error {
 		// shift items between new and old position up by 1
 		err = db.Model(&model.List{}).Where("board_id = ? AND position between ? and ?", board.ID, payload.Position, currentPosition).Update("position", gorm.Expr("position + 1")).Error
 	} else {
-		// shift items between new and old position up by 1
+		// shift items between new and old position down by 1
 		err = db.Model(&model.List{}).Where("board_id = ? AND position between ? and ?", board.ID, currentPosition, payload.Position).Update("position", gorm.Expr("position - 1")).Error
 	}
 
