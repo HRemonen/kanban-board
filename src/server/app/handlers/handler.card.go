@@ -35,7 +35,7 @@ func GetSingleCard(c *fiber.Ctx) error {
 // CreateListCard ... Create a new card for a list
 // @Summary Create a new card for a list
 // @Description create a new card for a list
-// @Tags cards
+// @Tags Cards
 // @Accept json
 // @Param id path string true "List ID"
 // @Param card_attrs body model.CardUserInput true "Card attributes"
@@ -172,7 +172,7 @@ func UpdateListCardPosition(c *fiber.Ctx) error {
 // DeleteListCard ... Delete a card from list
 // @Summary Delete a card from list
 // @Description delete a card from list
-// @Tags cards
+// @Tags Cards
 // @Param id path string true "List ID"
 // @Param card path string true "card ID"
 // @Success 200 {object} object

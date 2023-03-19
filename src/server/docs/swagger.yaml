@@ -41,8 +41,11 @@ definitions:
   model.BoardUserInput:
     properties:
       description:
+        maxLength: 100
         type: string
       name:
+        maxLength: 20
+        minLength: 3
         type: string
     required:
     - name
@@ -55,14 +58,33 @@ definitions:
         type: string
       id:
         type: string
+      label:
+        type: string
       listID:
         type: string
       position:
         type: integer
+      status:
+        type: string
       title:
         type: string
       updatedAt:
         type: string
+    type: object
+  model.CardPositionInput:
+    properties:
+      position:
+        minimum: 0
+        type: integer
+    type: object
+  model.CardUserInput:
+    properties:
+      title:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - title
     type: object
   model.List:
     properties:
@@ -86,13 +108,14 @@ definitions:
   model.ListPositionInput:
     properties:
       position:
+        minimum: 0
         type: integer
-    required:
-    - position
     type: object
   model.ListUserInput:
     properties:
       name:
+        maxLength: 20
+        minLength: 1
         type: string
     required:
     - name
@@ -103,9 +126,6 @@ definitions:
         type: string
       user:
         $ref: '#/definitions/model.UserResponse'
-    required:
-    - token
-    - user
     type: object
   model.LoginUserInput:
     properties:
@@ -124,6 +144,7 @@ definitions:
       name:
         type: string
       password:
+        minLength: 8
         type: string
       passwordConfirm:
         type: string
@@ -137,6 +158,8 @@ definitions:
     properties:
       name:
         type: string
+    required:
+    - name
     type: object
   model.User:
     properties:
@@ -225,6 +248,10 @@ paths:
           description: Not Found
           schema:
             type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            type: object
         "500":
           description: Internal Server Error
           schema:
@@ -265,6 +292,18 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/model.APIBoard'
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            type: object
         "500":
           description: Internal Server Error
           schema:
@@ -273,6 +312,30 @@ paths:
       tags:
       - Boards
   /board/{id}:
+    delete:
+      description: delete a board by ID
+      parameters:
+      - description: Board ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            type: object
+      summary: Delete a board by ID
+      tags:
+      - Boards
     get:
       description: get a single board
       parameters:
@@ -359,7 +422,7 @@ paths:
     put:
       consumes:
       - application/json
-      description: update list position in the board
+      description: update list position on the board
       parameters:
       - description: Board ID
         in: path
@@ -386,13 +449,38 @@ paths:
           description: Not Found
           schema:
             type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            type: object
         "500":
           description: Internal Server Error
           schema:
             type: object
-      summary: Update list position in the board
+      summary: Update list position on the board
       tags:
       - Boards
+  /card/{id}:
+    get:
+      description: get a single card by ID
+      parameters:
+      - description: Card ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Card'
+        "404":
+          description: Not Found
+          schema:
+            type: object
+      summary: Get a single card by ID
+      tags:
+      - Cards
   /google/login:
     post:
       description: Google OAuth login
@@ -400,6 +488,111 @@ paths:
       summary: Google OAuth login
       tags:
       - Login
+  /list/{id}/card:
+    post:
+      consumes:
+      - application/json
+      description: create a new card for a list
+      parameters:
+      - description: List ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Card attributes
+        in: body
+        name: card_attrs
+        required: true
+        schema:
+          $ref: '#/definitions/model.CardUserInput'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Card'
+        "404":
+          description: Not Found
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Create a new card for a list
+      tags:
+      - Cards
+  /list/{id}/card/{card}:
+    put:
+      consumes:
+      - application/json
+      description: update card position on the list
+      parameters:
+      - description: List ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Card ID
+        in: path
+        name: card
+        required: true
+        type: string
+      - description: Card position
+        in: body
+        name: position
+        required: true
+        schema:
+          $ref: '#/definitions/model.CardPositionInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Update card position on the list
+      tags:
+      - Cards
+  /list/{id}/card/{list}:
+    delete:
+      description: delete a card from list
+      parameters:
+      - description: List ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: card ID
+        in: path
+        name: card
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: object
+      summary: Delete a card from list
+      tags:
+      - Cards
   /user:
     get:
       description: get all users
@@ -435,6 +628,10 @@ paths:
             $ref: '#/definitions/model.UserResponse'
         "409":
           description: Conflict
+          schema:
+            type: object
+        "422":
+          description: Unprocessable Entity
           schema:
             type: object
         "500":
@@ -524,6 +721,10 @@ paths:
             type: object
         "404":
           description: Not Found
+          schema:
+            type: object
+        "422":
+          description: Unprocessable Entity
           schema:
             type: object
         "500":
