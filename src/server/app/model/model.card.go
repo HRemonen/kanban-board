@@ -9,7 +9,7 @@ import (
 
 type Card struct {
 	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Title       string    `gorm:"type:varchar(20);default:'Initial card';"`
+	Title       string    `gorm:"type:varchar(50);default:'Initial card';"`
 	Description string    `gorm:"type:varchar(100);"`
 	Position    uint      `gorm:"type:integer;default:0;"`
 	Status      string    `gorm:"type:varchar(10);default:'open';"`
@@ -27,7 +27,7 @@ func (card *Card) BeforeCreate(*gorm.DB) error {
 }
 
 type CardUserInput struct {
-	Title string `json:"title" validate:"required,ascii,gte=3,lte=20"`
+	Title string `json:"title" validate:"required,ascii,gte=3,lte=50"`
 }
 
 type CardPositionInput struct {

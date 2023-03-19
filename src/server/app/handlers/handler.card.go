@@ -168,3 +168,48 @@ func UpdateListCardPosition(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Card positions updated", "data": nil})
 }
+
+// DeleteListCard ... Delete a card from list
+// @Summary Delete a card from list
+// @Description delete a card from list
+// @Tags cards
+// @Param id path string true "List ID"
+// @Param card path string true "card ID"
+// @Success 200 {object} object
+// @Failure 404 {object} object
+// @Failure 500 {object} object
+// @Router /list/{id}/card/{list} [delete]
+func DeleteListCard(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var list model.List
+
+	listID := c.Params("id")
+
+	db.Find(&list, "id = ?", listID)
+
+	if list.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "List not found", "data": nil})
+	}
+
+	var card model.Card
+
+	cardID := c.Params("card")
+
+	db.Find(&card, "id = ?", cardID)
+
+	if list.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "List not found", "data": nil})
+	} else if list.ID != card.ListID {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
+	}
+
+	err := db.Select(clause.Associations).Delete(&card).Error
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Failed to delete card", "data": nil})
+	}
+
+	db.Model(&model.Card{}).Where("list_id = ? AND position > ?", list.ID, card.Position).Update("position", gorm.Expr("position - 1"))
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Card deleted", "data": nil})
+}

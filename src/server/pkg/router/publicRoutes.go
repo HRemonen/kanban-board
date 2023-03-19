@@ -37,13 +37,15 @@ func PublicRoutes(app *fiber.App) {
 	board.Delete("/:id/list/:list", handlers.DeleteBoardList)
 
 	list := v1.Group("/list")
-	/* list.Get("/:id")
-	list.Put("/:id") */
+	/*
+		list.Get("/:id")
+		list.Put("/:id")
+	*/
 
-	// List related card enpoints
+	// List related card endpoints
 	list.Post("/:id/card", handlers.CreateListCard)
 	list.Put("/:id/card/:card", handlers.UpdateListCardPosition)
-	// list.Delete("/:id/card/:card")
+	list.Delete("/:id/card/:card", handlers.DeleteListCard)
 
 	card := v1.Group("/card")
 
