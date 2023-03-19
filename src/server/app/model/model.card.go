@@ -27,10 +27,7 @@ func (card *Card) BeforeCreate(*gorm.DB) error {
 }
 
 type CardUserInput struct {
-	Title       string `json:"title" validate:"required,ascii,gte=3,lte=20"`
-	Description string `json:"description" validate:"ascii,lte=100"`
-	Status      string `json:"status" validate:"alpha,lte=10"`
-	Label       string `json:"label" validate:"alpha,lte=10"`
+	Title string `json:"title" validate:"required,ascii,gte=3,lte=20"`
 }
 
 type CardPositionInput struct {

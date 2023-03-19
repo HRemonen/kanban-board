@@ -31,6 +31,62 @@ func GetSingleCard(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Card found", "data": card})
 }
 
+// CreateListCard ... Create a new card for a list
+// @Summary Create a new card for a list
+// @Description create a new card for a list
+// @Tags cards
+// @Accept json
+// @Param id path string true "List ID"
+// @Param card_attrs body model.CardUserInput true "Card attributes"
+// @Success 201 {object} model.Card
+// @Failure 404 {object} object
+// @Failure 500 {object} object
+// @Router /list/{id}/card [post]
+func CreateListCard(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var list model.List
+
+	listID := c.Params("id")
+
+	db.Find(&list, "id = ?", listID)
+
+	if list.ID == uuid.Nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "List not found", "data": nil})
+	}
+
+	payload := new(model.CardUserInput)
+
+	err := c.BodyParser(payload)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
+	}
+
+	err = validate.Struct(payload)
+
+	if err != nil {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
+	}
+
+	var currentPosition uint
+
+	db.Model(&model.Card{}).Select("COALESCE(MAX(position), 0)").Where("list_id = ?", list.ID).Row().Scan(&currentPosition)
+
+	newCard := model.Card{
+		Title:    payload.Title,
+		Position: currentPosition + 1,
+		ListID:   list.ID,
+	}
+
+	err = db.Create(&newCard).Error
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create a card for the list", "data": err.Error()})
+	}
+
+	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "A new card has been created", "data": newCard})
+}
+
 // UpdateListCardPosition ... Update card position on the list
 // @Summary Update card position on the list
 // @Description update card position on the list
