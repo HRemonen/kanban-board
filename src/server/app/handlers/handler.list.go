@@ -26,7 +26,7 @@ func CreateBoardList(c *fiber.Ctx) error {
 
 	boardID := c.Params("id")
 
-	db.Find(&board, "id = ?", boardID)
+	db.Model(&board).Preload("Lists").Find(&board, "id = ?", boardID)
 
 	if board.ID == uuid.Nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Board not found", "data": nil})
@@ -50,9 +50,15 @@ func CreateBoardList(c *fiber.Ctx) error {
 
 	db.Model(&model.List{}).Select("COALESCE(MAX(position), 0)").Where("board_id = ?", board.ID).Row().Scan(&currentPosition)
 
+	if len(board.Lists) == 0 {
+		currentPosition = 0
+	} else {
+		currentPosition++
+	}
+
 	newList := model.List{
 		Name:     payload.Name,
-		Position: currentPosition + 1,
+		Position: currentPosition,
 		BoardID:  board.ID,
 	}
 

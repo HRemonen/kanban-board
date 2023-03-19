@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 // GetSingleCard ... Get a single card by ID
@@ -48,7 +49,7 @@ func CreateListCard(c *fiber.Ctx) error {
 
 	listID := c.Params("id")
 
-	db.Find(&list, "id = ?", listID)
+	db.Model(&list).Preload("Cards").Find(&list, "id = ?", listID)
 
 	if list.ID == uuid.Nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "List not found", "data": nil})
@@ -72,9 +73,15 @@ func CreateListCard(c *fiber.Ctx) error {
 
 	db.Model(&model.Card{}).Select("COALESCE(MAX(position), 0)").Where("list_id = ?", list.ID).Row().Scan(&currentPosition)
 
+	if len(list.Cards) == 0 {
+		currentPosition = 0
+	} else {
+		currentPosition++
+	}
+
 	newCard := model.Card{
 		Title:    payload.Title,
-		Position: currentPosition + 1,
+		Position: currentPosition,
 		ListID:   list.ID,
 	}
 
