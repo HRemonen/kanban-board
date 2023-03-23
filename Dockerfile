@@ -4,11 +4,9 @@ WORKDIR /usr/src/app
 
 # COPY --chown=node:node . .
 
-COPY package.json package-lock.json ./
+COPY . .
 
 RUN npm install
-
-COPY . .
 
 # USER node
 
