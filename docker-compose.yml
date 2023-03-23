@@ -9,5 +9,5 @@ services:
     volumes:
       - ./:/usr/src/app
     ports:
-      - 127.0.0.1:5173:5173
+      - "127.0.0.1:5173:5173"
     container_name: kanri-front-dev
