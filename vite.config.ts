@@ -8,5 +8,11 @@ export default defineConfig({
     proxy: {
       '/api/v1': 'http://localhost:8080',
     },
+    watch: {
+      usePolling: true,
+    },
+    host: true,
+    strictPort: true,
+    port: 5173,
   },
 })
