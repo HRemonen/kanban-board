@@ -4,12 +4,9 @@ import (
 	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
 	"github.com/HRemonen/kanban-board/pkg/utils"
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
-
-var validate = validator.New()
 
 // GetAllBoards ... Get all boards
 // @Summary Get all boards
@@ -82,10 +79,12 @@ func CreateBoard(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
 	}
 
+	validate := utils.NewValidator()
+
 	err = validate.Struct(payload)
 
 	if err != nil {
-		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": utils.ValidatorErrors(err)})
 	}
 
 	newBoard := model.Board{

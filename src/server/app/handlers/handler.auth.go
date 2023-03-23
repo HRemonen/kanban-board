@@ -30,10 +30,12 @@ func Login(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
 	}
 
+	var validate = utils.NewValidator()
+
 	err = validate.Struct(payload)
 
 	if err != nil {
-		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": nil})
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": utils.ValidatorErrors(err)})
 	}
 
 	var user model.User

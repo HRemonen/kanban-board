@@ -26,6 +26,12 @@ import (
 // @BasePath  /api/v1
 
 func main() {
+	app := Setup()
+
+	app.Listen(":8080")
+}
+
+func Setup() *fiber.App {
 	database.Connect()
 
 	app := fiber.New()
@@ -46,5 +52,6 @@ func main() {
 	app.Use(func(c *fiber.Ctx) error {
 		return c.SendStatus(404) // => 404 "Not Found"
 	})
-	app.Listen(":8080")
+
+	return app
 }
