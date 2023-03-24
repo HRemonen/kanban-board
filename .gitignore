@@ -18,5 +18,15 @@
 
 */tmp/*
 
+# Env files
 .env
+
+# Node stuff
 node_modules
+
+# Cypress stuff
+cypress/videos
+cypress/screenshots
+
+# Postgres data
+postgres_data
