@@ -5,11 +5,17 @@
       "jest": true
     },
     "extends": [
-      "eslint:recommended",
+      "airbnb",
+      "airbnb-typescript",
+      "prettier",
+      "plugin:cypress/recommended",
       "plugin:react/recommended",
       "plugin:@typescript-eslint/recommended"
     ],
-    "plugins": ["react", "@typescript-eslint", "react-hooks", "cypress"],
+    "parserOptions": {
+      "project": ["./tsconfig.json"]
+    },
+    "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier", "cypress"],
     "settings": {
       "react": {
         "pragma": "React",
@@ -22,6 +28,15 @@
       "react/prop-types": 0,
       "react/react-in-jsx-scope": 0,
       "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-      "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
+      "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+      "react/function-component-definition": [
+        2,
+        {
+          "namedComponents": "arrow-function",
+          "unnamedComponents": "arrow-function"
+        }
+      ],
+      "react/jsx-props-no-spreading": "off",
+      "import/no-cycle": "off"
     }
   }
