@@ -1,5 +1,5 @@
 import axios from 'axios'
 
-const v1ApiClient = axios.create({ baseURL: `/api/v1` })
+const apiClient = axios.create({ baseURL: `http://localhost:8080/api/v1` })
 
-export default v1ApiClient
+export default apiClient
