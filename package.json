@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "docker compose -f docker-compose.dev.yml up",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "prepare": "husky install"

@@ -1,9 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 
+const PUBLIC_URL = ''
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+  <BrowserRouter basename={PUBLIC_URL}>
     <App />
-  </React.StrictMode>
+  </BrowserRouter>
 )
