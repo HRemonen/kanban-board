@@ -38,6 +38,5 @@
   "lint-staged": {
     "src/**/*.{ts,tsx}": "eslint",
     "*.{ts,tsx,json,css,md}": "prettier --write"
-  },
-  "proxy": "http://localhost:8080"
+  }
 }
