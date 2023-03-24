@@ -12,3 +12,35 @@ services:
     volumes:
       - ./src/client/:/usr/src/app
       - /usr/src/app/node_modules
+    environment:
+      - REACT_APP_BACKEND_URL=/api/v1/
+    depends_on:
+      - web
+
+  web:
+    image: kanban-board-api
+    container_name: kanban-board-api
+    build:
+      context: ./src/server/
+      dockerfile: dev.Dockerfile
+    env_file:
+      - ./src/server/.env
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./src/server/:/usr/src/app
+    depends_on:
+      - postgres
+  
+  postgres:
+    container_name: kanban-board-postgres
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=kanban-board-db
+    volumes:
+      - ./src/server/postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
