@@ -19,7 +19,6 @@ type Dbinstance struct {
 }
 
 var DB Dbinstance
-var TestDB Dbinstance
 
 func Connect() {
 	p := config.Config("DB_PORT")
@@ -52,9 +51,9 @@ func Connect() {
 func SetupTestDB() {
 	host := "postgres"
 	port := "5432"
-	user := "testuser"
-	password := "testpass"
-	dbname := "testdb"
+	user := "postgres"
+	password := "postgres"
+	dbname := "postgres"
 
 	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
@@ -67,9 +66,11 @@ func SetupTestDB() {
 	}
 
 	db.Logger = logger.Default.LogMode(logger.Info)
-	log.Println("running migrations")
+
+	log.Println("running test database migrations")
+
 	db.AutoMigrate(&model.User{}, &model.Board{}, &model.List{}, &model.Card{})
-	TestDB = Dbinstance{
+	DB = Dbinstance{
 		Db: db,
 	}
 }

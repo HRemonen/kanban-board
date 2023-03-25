@@ -14,14 +14,17 @@ func TestGetAllUsers(t *testing.T) {
 	app := fiber.New()
 	database.SetupTestDB() // Set up a test database
 
-	// Insert some test users into the database
 	db := database.DB.Db
-	user1 := model.User{Name: "Alice", Email: "alice@example.com"}
-	user2 := model.User{Name: "Bob", Email: "bob@example.com"}
+
+	// Insert some test users into the database
+	user1 := model.User{Name: "Alice", Email: "alice@example.com", Password: "salainensalasana"}
+	user2 := model.User{Name: "Bob", Email: "bob@example.com", Password: "salainensalasana"}
+
 	db.Create(&user1)
 	db.Create(&user2)
 
-	req := httptest.NewRequest("GET", "/api/v1/user", nil)
+	req := httptest.NewRequest("GET", "http://localhost:8080/api/v1/user", nil)
+
 	resp, err := app.Test(req)
 
 	if err != nil {
@@ -33,6 +36,7 @@ func TestGetAllUsers(t *testing.T) {
 	}
 
 	var respBody map[string]interface{}
+
 	err = json.NewDecoder(resp.Body).Decode(&respBody)
 
 	if err != nil {
