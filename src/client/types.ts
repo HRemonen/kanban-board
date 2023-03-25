@@ -32,11 +32,6 @@ export interface PrivateUser extends PublicUser {
   UpdatedAt: Date
 }
 
-export interface LoginUserError {
-  Email?: string
-  Password?: string
-}
-
 export interface APIFailure {
   data: LoginUserError
   message: string
@@ -47,6 +42,18 @@ export interface APIResponse {
   data: PublicUser[] | PrivateUser
   message: string
   status: 'success'
+}
+
+export interface LoginUserError {
+  Email?: string
+  Password?: string
+}
+
+export interface LoginUserSuccess extends Omit<APIResponse, 'data'> {
+  data: {
+    token: string
+    user: PrivateUser
+  }
 }
 
 // FORM RELATED

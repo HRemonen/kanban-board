@@ -17,7 +17,7 @@ export const AuthContext = createContext<AuthContextType>({
   logout: () => {},
 })
 
-export const AuthProvider = ({ children }: any) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<PrivateUser | null>(null)
   const [token, setToken] = useState('')

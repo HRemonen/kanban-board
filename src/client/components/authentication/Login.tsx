@@ -1,8 +1,10 @@
+import { useContext } from 'react'
 import axios, { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
-import login from '../../services/authService'
+import loginService from '../../services/authService'
+import { AuthContext } from '../../contexts/AuthContext'
 
 import FormInput from '../form/FormInput'
 import { APIFailure, LoginUser } from '../../types'
@@ -19,20 +21,24 @@ const Login = () => {
     mode: 'onBlur',
   })
 
+  const { user, login } = useContext(AuthContext)
+
   const onSubmit = async (loginInput: LoginUser) => {
-    await login(loginInput)
-      .then((response) => console.log(response))
+    await loginService(loginInput)
+      .then((response) => {
+        login(response.data.token, response.data.user)
+      })
       .catch((err: Error | AxiosError) => {
         if (axios.isAxiosError(err)) {
           const { response } = err
           const responseData: APIFailure = response?.data
 
-          if (responseData.data.Email)
+          if (responseData.data?.Email)
             setError('email', {
               type: 'custom',
               message: 'Invalid email or password',
             })
-          if (responseData.data.Password)
+          if (responseData.data?.Password)
             setError('password', {
               type: 'custom',
               message: 'Invalid email or password',
@@ -42,6 +48,8 @@ const Login = () => {
         }
       })
   }
+
+  console.log(user)
 
   return (
     <section className="md:grid md:grid-cols-2 text-center">
