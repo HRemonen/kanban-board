@@ -1,6 +1,6 @@
 # Kanban Board Application
 
-This is a Kanban board application built with Golang, Fiber, Postgres, Vite, and React.
+This is a Kanban board application built with Golang, Fiber, Postgres, Vite, React and Tailwind CSS.
 
 ## What is a Kanban Board?
 

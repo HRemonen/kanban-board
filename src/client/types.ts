@@ -1,6 +1,20 @@
 import { InputHTMLAttributes } from 'react'
 import { FieldError, UseFormRegister, FieldValues } from 'react-hook-form'
 
+// COMMON
+
+export interface APIFailure {
+  data: LoginUserError
+  message: string
+  status: 'fail'
+}
+
+export interface APIResponse {
+  data: PublicUser[] | PrivateUser
+  message: string
+  status: 'success'
+}
+
 // USER RELATED
 
 export interface RegisterUser {
@@ -30,18 +44,6 @@ export interface PrivateUser extends PublicUser {
   Boards: any[]
   CreatedAt: Date
   UpdatedAt: Date
-}
-
-export interface APIFailure {
-  data: LoginUserError
-  message: string
-  status: 'fail'
-}
-
-export interface APIResponse {
-  data: PublicUser[] | PrivateUser
-  message: string
-  status: 'success'
 }
 
 export interface LoginUserError {
