@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const contextValues = useMemo(
     () => ({ isAuthenticated, user, token, login, logout }),
-    [login, logout]
+    [user, token, isAuthenticated, login, logout]
   )
 
   return (
