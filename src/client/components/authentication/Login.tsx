@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import FormInput from '../form/FormInput'
 import { LoginUser } from '../../types'
 
-import login_illustration_image from '../../public/illustrations/login_illustration_image.png'
+import login_illustration_image from '../../illustrations/login_illustration_image.png'
 
 const Login = () => {
   const {
@@ -22,9 +22,6 @@ const Login = () => {
   return (
     <section className="md:grid md:grid-cols-2 text-center">
       <div className="flex flex-col h-screen justify-center text-center items-center p-12 border-r-2 border-solid border-gray-300 md:shadow-lg">
-        <h1 className="text-[#1d1853] mx-auto mb-12 font-Satisfy text-6xl hover:blur-sm drop-shadow-xl">
-          Kanri
-        </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col justify-center text-left w-[80%]"
@@ -53,7 +50,7 @@ const Login = () => {
             id="login-button"
             data-cy="login-form-button"
             type="submit"
-            className="inline-block text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            className="inline-block text-white bg-gradient-to-br from-green-300 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           >
             Login
           </button>
@@ -71,7 +68,7 @@ const Login = () => {
       </div>
 
       <div className="hidden md:flex flex-col justify-center ">
-        <img src={login_illustration_image} alt="" />
+        <img className="scale-50" src={login_illustration_image} alt="" />
       </div>
     </section>
   )

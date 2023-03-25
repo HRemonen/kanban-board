@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClientProvider } from 'react-query'
 import App from './App'
 import queryClient from './util/queryClient'
+import './index.css'
 
 const PUBLIC_URL = ''
 

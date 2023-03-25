@@ -9,7 +9,7 @@ const FormInput = ({
 }: InputType) => (
   <div className="mb-8">
     <label
-      className="block mb-2 font-semibold text-gray-900 md:text-xl"
+      className="block mb-2 font-semibold text-white md:text-xl"
       htmlFor={id}
     >
       {label}

@@ -14,10 +14,9 @@ const App = () => {
   console.log(users)
 
   return (
-    <div className="App">
-      <h1>Hello world</h1>
+    <section className="bg-slate-900 text-white">
       <Login />
-    </div>
+    </section>
   )
 }
 
