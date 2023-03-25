@@ -1,10 +1,5 @@
 import { InputHTMLAttributes } from 'react'
-import {
-  FieldError,
-  UseFormRegister,
-  FieldValues,
-  Control,
-} from 'react-hook-form'
+import { FieldError, UseFormRegister, FieldValues } from 'react-hook-form'
 
 // USER RELATED
 
