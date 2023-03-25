@@ -5,6 +5,7 @@ import FormInput from '../form/FormInput'
 import { LoginUser } from '../../types'
 
 import login_illustration_image from '../../illustrations/login_illustration_image.png'
+import login from '../../services/authService'
 
 const Login = () => {
   const {
@@ -15,8 +16,15 @@ const Login = () => {
     mode: 'onBlur',
   })
 
-  const onSubmit = async ({ email, password }: LoginUser) => {
-    console.log(email, password)
+  const onSubmit = async (loginInput: LoginUser) => {
+    console.log(loginInput)
+    try {
+      const response = await login(loginInput)
+
+      console.log(response)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
