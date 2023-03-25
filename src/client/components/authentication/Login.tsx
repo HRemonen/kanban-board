@@ -1,30 +1,46 @@
+import axios, { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
+import login from '../../services/authService'
+
 import FormInput from '../form/FormInput'
-import { LoginUser } from '../../types'
+import { APIFailure, LoginUser } from '../../types'
 
 import login_illustration_image from '../../illustrations/login_illustration_image.png'
-import login from '../../services/authService'
 
 const Login = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<LoginUser>({
     mode: 'onBlur',
   })
 
   const onSubmit = async (loginInput: LoginUser) => {
-    console.log(loginInput)
-    try {
-      const response = await login(loginInput)
+    await login(loginInput)
+      .then((response) => console.log(response))
+      .catch((err: Error | AxiosError) => {
+        if (axios.isAxiosError(err)) {
+          const { response } = err
+          const responseData: APIFailure = response?.data
 
-      console.log(response)
-    } catch (err) {
-      console.log(err)
-    }
+          if (responseData.data.Email)
+            setError('email', {
+              type: 'custom',
+              message: 'Invalid email or password',
+            })
+          if (responseData.data.Password)
+            setError('password', {
+              type: 'custom',
+              message: 'Invalid email or password',
+            })
+        } else {
+          console.log('Something unexpected happened', err)
+        }
+      })
   }
 
   return (
