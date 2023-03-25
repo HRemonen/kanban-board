@@ -11,7 +11,7 @@ services:
       - 5173:5173
     volumes:
       - ./src/client/:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
+      - /usr/src/app/node_modules
     environment:
       - REACT_APP_BACKEND_URL=/api/v1/
     depends_on:

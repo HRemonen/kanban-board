@@ -1,3 +1,13 @@
+import { InputHTMLAttributes } from 'react'
+import {
+  FieldError,
+  UseFormRegister,
+  FieldValues,
+  Control,
+} from 'react-hook-form'
+
+// USER RELATED
+
 export interface RegisterUser {
   email: string
   name?: string
@@ -31,4 +41,13 @@ export interface APIResponse {
   data: PublicUser[] | PrivateUser | null
   message: string
   status: 'success' | 'fail'
+}
+
+// FORM RELATED
+
+export interface InputType extends InputHTMLAttributes<HTMLInputElement> {
+  register: UseFormRegister<FieldValues> | UseFormRegister<any>
+  error: FieldError | undefined
+  label: string
+  id: string
 }

@@ -36,7 +36,7 @@
     "singleQuote": true
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "eslint",
+    "src/client/**/*.{ts,tsx}": "eslint",
     "*.{ts,tsx,json,css,md}": "prettier --write"
   }
 }

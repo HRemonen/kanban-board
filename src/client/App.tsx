@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getUsers } from './services/userService'
+import Login from './components/authentication/Login'
 
 const App = () => {
   const [users, setUsers] = useState<any>([])
@@ -15,6 +16,7 @@ const App = () => {
   return (
     <div className="App">
       <h1>Hello world</h1>
+      <Login />
     </div>
   )
 }
