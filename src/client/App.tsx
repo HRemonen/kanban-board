@@ -1,23 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { getUsers } from './services/userService'
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
 import Login from './components/authentication/Login'
 
-const App = () => {
-  const [users, setUsers] = useState<any>([])
-
-  useEffect(() => {
-    getUsers()
-      .then((response) => setUsers(response.data))
-      .catch((error) => console.log(error.toJSON()))
-  }, [])
-
-  console.log(users)
-
-  return (
-    <section className="bg-slate-900 text-white">
-      <Login />
-    </section>
-  )
-}
+const App = () => (
+  <section className="bg-slate-900 text-white">
+    <Routes>
+      <Route path="/" element={<Login />} />
+    </Routes>
+  </section>
+)
 
 export default App
