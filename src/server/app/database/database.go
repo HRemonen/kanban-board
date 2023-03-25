@@ -19,6 +19,7 @@ type Dbinstance struct {
 }
 
 var DB Dbinstance
+var TestDB Dbinstance
 
 func Connect() {
 	p := config.Config("DB_PORT")
@@ -44,6 +45,31 @@ func Connect() {
 	log.Println("running migrations")
 	db.AutoMigrate(&model.User{}, &model.Board{}, &model.List{}, &model.Card{})
 	DB = Dbinstance{
+		Db: db,
+	}
+}
+
+func SetupTestDB() {
+	host := "postgres"
+	port := "5432"
+	user := "testuser"
+	password := "testpass"
+	dbname := "testdb"
+
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	// Connect to the test database
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error connecting to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	db.Logger = logger.Default.LogMode(logger.Info)
+	log.Println("running migrations")
+	db.AutoMigrate(&model.User{}, &model.Board{}, &model.List{}, &model.Card{})
+	TestDB = Dbinstance{
 		Db: db,
 	}
 }
