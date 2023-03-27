@@ -5,7 +5,7 @@ const Logout = () => (
   <div className="p-4">
     <button
       type="button"
-      className="inline-flex items-center justify-center h-9 px-4 rounded-xl bg-gray-900 text-gray-300 hover:text-white text-sm font-semibold transition"
+      className="inline-flex items-center justify-center h-10 pl-14 text-white hover:text-red-400 text-sm font-semibold transition"
     >
       <HiLogout size={20} />
       <span className="font-bold text-sm ml-2">Logout</span>
