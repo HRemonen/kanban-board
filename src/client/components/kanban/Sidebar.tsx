@@ -32,11 +32,15 @@ const Sidebar = () => (
           <ul className="space-y-2">
             <SidebarItem to="/" name="Home" icon={<HiHome size={20} />} />
             <SidebarItem
-              to="/"
+              to="/profile"
               name="Profile"
               icon={<HiUserCircle size={20} />}
             />
-            <SidebarItem to="/" name="Boards" icon={<HiTemplate size={20} />} />
+            <SidebarItem
+              to="/boards"
+              name="Boards"
+              icon={<HiTemplate size={20} />}
+            />
           </ul>
         </div>
       </div>
