@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { AuthProvider, useAuthenticatedUser } from './contexts/AuthContext'
 import Login from './components/authentication/Login'
-import { AuthProvider } from './contexts/AuthContext'
 
-const App = () => (
-  <section className="bg-slate-900 text-white">
-    <AuthProvider>
+const App = () => {
+  const user = useAuthenticatedUser()
+
+  console.log(user)
+  return (
+    <section className="bg-slate-900 text-white">
       <Routes>
         <Route path="/" element={<Login />} />
       </Routes>
-    </AuthProvider>
-  </section>
-)
+    </section>
+  )
+}
 
 export default App

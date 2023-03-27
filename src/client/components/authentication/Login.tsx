@@ -21,7 +21,7 @@ const Login = () => {
     mode: 'onBlur',
   })
 
-  const { user, login } = useContext(AuthContext)
+  const { login } = useContext(AuthContext)
 
   const onSubmit = async (loginInput: LoginUser) => {
     await loginService(loginInput)
@@ -48,8 +48,6 @@ const Login = () => {
         }
       })
   }
-
-  console.log(user)
 
   return (
     <section className="md:grid md:grid-cols-2 text-center">

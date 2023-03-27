@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 import { PrivateUser } from '../types'
 
 interface AuthContextType {
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const contextValues = useMemo(
     () => ({ isAuthenticated, user, token, login, logout }),
-    [user, token, isAuthenticated, login, logout]
+    [login, logout]
   )
 
   return (
@@ -44,4 +44,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
     </AuthContext.Provider>
   )
+}
+
+export const useAuthenticatedUser = () => {
+  const { user } = useContext(AuthContext)
+  return user
 }
