@@ -12,7 +12,7 @@ const App = () => {
   return (
     <section className="relative text-white bg-slate-800 overflow-hidden max-h-screen">
       <Routes>
-        <Route path="/" element={<Kanban />} />
+        <Route path="/*" element={user ? <Kanban /> : <Login />} />
       </Routes>
     </section>
   )
