@@ -1,15 +1,12 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	_ "github.com/lib/pq"
 
 	"github.com/HRemonen/kanban-board/app/config"
 	"github.com/HRemonen/kanban-board/app/database"
 	_ "github.com/HRemonen/kanban-board/docs"
-	"github.com/HRemonen/kanban-board/pkg/router"
+	"github.com/HRemonen/kanban-board/setup"
 )
 
 // @title           Kanri API
@@ -26,32 +23,11 @@ import (
 // @BasePath  /api/v1
 
 func main() {
-	app := Setup()
-
-	app.Listen(":8080")
-}
-
-func Setup() *fiber.App {
 	database.Connect()
 
-	app := fiber.New()
+	app := setup.Setup()
 
 	config.GoogleConfig()
 
-	app.Use(logger.New())
-	app.Use(cors.New())
-
-	router.PublicRoutes(app)
-	router.PrivateRoutes(app)
-	router.SwaggerRoute(app)
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-
-	app.Use(func(c *fiber.Ctx) error {
-		return c.SendStatus(404) // => 404 "Not Found"
-	})
-
-	return app
+	app.Listen(":8080")
 }
