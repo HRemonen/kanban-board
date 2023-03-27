@@ -9,7 +9,7 @@ interface NewsCardProps {
   info?: string
 }
 
-const NewsCard = ({ author, title, readTime, info = '' }: NewsCardProps) => (
+const NewsCard = ({ author, title, readTime, info }: NewsCardProps) => (
   <div className="p-4 bg-white border rounded-xl text-gray-800 space-y-2">
     <div className="flex justify-between">
       <div className="text-gray-400 text-xs">{author}</div>
