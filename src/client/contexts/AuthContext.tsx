@@ -47,6 +47,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 export const useAuthenticatedUser = () => {
-  const { user } = useContext(AuthContext)
-  return user
+  const { user, token } = useContext(AuthContext)
+  return { user, token }
 }
