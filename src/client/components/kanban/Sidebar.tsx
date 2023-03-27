@@ -3,10 +3,16 @@ import { Link } from 'react-router-dom'
 import { HiHome, HiTemplate, HiUserCircle } from 'react-icons/hi'
 import Logout from '../common/Logout'
 
-const SidebarItem = ({ name, icon }: { name: string; icon: ReactNode }) => (
+interface SidebarItemProps {
+  to: string
+  name: string
+  icon: ReactNode
+}
+
+const SidebarItem = ({ to, name, icon }: SidebarItemProps) => (
   <li>
     <Link
-      to="/"
+      to={to}
       className="flex items-center bg-white rounded-xl font-bold text-sm text-gray-700 py-3 px-4"
     >
       {icon}
@@ -24,9 +30,13 @@ const Sidebar = () => (
         </div>
         <div className="p-4">
           <ul className="space-y-2">
-            <SidebarItem name="Home" icon={<HiHome size={20} />} />
-            <SidebarItem name="Profile" icon={<HiUserCircle size={20} />} />
-            <SidebarItem name="Boards" icon={<HiTemplate size={20} />} />
+            <SidebarItem to="/" name="Home" icon={<HiHome size={20} />} />
+            <SidebarItem
+              to="/"
+              name="Profile"
+              icon={<HiUserCircle size={20} />}
+            />
+            <SidebarItem to="/" name="Boards" icon={<HiTemplate size={20} />} />
           </ul>
         </div>
       </div>
