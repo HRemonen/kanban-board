@@ -23,6 +23,7 @@ import (
 // @BasePath  /api/v1
 
 func main() {
+	// use the dev/prod database connection
 	database.Connect()
 
 	app := setup.Setup()
