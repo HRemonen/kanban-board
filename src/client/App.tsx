@@ -1,16 +1,18 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { AuthProvider, useAuthenticatedUser } from './contexts/AuthContext'
+import { useAuthenticatedUser } from './contexts/AuthContext'
 import Login from './components/authentication/Login'
+import Kanban from './components/kanban/Kanban'
 
 const App = () => {
   const user = useAuthenticatedUser()
 
   console.log(user)
+
   return (
-    <section className="bg-slate-900 text-white">
+    <section className="relative text-white bg-slate-800 overflow-hidden max-h-screen">
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Kanban />} />
       </Routes>
     </section>
   )
