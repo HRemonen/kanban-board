@@ -1,7 +1,7 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import axios, { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import loginService from '../../services/authService'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -10,6 +10,7 @@ import FormInput from '../form/FormInput'
 import { APIFailure, LoginUser } from '../../types'
 
 import login_illustration_image from '../../illustrations/login_illustration_image.png'
+import LoadingSpinner from '../common/Loading'
 
 const Login = () => {
   const {
@@ -21,14 +22,21 @@ const Login = () => {
     mode: 'onBlur',
   })
 
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+
   const { login } = useContext(AuthContext)
 
-  const onSubmit = async (loginInput: LoginUser) => {
+  const onLogin = async (loginInput: LoginUser) => {
+    setLoading(true)
     await loginService(loginInput)
       .then((response) => {
         login(response.data.token, response.data.user)
+        setLoading(false)
+        navigate('/')
       })
       .catch((err: Error | AxiosError) => {
+        setLoading(false)
         if (axios.isAxiosError(err)) {
           const { response } = err
           const responseData: APIFailure = response?.data
@@ -53,7 +61,7 @@ const Login = () => {
     <section className="md:grid md:grid-cols-2 text-center">
       <div className="flex flex-col h-screen justify-center text-center items-center p-12 border-r-2 border-solid border-gray-300 md:shadow-lg">
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onLogin)}
           className="flex flex-col justify-center text-left w-[80%]"
         >
           <FormInput
@@ -76,14 +84,20 @@ const Login = () => {
             error={errors.password}
           />
 
-          <button
-            id="login-button"
-            data-cy="login-form-button"
-            type="submit"
-            className="inline-block text-white bg-gradient-to-br from-green-300 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-          >
-            Login
-          </button>
+          {!loading ? (
+            <button
+              id="login-button"
+              data-cy="login-form-button"
+              type="submit"
+              className="inline-block text-white bg-gradient-to-br from-green-300 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            >
+              Login
+            </button>
+          ) : (
+            <div className="flex-col inline-flex items-center">
+              <LoadingSpinner />
+            </div>
+          )}
         </form>
 
         <p className="mt-4">
