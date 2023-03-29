@@ -51,6 +51,12 @@ const Login = () => {
               type: 'custom',
               message: 'Invalid email or password',
             })
+          else {
+            setError('root', {
+              type: 'custom',
+              message: responseData.message,
+            })
+          }
         } else {
           console.log('Something unexpected happened', err)
         }
@@ -99,6 +105,10 @@ const Login = () => {
             </div>
           )}
         </form>
+
+        {errors.root && (
+          <p className="text-red-500 text-sm mt-2">{errors.root.message}</p>
+        )}
 
         <p className="mt-4">
           Don&lsquo;t have an account?
