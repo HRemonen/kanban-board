@@ -22,11 +22,11 @@ const SidebarItem = ({ to, name, icon }: SidebarItemProps) => (
 )
 
 const Sidebar = () => (
-  <section className="fixed inset-y-0 left-0 bg-slate-900 shadow-md max-h-screen w-60">
+  <section className="fixed inset-y-0 left-0 border-r bg-[#2C3639] border-gray-900 shadow-md max-h-screen w-60">
     <div className="flex flex-col justify-between h-full">
       <div className="flex-grow">
-        <div className="px-4 py-6 text-center border-b">
-          <h1 className="text-xl font-bold leading-none">Kanri</h1>
+        <div className="px-4 py-6 text-center">
+          <h1 className="text-3xl font-light leading-none">Kanri</h1>
         </div>
         <div className="p-4">
           <ul className="space-y-2">

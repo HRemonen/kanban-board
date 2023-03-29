@@ -8,7 +8,7 @@ const App = () => {
   const { user } = useAuthenticatedUser()
 
   return (
-    <section className="relative text-white bg-slate-800 overflow-hidden max-h-screen">
+    <section className="relative text-white bg-white overflow-hidden max-h-screen">
       <Routes>
         <Route path="/*" element={user ? <Kanban /> : <Login />} />
       </Routes>
