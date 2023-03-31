@@ -13,10 +13,10 @@ const SidebarItem = ({ to, name, icon }: SidebarItemProps) => (
   <li>
     <Link
       to={to}
-      className="flex items-center bg-white rounded-xl font-bold text-sm text-gray-700 py-3 px-4"
+      className="flex items-center bg-white rounded-r-3xl font-bold text-sm text-gray-700 py-3 px-4"
     >
       {icon}
-      <span className="pl-2">{name}</span>
+      <span className="pl-4">{name}</span>
     </Link>
   </li>
 )
@@ -28,8 +28,8 @@ const Sidebar = () => (
         <div className="px-4 py-6 text-center">
           <h1 className="text-3xl font-light leading-none">Kanri</h1>
         </div>
-        <div className="p-4">
-          <ul className="space-y-2">
+        <div className="pr-4">
+          <ul className="space-y-4">
             <SidebarItem to="/" name="Home" icon={<HiHome size={20} />} />
             <SidebarItem
               to="/profile"
