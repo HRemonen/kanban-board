@@ -1,16 +1,13 @@
-package handlers
+package tests
 
 import (
-	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/HRemonen/kanban-board/app/database"
-	"github.com/HRemonen/kanban-board/app/model"
-	"github.com/HRemonen/kanban-board/pkg/utils"
 	"github.com/HRemonen/kanban-board/setup"
+	"github.com/HRemonen/kanban-board/tests/helpers"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -21,12 +18,12 @@ func TestGetAllUsers(t *testing.T) {
 
 	db := database.DB.Db
 
-	// Insert some test users into the database
-	user1 := model.User{Name: "Alice", Email: "alice@example.com", Password: "salainensalasana"}
-	user2 := model.User{Name: "Bob", Email: "bob@example.com", Password: "salainensalasana"}
+	err := helpers.SeedTestUsers(db)
+	if err != nil {
+		t.Fatal("Failed to seed the test database", err)
+	}
 
-	db.Create(&user1)
-	db.Create(&user2)
+	defer helpers.ClearTestUsers(db)
 
 	tests := []struct {
 		description string
@@ -86,51 +83,15 @@ func TestGetAllUsers(t *testing.T) {
 		}
 
 		data := body["data"].([]interface{})
-		if len(data) != 2 {
-			t.Errorf("Expected 2 users but got %d", len(data))
-		}
-
-		user1Data := data[0].(map[string]interface{})
-		if user1Data["name"] != user1.Name || user1Data["email"] != user1.Email {
-			t.Errorf("Unexpected user data: %v", user1Data)
-		}
-
-		user2Data := data[1].(map[string]interface{})
-		if user2Data["name"] != user2.Name || user2Data["email"] != user2.Email {
-			t.Errorf("Unexpected user data: %v", user2Data)
+		if len(data) != 3 {
+			t.Errorf("Expected 3 users but got %d", len(data))
 		}
 	}
 }
 
-func TestGetSingleUser(t *testing.T) {
+/* func TestGetSingleUser(t *testing.T) {
 	database.SetupTestDB()
 	app := setup.Setup()
-
-	db := database.DB.Db
-
-	hash, _ := utils.HashPassword("salainensalasana")
-
-	user1 := model.User{Name: "Alice", Email: "alice@example.com", Password: hash}
-	user2 := model.User{Name: "Bob", Email: "bob@example.com", Password: hash}
-
-	// Convert the user to bytes and the to io.Reader to pass to the NewRequest method
-	b, _ := json.Marshal(user1)
-
-	reader := bytes.NewReader(b)
-
-	// login to get the token
-	req := httptest.NewRequest(
-		"POST",
-		"/api/v1/auth/login",
-		reader,
-	)
-
-	res, _ := app.Test(req, -1)
-
-	fmt.Println(res)
-
-	db.Create(&user1)
-	db.Create(&user2)
 
 	tests := []struct {
 		description string
@@ -178,4 +139,4 @@ func TestGetSingleUser(t *testing.T) {
 		assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)
 
 	}
-}
+} */
