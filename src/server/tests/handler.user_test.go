@@ -2,6 +2,7 @@ package tests
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http/httptest"
 	"testing"
 
@@ -18,12 +19,15 @@ func TestGetAllUsers(t *testing.T) {
 
 	db := database.DB.Db
 
-	err := helpers.SeedTestUsers(db)
+	err := helpers.ClearTestUsers(db)
+	if err != nil {
+		t.Fatalf("Failed to clear test data: %v", err)
+	}
+
+	err = helpers.SeedTestUsers(db)
 	if err != nil {
 		t.Fatal("Failed to seed the test database", err)
 	}
-
-	defer helpers.ClearTestUsers(db)
 
 	tests := []struct {
 		description string
@@ -89,9 +93,25 @@ func TestGetAllUsers(t *testing.T) {
 	}
 }
 
-/* func TestGetSingleUser(t *testing.T) {
+func TestGetSingleUser(t *testing.T) {
 	database.SetupTestDB()
 	app := setup.Setup()
+
+	db := database.DB.Db
+
+	err := helpers.ClearTestUsers(db)
+	if err != nil {
+		t.Fatalf("Failed to clear test data: %v", err)
+	}
+
+	err = helpers.SeedTestUsers(db)
+	if err != nil {
+		t.Fatal("Failed to seed the test database", err)
+	}
+
+	user, err := helpers.LoginTestUser(app, db)
+
+	fmt.Println(user.Data.Token)
 
 	tests := []struct {
 		description string
@@ -139,4 +159,4 @@ func TestGetAllUsers(t *testing.T) {
 		assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)
 
 	}
-} */
+}

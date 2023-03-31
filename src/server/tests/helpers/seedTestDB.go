@@ -26,7 +26,8 @@ func SeedTestUsers(db *gorm.DB) error {
 }
 
 func ClearTestUsers(db *gorm.DB) error {
-	err := db.Exec("TRUNCATE TABLE users").Error
+	db.Exec("SET CONSTRAINTS ALL DEFERRED")
+	err := db.Exec("TRUNCATE TABLE users CASCADE").Error
 	if err != nil {
 		return fmt.Errorf("failed to clear test data: %w", err)
 	}
