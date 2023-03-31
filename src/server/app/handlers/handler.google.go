@@ -17,7 +17,7 @@ import (
 func GoogleLogin(c *fiber.Ctx) error {
 	url := config.AppConfig.GoogleLoginConfig.AuthCodeURL(config.Config("RANDOM_STATE"))
 
-	c.Status(fiber.StatusSeeOther)
+	c.Status(303)
 	c.Redirect(url)
 	return c.JSON(url)
 }

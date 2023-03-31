@@ -51,13 +51,13 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	if user.Provider == "Google" {
-		c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "fail", "message": "Use OAuth for google login", "data": nil})
+		c.Status(401).JSON(fiber.Map{"status": "fail", "message": "Use OAuth for google login", "data": nil})
 	}
 
 	token, err := utils.GenerateNewAccessToken(user.ID)
 
 	if err != nil {
-		c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error(), "data": nil})
+		c.Status(404).JSON(fiber.Map{"status": "fail", "message": err.Error(), "data": nil})
 	}
 
 	userResponse := model.FilteredResponse(&user)
