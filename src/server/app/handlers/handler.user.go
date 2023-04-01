@@ -49,7 +49,9 @@ func GetSingleUser(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
 	}
 
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": user})
+	userResponse := model.FilteredResponse(&user)
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": userResponse})
 }
 
 // CreateUser ... Create User
@@ -64,45 +66,17 @@ func GetSingleUser(c *fiber.Ctx) error {
 // @Failure 500 {object} object
 // @Router /user [post]
 func CreateUser(c *fiber.Ctx) error {
-	db := database.DB.Db
-	payload := new(model.RegisterUserInput)
-
-	err := c.BodyParser(payload)
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
-	}
-
-	if payload.Password != payload.PasswordConfirm {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": "Passwords do not match", "data": nil})
-	}
-
-	var validate = utils.NewValidator()
-
-	err = validate.Struct(payload)
-
-	if err != nil {
-		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": utils.ValidatorErrors(err)})
-	}
-
-	hash, _ := utils.HashPassword(payload.Password)
-
-	newUser := model.User{
-		Name:     payload.Name,
-		Email:    strings.ToLower(payload.Email),
-		Password: hash,
-	}
-
-	err = db.Create(&newUser).Error
+	user, err := services.CreateUser(c)
 
 	if err != nil && strings.Contains(err.Error(), "ERROR: duplicate key value violates unique constraint") {
 		return c.Status(409).JSON(fiber.Map{"status": "fail", "message": "User with that email already exists", "data": nil})
-
+	} else if err != nil && strings.Contains(err.Error(), "Key:") {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the inputs failed", "data": utils.ValidatorErrors(err)})
 	} else if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create user", "data": nil})
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})
 	}
 
-	userResponse := model.FilteredResponse(&newUser)
+	userResponse := model.FilteredResponse(&user)
 
 	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "User has been created", "data": userResponse})
 }
