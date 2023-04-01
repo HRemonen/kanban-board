@@ -92,39 +92,17 @@ func CreateUser(c *fiber.Ctx) error {
 // @Failure 401 {object} object
 // @Failure 404 {object} object
 // @Failure 422 {object} object
-// @Failure 500 {object} object
 // @Router /user/{id} [put]
 func UpdateUser(c *fiber.Ctx) error {
-
-	db := database.DB.Db
-
-	user, err := utils.CheckAuthorization(c)
+	user, err := services.UpdateUser(c)
 
 	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
 		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
+	} else if err != nil && strings.Contains(err.Error(), "Key:") {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the inputs failed", "data": utils.ValidatorErrors(err)})
 	} else if err != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})
 	}
-
-	var updateUserData model.UpdateUser
-
-	err = c.BodyParser(&updateUserData)
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
-	}
-
-	var validate = utils.NewValidator()
-
-	err = validate.Struct(updateUserData)
-
-	if err != nil {
-		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": utils.ValidatorErrors(err)})
-	}
-
-	user.Name = updateUserData.Name
-
-	db.Save(&user)
 
 	userResponse := model.FilteredResponse(&user)
 
