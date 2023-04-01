@@ -61,9 +61,9 @@ func GetSingleUser(c *fiber.Ctx) error {
 // @Accept json
 // @Param user_attrs body model.RegisterUserInput true "User attributes"
 // @Success 201 {object} model.UserResponse
+// @Failure 404 {object} object
 // @Failure 409 {object} object
 // @Failure 422 {object} object
-// @Failure 500 {object} object
 // @Router /user [post]
 func CreateUser(c *fiber.Ctx) error {
 	user, err := services.CreateUser(c)
