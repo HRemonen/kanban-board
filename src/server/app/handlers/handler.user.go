@@ -5,9 +5,9 @@ import (
 
 	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
+	"github.com/HRemonen/kanban-board/app/services"
 	"github.com/HRemonen/kanban-board/pkg/utils"
 	"github.com/gofiber/fiber/v2"
-	"gorm.io/gorm/clause"
 )
 
 // GetAllUsers ... Get all users
@@ -18,10 +18,11 @@ import (
 // @Failure 404 {object} object
 // @Router /user [get]
 func GetAllUsers(c *fiber.Ctx) error {
-	db := database.DB.Db
-	var users []model.APIUser
+	users, err := services.GetAllUsers()
 
-	db.Model(&model.User{}).Preload(clause.Associations).Find(&users)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something went wrong accessing data", "data": nil})
+	}
 
 	if len(users) == 0 {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Users not found", "data": nil})
