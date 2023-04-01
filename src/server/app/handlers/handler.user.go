@@ -3,7 +3,6 @@ package handlers
 import (
 	"strings"
 
-	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
 	"github.com/HRemonen/kanban-board/app/services"
 	"github.com/HRemonen/kanban-board/pkg/utils"
@@ -117,23 +116,14 @@ func UpdateUser(c *fiber.Ctx) error {
 // @Success 200 {object} object
 // @Failure 401 {object} object
 // @Failure 404 {object} object
-// @Failure 500 {object} object
 // @Router /user/{id} [delete]
-func DeleteUserByID(c *fiber.Ctx) error {
-	db := database.DB.Db
-
-	user, err := utils.CheckAuthorization(c)
+func DeleteUser(c *fiber.Ctx) error {
+	err := services.DeleteUser(c)
 
 	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
 		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
 	} else if err != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
-	}
-
-	err = db.Delete(&user, "id = ?", user.ID).Error
-
-	if err != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Failed to delete user", "data": nil})
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})
 	}
 
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User deleted", "data": nil})
