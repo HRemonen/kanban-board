@@ -92,3 +92,19 @@ func UpdateUser(c *fiber.Ctx) (model.User, error) {
 
 	return user, err
 }
+
+func DeleteUser(c *fiber.Ctx) error {
+	db := database.DB.Db
+	id := c.Params("id")
+
+	var user model.User
+	db.Find(&user, "id = ?", id)
+
+	if _, err := utils.IsAuthorized(c, user); err != nil {
+		return err
+	}
+
+	err := db.Delete(&user, "id = ?", user.ID).Error
+
+	return err
+}
