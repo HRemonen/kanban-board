@@ -41,7 +41,7 @@ func GetAllUsers(c *fiber.Ctx) error {
 // @Failure 404 {object} object
 // @Router /user/{id} [get]
 func GetSingleUser(c *fiber.Ctx) error {
-	user, err := utils.CheckAuthorization(c)
+	user, err := services.GetSingleUser(c)
 
 	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
 		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
@@ -49,9 +49,7 @@ func GetSingleUser(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Could not fetch user", "data": nil})
 	}
 
-	userResponse := model.FilteredResponse(&user)
-
-	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": userResponse})
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "User Found", "data": user})
 }
 
 // CreateUser ... Create User
