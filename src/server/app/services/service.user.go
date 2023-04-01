@@ -1,6 +1,9 @@
 package services
 
 import (
+	"errors"
+	"strings"
+
 	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
 	"github.com/HRemonen/kanban-board/pkg/utils"
@@ -29,4 +32,35 @@ func GetSingleUser(c *fiber.Ctx) (model.User, error) {
 	}
 
 	return user, nil
+}
+
+func CreateUser(c *fiber.Ctx) (model.User, error) {
+	db := database.DB.Db
+	payload := new(model.RegisterUserInput)
+
+	c.BodyParser(payload)
+
+	hash, _ := utils.HashPassword(payload.Password)
+
+	user := model.User{
+		Name:     payload.Name,
+		Email:    strings.ToLower(payload.Email),
+		Password: hash,
+	}
+
+	if payload.Password != payload.PasswordConfirm {
+		return user, errors.New("Passwords do not match")
+	}
+
+	var validate = utils.NewValidator()
+
+	err := validate.Struct(payload)
+
+	if err != nil {
+		return user, err
+	}
+
+	err = db.Create(&user).Error
+
+	return user, err
 }
