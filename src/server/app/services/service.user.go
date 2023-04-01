@@ -64,3 +64,31 @@ func CreateUser(c *fiber.Ctx) (model.User, error) {
 
 	return user, err
 }
+
+func UpdateUser(c *fiber.Ctx) (model.User, error) {
+	db := database.DB.Db
+	id := c.Params("id")
+	payload := new(model.UpdateUser)
+
+	var user model.User
+	db.Find(&user, "id = ?", id)
+
+	if _, err := utils.IsAuthorized(c, user); err != nil {
+		return user, err
+	}
+
+	c.BodyParser(payload)
+
+	var validate = utils.NewValidator()
+
+	err := validate.Struct(payload)
+
+	if err != nil {
+		return user, err
+	}
+
+	user.Name = payload.Name
+	err = db.Save(&user).Error
+
+	return user, err
+}
