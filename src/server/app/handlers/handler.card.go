@@ -1,8 +1,11 @@
 package handlers
 
 import (
+	"strings"
+
 	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
+	"github.com/HRemonen/kanban-board/app/services"
 	"github.com/HRemonen/kanban-board/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -19,14 +22,9 @@ import (
 // @Failure 404 {object} object
 // @Router /card/{id} [get]
 func GetSingleCard(c *fiber.Ctx) error {
-	db := database.DB.Db
-	var card model.Card
+	card, err := services.GetSingleCard(c)
 
-	cardID := c.Params("id")
-
-	db.Model(&model.Card{}).Find(&card, "id = ?", cardID)
-
-	if card.ID == uuid.Nil {
+	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Card not found", "data": nil})
 	}
 
@@ -42,59 +40,18 @@ func GetSingleCard(c *fiber.Ctx) error {
 // @Param card_attrs body model.CardUserInput true "Card attributes"
 // @Success 201 {object} model.Card
 // @Failure 404 {object} object
-// @Failure 500 {object} object
+// @Failure 422 {object} object
 // @Router /list/{id}/card [post]
 func CreateListCard(c *fiber.Ctx) error {
-	db := database.DB.Db
-	var list model.List
+	card, err := services.CreateListCard(c)
 
-	listID := c.Params("id")
-
-	db.Model(&list).Preload("Cards").Find(&list, "id = ?", listID)
-
-	if list.ID == uuid.Nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "List not found", "data": nil})
+	if err != nil && strings.Contains(err.Error(), "Key:") {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the inputs failed", "data": utils.ValidatorErrors(err)})
+	} else if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})
 	}
 
-	payload := new(model.CardUserInput)
-
-	err := c.BodyParser(payload)
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
-	}
-
-	var validate = utils.NewValidator()
-
-	err = validate.Struct(payload)
-
-	if err != nil {
-		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": utils.ValidatorErrors(err)})
-	}
-
-	var currentPosition uint
-
-	db.Model(&model.Card{}).Select("COALESCE(MAX(position), 0)").Where("list_id = ?", list.ID).Row().Scan(&currentPosition)
-
-	if len(list.Cards) == 0 {
-		currentPosition = 0
-	} else {
-		currentPosition++
-	}
-
-	newCard := model.Card{
-		Title:    payload.Title,
-		Position: currentPosition,
-		ListID:   list.ID,
-	}
-
-	err = db.Create(&newCard).Error
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create a card for the list", "data": err.Error()})
-	}
-
-	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "A new card has been created", "data": newCard})
+	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "A new card has been created", "data": card})
 }
 
 // UpdateListCardPosition ... Update card position on the list

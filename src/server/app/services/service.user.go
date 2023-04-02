@@ -88,6 +88,7 @@ func UpdateUser(c *fiber.Ctx) (model.User, error) {
 	}
 
 	user.Name = payload.Name
+	
 	err = db.Save(&user).Error
 
 	return user, err
