@@ -58,6 +58,7 @@ func CreateListCard(c *fiber.Ctx) error {
 // @Param card path string true "Card ID"
 // @Param position body model.CardPositionInput true "Card position"
 // @Success 200 {object} model.Card
+// @Success 304 {object} object
 // @Failure 401 {object} object
 // @Failure 404 {object} object
 // @Failure 422 {object} object
