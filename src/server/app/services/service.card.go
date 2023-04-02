@@ -118,7 +118,7 @@ func UpdateListCardPosition(c *fiber.Ctx) (model.Card, error) {
 	}
 
 	if err != nil {
-		return card, errors.New("Could not update list positions")
+		return card, errors.New("Could not update card positions")
 	}
 
 	card.Position = payload.Position
