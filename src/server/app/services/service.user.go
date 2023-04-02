@@ -15,9 +15,9 @@ func GetAllUsers() ([]model.APIUser, error) {
 	db := database.DB.Db
 	var users []model.APIUser
 
-	db.Model(&model.User{}).Preload(clause.Associations).Find(&users)
+	err := db.Model(&model.User{}).Preload(clause.Associations).Find(&users).Error
 
-	return users, nil
+	return users, err
 }
 
 func GetSingleUser(c *fiber.Ctx) (model.User, error) {
@@ -25,13 +25,14 @@ func GetSingleUser(c *fiber.Ctx) (model.User, error) {
 	id := c.Params("id")
 
 	var user model.User
-	db.Find(&user, "id = ?", id)
+
+	err := db.Find(&user, "id = ?", id).Error
 
 	if _, err := utils.IsAuthorized(c, user); err != nil {
 		return user, err
 	}
 
-	return user, nil
+	return user, err
 }
 
 func CreateUser(c *fiber.Ctx) (model.User, error) {
@@ -88,7 +89,7 @@ func UpdateUser(c *fiber.Ctx) (model.User, error) {
 	}
 
 	user.Name = payload.Name
-	
+
 	err = db.Save(&user).Error
 
 	return user, err
