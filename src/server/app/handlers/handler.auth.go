@@ -3,8 +3,7 @@ package handlers
 import (
 	"strings"
 
-	"github.com/HRemonen/kanban-board/app/database"
-	"github.com/HRemonen/kanban-board/app/model"
+	"github.com/HRemonen/kanban-board/app/services"
 	"github.com/HRemonen/kanban-board/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 )
@@ -18,57 +17,23 @@ import (
 // @Failure 401 {object} object
 // @Failure 404 {object} object
 // @Failure 422 {object} object
-// @Failure 500 {object} object
 // @Router /auth/login [post]
 func Login(c *fiber.Ctx) error {
-	db := database.DB.Db
-	payload := new(model.LoginUserInput)
+	loginData, err := services.Login(c)
 
-	err := c.BodyParser(payload)
-
-	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": nil})
+	if err != nil && strings.Contains(err.Error(), "Invalid password") {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Invalid password", "data": nil})
+	} else if err != nil && strings.Contains(err.Error(), "Use Oauth login for Google login") {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Use Oauth login for Google login", "data": nil})
+	} else if err != nil && strings.Contains(err.Error(), "Key:") {
+		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the inputs failed", "data": utils.ValidatorErrors(err)})
+	} else if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})
 	}
-
-	var validate = utils.NewValidator()
-
-	err = validate.Struct(payload)
-
-	if err != nil {
-		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the input failed", "data": utils.ValidatorErrors(err)})
-	}
-
-	var user model.User
-
-	result := db.First(&user, "email = ?", strings.ToLower(payload.Email))
-
-	if result.Error != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "fail", "message": "User not found, check username", "data": nil})
-	}
-
-	if !utils.CheckPasswordHash(payload.Password, user.Password) {
-		return c.Status(401).JSON(fiber.Map{"status": "fail", "message": "Invalid password", "data": nil})
-	}
-
-	if user.Provider == "Google" {
-		c.Status(401).JSON(fiber.Map{"status": "fail", "message": "Use OAuth for google login", "data": nil})
-	}
-
-	token, err := utils.GenerateNewAccessToken(user.ID)
-
-	if err != nil {
-		c.Status(404).JSON(fiber.Map{"status": "fail", "message": err.Error(), "data": nil})
-	}
-
-	userResponse := model.FilteredResponse(&user)
-
-	var data model.LoginData
-	data.Token = token
-	data.User = userResponse
 
 	return c.Status(201).JSON(fiber.Map{
 		"status":  "success",
 		"message": "Logged in successfully",
-		"data":    data,
+		"data":    loginData,
 	})
 }
