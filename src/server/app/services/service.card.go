@@ -2,13 +2,13 @@ package services
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
 	"github.com/HRemonen/kanban-board/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func GetSingleCard(c *fiber.Ctx) (model.Card, error) {
@@ -95,10 +95,12 @@ func UpdateListCardPosition(c *fiber.Ctx) (model.Card, error) {
 
 	err = db.Find(&card, "id = ?", cardID).Error
 
-	fmt.Println(payload)
-
 	if err != nil {
 		return card, errors.New("Card not found")
+	}
+
+	if list.ID != card.ListID {
+		return card, errors.New("Unauthorized action")
 	}
 
 	currentPosition := card.Position
@@ -129,4 +131,40 @@ func UpdateListCardPosition(c *fiber.Ctx) (model.Card, error) {
 	}
 
 	return card, err
+}
+
+func DeleteListCard(c *fiber.Ctx) error {
+	db := database.DB.Db
+	var list model.List
+	var card model.Card
+
+	listID := c.Params("id")
+
+	err := db.Model(&list).Preload("Cards").Find(&list, "id = ?", listID).Error
+
+	if err != nil {
+		return errors.New("List not found")
+	}
+
+	cardID := c.Params("card")
+
+	err = db.Find(&card, "id = ?", cardID).Error
+
+	if err != nil {
+		return errors.New("Card not found")
+	}
+
+	if list.ID != card.ListID {
+		return errors.New("Unauthorized action")
+	}
+
+	err = db.Select(clause.Associations).Delete(&card).Error
+
+	if err != nil {
+		return errors.New("Failed to delete card")
+	}
+
+	err = db.Model(&model.Card{}).Where("list_id = ? AND position > ?", list.ID, card.Position).Update("position", gorm.Expr("position - 1")).Error
+
+	return err
 }
