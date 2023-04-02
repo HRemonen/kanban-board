@@ -93,8 +93,6 @@ func DeleteListCard(c *fiber.Ctx) error {
 
 	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
 		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
-	} else if err != nil && strings.Contains(err.Error(), "Key:") {
-		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the inputs failed", "data": utils.ValidatorErrors(err)})
 	} else if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})
 	}
