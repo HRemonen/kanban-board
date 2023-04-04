@@ -3,6 +3,7 @@ package tests
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http/httptest"
 	"testing"
 
@@ -34,7 +35,6 @@ func TestGetAllUsers(t *testing.T) {
 
 		route string
 
-		expectedError  bool
 		expectedStatus string
 		expectedCode   int
 		expectedBody   string
@@ -42,7 +42,6 @@ func TestGetAllUsers(t *testing.T) {
 		{
 			description:    "user index route",
 			route:          "/api/v1/user",
-			expectedError:  false,
 			expectedStatus: "success",
 			expectedCode:   200,
 			expectedBody:   "",
@@ -59,13 +58,6 @@ func TestGetAllUsers(t *testing.T) {
 		// Perform the request plain with the app.
 		// The -1 disables request latency.
 		res, err := app.Test(req, -1)
-
-		// verify that no error occured, that is not expected
-		assert.Equalf(t, test.expectedError, err != nil, test.description)
-
-		if test.expectedError {
-			continue
-		}
 
 		assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)
 
@@ -111,30 +103,37 @@ func TestGetSingleUser(t *testing.T) {
 
 	user, err := helpers.LoginTestUser(app, db)
 
-	fmt.Println(user.Data.Token)
-
 	tests := []struct {
 		description string
 
 		route string
 
-		expectedError   bool
+		token string
+
 		expectedStatus  string
 		expectedCode    int
 		expectedMessage string
 	}{
 		{
 			description:     "get user by ID when authenticated succeeds",
-			route:           "/api/v1/user",
-			expectedError:   false,
+			route:           "/api/v1/user/" + user.Data.User.ID.String(),
+			token:           user.Data.Token,
 			expectedStatus:  "success",
 			expectedCode:    200,
 			expectedMessage: "User Found",
 		},
 		{
 			description:     "get user by ID when not authenticated fails",
-			route:           "/api/v1/user",
-			expectedError:   true,
+			route:           "/api/v1/user/" + user.Data.User.ID.String(),
+			token:           "",
+			expectedStatus:  "error",
+			expectedCode:    400,
+			expectedMessage: "Missing or malformed JWT",
+		},
+		{
+			description:     "get user by ID when unauthorized fails",
+			route:           "/api/v1/user/" + user.Data.User.ID.String(),
+			token:           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA0NjE4MjYsImlhdCI6MTY4MDQyNTgyNiwibmJmIjoxNjgwNDI1ODI2LCJzdWIiOiIyN2MyM2ViNi04MThiLTRlYTMtOWU1MC04MjAwMDFkYTY0NWUifQ.k1irIqJ93ACScqVcBkXPHpS8dZTpCc2V7LFZPb-KBKw",
 			expectedStatus:  "error",
 			expectedCode:    401,
 			expectedMessage: "Unauthorized action",
@@ -147,14 +146,17 @@ func TestGetSingleUser(t *testing.T) {
 			test.route,
 			nil,
 		)
+		bearer := "Bearer " + test.token
+		req.Header.Set("Authorization", bearer)
 
-		res, err := app.Test(req, -1)
+		res, _ := app.Test(req, -1)
 
-		assert.Equalf(t, test.expectedError, err != nil, test.description)
-
-		if test.expectedError {
-			continue
+		b, err := io.ReadAll(res.Body)
+		if err != nil {
+			t.Fatal(err)
 		}
+
+		fmt.Println(string(b))
 
 		assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)
 
