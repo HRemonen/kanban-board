@@ -2,8 +2,6 @@ package tests
 
 import (
 	"encoding/json"
-	"fmt"
-	"io"
 	"net/http/httptest"
 	"testing"
 
@@ -138,6 +136,14 @@ func TestGetSingleUser(t *testing.T) {
 			expectedCode:    401,
 			expectedMessage: "Unauthorized action",
 		},
+		{
+			description:     "get user by ID when unauthorized fails",
+			route:           "/api/v1/user/1234-1234-1245",
+			token:           user.Data.Token,
+			expectedStatus:  "error",
+			expectedCode:    404,
+			expectedMessage: "Could not fetch user",
+		},
 	}
 
 	for _, test := range tests {
@@ -151,14 +157,12 @@ func TestGetSingleUser(t *testing.T) {
 
 		res, _ := app.Test(req, -1)
 
-		b, err := io.ReadAll(res.Body)
-		if err != nil {
-			t.Fatal(err)
-		}
+		var body map[string]interface{}
 
-		fmt.Println(string(b))
+		err = json.NewDecoder(res.Body).Decode(&body)
 
 		assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)
-
+		assert.Equalf(t, test.expectedStatus, body["status"], test.description)
+		assert.Equalf(t, test.expectedMessage, body["message"], test.description)
 	}
 }
