@@ -137,7 +137,7 @@ func TestGetSingleUser(t *testing.T) {
 			expectedMessage: "Unauthorized action",
 		},
 		{
-			description:     "get user by ID when unauthorized fails",
+			description:     "get non existing user by ID fails",
 			route:           "/api/v1/user/1234-1234-1245",
 			token:           user.Data.Token,
 			expectedStatus:  "error",
