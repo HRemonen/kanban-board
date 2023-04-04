@@ -38,12 +38,26 @@ Kanban boards are useful for several reasons:
 
 4. Develop and run the application using Docker Compose:
 
-```
+Copy the template.env file and rename to .env.
+Fill in the information needed.
+
+```bash
 cd kanban-board
 docker compose -f docker-compose.dev.yml up
 ```
 
 This will start the dev environment in containers
+
+5. Run the tests:
+
+If you wish to run backend tests, also copy your .env file to the [tests](src/server/tests) folder root.
+
+Run the tests after setting the testing .env file.
+
+```bash
+cd kanban-board
+docker compose -f docker-compose.ci.yml up
+```
 
 ## Desing Ideas
 
