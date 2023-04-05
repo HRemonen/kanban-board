@@ -32,3 +32,4 @@ jobs:
           command: npm run cypress:run
           start: npm i
           wait-on: 'http://localhost:5173/'
+          wait-on-timeout: 120
