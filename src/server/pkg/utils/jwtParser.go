@@ -1,9 +1,9 @@
 package utils
 
 import (
+	"os"
 	"strings"
 
-	"github.com/HRemonen/kanban-board/app/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
 )
@@ -58,5 +58,5 @@ func verifyToken(c *fiber.Ctx) (*jwt.Token, error) {
 }
 
 func jwtKeyFunc(token *jwt.Token) (interface{}, error) {
-	return []byte(config.Config("JWT_SECRET_KEY")), nil
+	return []byte(os.Getenv("JWT_SECRET_KEY")), nil
 }

@@ -1,7 +1,8 @@
 package middleware
 
 import (
-	"github.com/HRemonen/kanban-board/app/config"
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 
 	jwtMiddleware "github.com/gofiber/jwt/v2"
@@ -12,7 +13,7 @@ import (
 func JWTProtected() func(*fiber.Ctx) error {
 	// Create config for JWT authentication middleware.
 	config := jwtMiddleware.Config{
-		SigningKey:   []byte(config.Config("JWT_SECRET_KEY")),
+		SigningKey:   []byte(os.Getenv("JWT_SECRET_KEY")),
 		ErrorHandler: jwtError,
 	}
 

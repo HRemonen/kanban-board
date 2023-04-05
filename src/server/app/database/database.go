@@ -6,7 +6,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/HRemonen/kanban-board/app/config"
 	"github.com/HRemonen/kanban-board/app/model"
 
 	"gorm.io/driver/postgres"
@@ -21,14 +20,14 @@ type Dbinstance struct {
 var DB Dbinstance
 
 func Connect() {
-	p := config.Config("DB_PORT")
+	p := os.Getenv("DB_PORT")
 
 	port, err := strconv.ParseUint(p, 10, 32)
 	if err != nil {
 		fmt.Println("Error parsing str to int")
 	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=Europe/Helsinki", config.Config("DB_HOST"), config.Config("DB_USER"), config.Config("DB_PASSWORD"), config.Config("DB_NAME"), port)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=Europe/Helsinki", os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"), port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})

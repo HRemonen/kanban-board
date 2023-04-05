@@ -1,11 +1,8 @@
 package config
 
 import (
-	"fmt"
-	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -16,20 +13,7 @@ type GCPConfig struct {
 
 var AppConfig GCPConfig
 
-func Config(key string) string {
-	err := godotenv.Load(".env")
-	if err != nil {
-		fmt.Print("Error loading .env file")
-	}
-	return os.Getenv(key)
-}
-
 func GoogleConfig() oauth2.Config {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Some error occured. Err: %s", err)
-	}
-
 	AppConfig.GoogleLoginConfig = oauth2.Config{
 		RedirectURL:  "http://localhost:8080/google/login-callback",
 		ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),

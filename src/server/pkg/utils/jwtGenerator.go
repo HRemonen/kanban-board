@@ -1,10 +1,10 @@
 package utils
 
 import (
+	"os"
 	"strconv"
 	"time"
 
-	"github.com/HRemonen/kanban-board/app/config"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -14,9 +14,9 @@ import (
 // @Description and returns the token or error.
 // @Tags Utils
 func GenerateNewAccessToken(payload interface{}) (string, error) {
-	secret := config.Config("JWT_SECRET_KEY")
+	secret := os.Getenv("JWT_SECRET_KEY")
 
-	minutesCount, _ := strconv.Atoi(config.Config("JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT"))
+	minutesCount, _ := strconv.Atoi(os.Getenv("JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT"))
 
 	claims := jwt.MapClaims{}
 	now := time.Now().UTC()

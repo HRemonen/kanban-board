@@ -4,6 +4,7 @@ import (
 	"context"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/HRemonen/kanban-board/app/config"
 	"github.com/gofiber/fiber/v2"
@@ -15,7 +16,7 @@ import (
 // @Tags Login
 // @Router /google/login [post]
 func GoogleLogin(c *fiber.Ctx) error {
-	url := config.AppConfig.GoogleLoginConfig.AuthCodeURL(config.Config("RANDOM_STATE"))
+	url := config.AppConfig.GoogleLoginConfig.AuthCodeURL(os.Getenv("RANDOM_STATE"))
 
 	c.Status(303)
 	c.Redirect(url)
@@ -24,7 +25,7 @@ func GoogleLogin(c *fiber.Ctx) error {
 
 func GoogleCallback(c *fiber.Ctx) error {
 	state := c.Query("state")
-	if state != config.Config("RANDOM_STATE") {
+	if state != os.Getenv("RANDOM_STATE") {
 		return c.SendString("States does not match")
 	}
 

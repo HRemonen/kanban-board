@@ -7,10 +7,19 @@ services:
       context: .
       dockerfile: test.Dockerfile
     environment:
-      - POSTGRES_HOST=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DATABASE=postgres
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - RANDOM_STATE=${RANDOM_STATE}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT=${JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_MAX_CONNECTIONS=${DB_MAX_CONNECTIONS}
+      - DB_MAX_IDLE_CONNECTIONS=${DB_MAX_IDLE_CONNECTIONS}
+      - DB_MAX_LIFETIME_CONNECTIONS=${DB_MAX_LIFETIME_CONNECTIONS}
     ports:
       - "127.0.0.1:8080:8080"
     volumes:
@@ -24,4 +33,4 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=kanban-board-db
