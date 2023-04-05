@@ -11,5 +11,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      
       - name: Prepare test data and run the tests
+        env: 
+          RANDOM_STATE: ${{secrets.RANDOM_STATE}}
+          JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT: ${{secrets.JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT}}
+          JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}
+          GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+          GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+          DB_USER: ${{secrets.DB_USER}}
+          DB_PORT: ${{secrets.DB_PORT}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          DB_NAME: ${{secrets.DB_NAME}}
+          DB_HOST: ${{secrets.DB_HOST}}
+          DB_MAX_LIFETIME_CONNECTIONS: ${{secrets.DB_MAX_LIFETIME_CONNECTIONS}}
+          DB_MAX_IDLE_CONNECTIONS: ${{secrets.DB_MAX_IDLE_CONNECTIONS}}
+          DB_MAX_CONNECTIONS: ${{secrets.DB_MAX_CONNECTIONS}}
         run: docker-compose -f docker-compose.ci.yml up --exit-code-from web
