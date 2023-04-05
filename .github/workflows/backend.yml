@@ -1,0 +1,21 @@
+name: Backend Unit & Integration Tests
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src/server
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.16.x'
+      - name: Install dependencies
+        run: go get .
+      - name: Prepare test data and run the tests
+        run: docker-compose -f docker-compose.ci.yml up --exit-code-from kanban-board-api-test
