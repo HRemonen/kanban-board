@@ -26,7 +26,7 @@ func Login(c *fiber.Ctx) (model.LoginData, error) {
 		return loginData, err
 	}
 
-	err = db.First(&user, "email = ?", strings.ToLower(payload.Email)).Error
+	err = db.Model(&model.User{}).Preload("Boards").First(&user, "email = ?", strings.ToLower(payload.Email)).Error
 
 	if err != nil {
 		return loginData, err
