@@ -1,8 +1,9 @@
 import React from 'react'
-import { useAuthenticatedUser } from '../../contexts/AuthContext'
+
+import useFetchUser from '../../hooks/useFetchUser'
 
 const StatsSection = () => {
-  const { user, token } = useAuthenticatedUser()
+  const user = useFetchUser()
 
   if (!user) return null
 
