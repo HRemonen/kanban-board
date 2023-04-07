@@ -7,8 +7,6 @@ const StatsSection = () => {
 
   if (!user) return null
 
-  console.log(user)
-
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Stats</h2>

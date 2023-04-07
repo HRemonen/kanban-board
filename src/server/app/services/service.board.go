@@ -14,7 +14,7 @@ func GetAllBoards(c *fiber.Ctx) ([]model.APIBoard, error) {
 	db := database.DB.Db
 	var boards []model.APIBoard
 
-	err := db.Model(&model.Board{}).Preload("User").Preload("Lists.Cards").Find(&boards).Error
+	err := db.Model(&model.Board{}).Preload("Lists.Cards").Find(&boards).Error
 
 	return boards, err
 }
@@ -25,7 +25,7 @@ func GetSingleBoard(c *fiber.Ctx) (model.APIBoard, error) {
 
 	var board model.APIBoard
 
-	err := db.Model(&model.Board{}).Preload("User").Preload("Lists.Cards").Find(&board, "id = ?", boardID).Error
+	err := db.Model(&model.Board{}).Preload("Lists.Cards").Find(&board, "id = ?", boardID).Error
 
 	return board, err
 }

@@ -16,7 +16,7 @@ type User struct {
 	Photo    string    `gorm:"default:'default.png';"`
 	Verified bool      `gorm:"default:false;"`
 	Provider string    `gorm:"default:'local';"`
-	Boards   []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
+	Boards   []Board   `gorm:"ForeignKey:UserID;references:ID;"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -53,7 +53,7 @@ type APIUser struct {
 	ID     uuid.UUID `json:"id,omitempty"`
 	Name   string    `json:"name,omitempty"`
 	Email  string    `json:"email,omitempty"`
-	Boards []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
+	Boards []Board   `gorm:"ForeignKey:UserID;references:ID;"`
 }
 
 type UserResponse struct {
@@ -64,7 +64,7 @@ type UserResponse struct {
 	Provider  string    `json:"provider,omitempty"`
 	Photo     string    `json:"photo,omitempty"`
 	Verified  bool      `json:"verified,omitempty"`
-	Boards    []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
+	Boards    []Board   `gorm:"ForeignKey:UserID;references:ID;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

@@ -12,8 +12,7 @@ type Board struct {
 	Name        string    `gorm:"type:varchar(20);not null;"`
 	Description string    `gorm:"type:varchar(100);"`
 	UserID      uuid.UUID
-	User        *User   `gorm:"ForeignKey:UserID"`
-	Lists       []*List `gorm:"ForeignKey:BoardID;references:ID;"`
+	Lists       []List `gorm:"ForeignKey:BoardID;references:ID;"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -30,8 +29,7 @@ type APIBoard struct {
 	Name        string    `gorm:"type:varchar(100);not null"`
 	Description string    `gorm:"type:varchar(100);"`
 	UserID      uuid.UUID
-	User        *User   `gorm:"ForeignKey:UserID"`
-	Lists       []*List `gorm:"ForeignKey:BoardID;references:ID;"`
+	Lists       []List `gorm:"ForeignKey:BoardID;references:ID;"`
 }
 
 type BoardUserInput struct {
