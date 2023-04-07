@@ -64,7 +64,7 @@ type UserResponse struct {
 	Provider  string    `json:"provider,omitempty"`
 	Photo     string    `json:"photo,omitempty"`
 	Verified  bool      `json:"verified,omitempty"`
-	Boards    []Board   `gorm:"ForeignKey:UserID;references:ID;"`
+	Boards    []*Board  `gorm:"ForeignKey:UserID;references:ID;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
@@ -77,6 +77,7 @@ func FilteredResponse(user *User) UserResponse {
 		Role:      user.Role,
 		Verified:  user.Verified,
 		Photo:     user.Photo,
+		Boards:    user.Boards,
 		Provider:  user.Provider,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
