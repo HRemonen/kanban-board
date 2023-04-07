@@ -50,9 +50,7 @@ This will start the dev environment in containers
 
 5. Run the tests:
 
-If you wish to run backend tests, also copy your .env file to the [tests](src/server/tests) folder root.
-
-Run the tests after setting the testing .env file.
+Run the tests with the following command
 
 ```bash
 cd kanban-board
