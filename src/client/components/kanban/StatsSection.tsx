@@ -1,11 +1,13 @@
 import React from 'react'
 
-import useFetchUser from '../../hooks/useFetchUser'
+import { useAuthenticatedUser } from '../../contexts/AuthContext'
 
 const StatsSection = () => {
-  const user = useFetchUser()
+  const { user } = useAuthenticatedUser()
 
   if (!user) return null
+
+  console.log(user)
 
   return (
     <div>
