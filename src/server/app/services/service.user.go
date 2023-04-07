@@ -26,7 +26,7 @@ func GetSingleUser(c *fiber.Ctx) (model.User, error) {
 
 	var user model.User
 
-	err := db.Find(&user, "id = ?", id).Error
+	err := db.Model(&model.User{}).Preload("Boards").Find(&user, "id = ?", id).Error
 
 	if _, err := utils.IsAuthorized(c, user); err != nil {
 		return user, err
