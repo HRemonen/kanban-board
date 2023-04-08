@@ -10,9 +10,35 @@ export interface APIFailure {
 }
 
 export interface APIResponse {
-  data: PublicUser[] | PrivateUser
+  data: PublicUser[] | PrivateUser | Board | List | Card
   message: string
   status: 'success'
+}
+
+export interface Card {
+  ID: string
+  Title: string
+  Description?: string
+  Position: number
+  Status: 'open' | 'closed'
+  Label?: string
+  ListID: string
+}
+
+export interface List {
+  ID: string
+  name: string
+  Position: number
+  Cards: Card[]
+  BoardID: string
+}
+
+export interface Board {
+  ID: string
+  Name: string
+  Description?: string
+  UserID: string
+  Lists: List[]
 }
 
 // USER RELATED
