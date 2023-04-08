@@ -6,10 +6,8 @@ module.exports = {
     "./**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      fontFamily: {
-        Satisfy: ["Satisfy", "cursive"],
-       },
+    fontFamily: {
+      sans: ["Plus Jakarta Sans", "sans-serif"],
     },
   },
   plugins: [],

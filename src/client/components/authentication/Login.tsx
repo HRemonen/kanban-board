@@ -64,8 +64,8 @@ const Login = () => {
   }
 
   return (
-    <section className="bg-[#181823] md:grid md:grid-cols-2 text-center">
-      <div className="flex flex-col h-screen justify-center text-center items-center p-12 border-r-2 border-solid border-gray-300 md:shadow-lg">
+    <section className="bg-[#A8A4FF] md:grid md:grid-cols-2 text-center">
+      <div className="flex flex-col h-screen justify-center text-center items-center p-12 md:shadow-lg">
         <form
           onSubmit={handleSubmit(onLogin)}
           className="flex flex-col justify-center text-left w-[80%]"
