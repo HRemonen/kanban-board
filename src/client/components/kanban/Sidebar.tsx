@@ -22,7 +22,7 @@ const SidebarItem = ({ to, name, icon }: SidebarItemProps) => (
 )
 
 const Sidebar = () => (
-  <section className="fixed inset-y-0 left-0 border-r bg-[#2C3639] border-gray-900 shadow-md max-h-screen w-60">
+  <section className="fixed inset-y-0 left-0 border-r bg-[#181823] border-gray-900 shadow-md max-h-screen w-60">
     <div className="flex flex-col justify-between h-full">
       <div className="flex-grow">
         <div className="px-4 py-6 text-center">

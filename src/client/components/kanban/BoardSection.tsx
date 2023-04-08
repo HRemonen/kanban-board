@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuthenticatedUser } from '../../contexts/AuthContext'
-import BoardView from '../board/BoardView'
+import BoardView from '../views/BoardView'
 
 const BoardSection = () => {
   const { user } = useAuthenticatedUser()
