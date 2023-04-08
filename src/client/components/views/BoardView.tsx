@@ -13,15 +13,16 @@ const BoardView = ({ id }: { id: string }) => {
 
   const board: Board = boardData.data
 
-  console.log('BOARDVIEW', board)
-
   const handleOnDragEnd = ({ source, destination }: any) => {
     console.log(source, destination)
   }
 
   return (
-    <div className="px-6 text-black h-screen overflow-auto">
-      <div className="overflow-y-hidden scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent flex-1 p-4 space-x-4 flex">
+    <div
+      data-cy={`board-${board.ID}`}
+      className="px-6 text-black h-screen overflow-auto"
+    >
+      <div className="flex flex-1 overflow-y-hidden scrollbar-hide p-4 space-x-4">
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {board.Lists.map((list) => (
             <ListView key={list.ID} list={list} />
