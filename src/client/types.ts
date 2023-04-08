@@ -27,7 +27,7 @@ export interface Card {
 
 export interface List {
   ID: string
-  name: string
+  Name: string
   Position: number
   Cards: Card[]
   BoardID: string
