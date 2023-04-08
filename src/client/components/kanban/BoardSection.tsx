@@ -1,12 +1,17 @@
 import React from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { useAuthenticatedUser } from '../../contexts/AuthContext'
+import BoardView from '../board/BoardView'
 
-const BoardSection = () => (
-  <div className="px-6 text-black h-screen overflow-auto">
-    <div className="overflow-y-hidden scrollbar-thin scrollbar-thumb-mainPurple scrollbar-track-transparent flex-1 p-4 space-x-4 flex">
-      <p>Hello word</p>
+const BoardSection = () => {
+  const { user } = useAuthenticatedUser()
+
+  if (!user) return null
+
+  return (
+    <div className="px-6 text-black h-screen overflow-auto">
+      <BoardView id={user.Boards[0].ID} />
     </div>
-  </div>
-)
+  )
+}
 
 export default BoardSection
