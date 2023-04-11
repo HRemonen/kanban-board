@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 
 import apiClient from '../util/apiClient'
 import { config } from '../services/authService'
-import { APIResponse, Board } from '../types'
+import { APIResponse } from '../types'
 
 const useUserBoard = (boardID: string) => {
   const queryKey = ['board', boardID]
