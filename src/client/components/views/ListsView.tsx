@@ -8,7 +8,7 @@ const ListView = ({ list }: { list: List }) => (
     <h3 className="uppercase mb-4">
       {list.Name} ({list.Cards.length})
     </h3>
-    <Droppable droppableId={`list-${list.ID}-cards`}>
+    <Droppable droppableId={list.ID}>
       {(provided) => (
         <ul
           data-cy={`list-${list.ID}-cards`}
@@ -19,7 +19,7 @@ const ListView = ({ list }: { list: List }) => (
           {list.Cards.map((card) => (
             <Draggable
               key={card.ID}
-              draggableId={`card-${card.ID}`}
+              draggableId={card.ID}
               index={card.Position}
             >
               {(provided) => (
