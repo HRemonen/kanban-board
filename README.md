@@ -57,6 +57,20 @@ cd kanban-board
 docker compose -f docker-compose.ci.yml up
 ```
 
+6. Generate swagger docs
+
+Download swag by using:
+
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
+```
+
+Run `swag init` in the project's root folder which contains the `main.go` file. This will parse your comments and generate the required files (`docs` folder and `docs/docs.go`).
+
+```bash
+swag init
+```
+
 ## Desing Ideas
 
 Once the application is running, you can use it to manage your Kanban board tasks.
