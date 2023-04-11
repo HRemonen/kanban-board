@@ -65,12 +65,6 @@ const docTemplate = `{
                         "schema": {
                             "type": "object"
                         }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object"
-                        }
                     }
                 }
             }
@@ -141,12 +135,6 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "Unprocessable Entity",
-                        "schema": {
-                            "type": "object"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object"
                         }
@@ -263,8 +251,8 @@ const docTemplate = `{
                             "type": "object"
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "type": "object"
                         }
@@ -311,6 +299,18 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
+                            "$ref": "#/definitions/model.List"
+                        }
+                    },
+                    "304": {
+                        "description": "Not Modified",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
                             "type": "object"
                         }
                     },
@@ -322,12 +322,6 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "Unprocessable Entity",
-                        "schema": {
-                            "type": "object"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object"
                         }
@@ -363,14 +357,14 @@ const docTemplate = `{
                             "type": "object"
                         }
                     },
-                    "404": {
-                        "description": "Not Found",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "type": "object"
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "type": "object"
                         }
@@ -461,8 +455,8 @@ const docTemplate = `{
                             "type": "object"
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "type": "object"
                         }
@@ -509,6 +503,18 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
+                            "$ref": "#/definitions/model.Card"
+                        }
+                    },
+                    "304": {
+                        "description": "Not Modified",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
                             "type": "object"
                         }
                     },
@@ -523,17 +529,9 @@ const docTemplate = `{
                         "schema": {
                             "type": "object"
                         }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object"
-                        }
                     }
                 }
-            }
-        },
-        "/list/{id}/card/{list}": {
+            },
             "delete": {
                 "description": "delete a card from list",
                 "tags": [
@@ -563,14 +561,14 @@ const docTemplate = `{
                             "type": "object"
                         }
                     },
-                    "404": {
-                        "description": "Not Found",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "type": "object"
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "type": "object"
                         }
@@ -630,6 +628,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/model.UserResponse"
                         }
                     },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
                     "409": {
                         "description": "Conflict",
                         "schema": {
@@ -638,12 +642,6 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "Unprocessable Entity",
-                        "schema": {
-                            "type": "object"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object"
                         }
@@ -739,12 +737,6 @@ const docTemplate = `{
                         "schema": {
                             "type": "object"
                         }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object"
-                        }
                     }
                 }
             },
@@ -781,12 +773,6 @@ const docTemplate = `{
                         "schema": {
                             "type": "object"
                         }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object"
-                        }
                     }
                 }
             }
@@ -810,9 +796,6 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/model.User"
                 },
                 "userID": {
                     "type": "string"
@@ -842,9 +825,6 @@ const docTemplate = `{
                 },
                 "updatedAt": {
                     "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/model.User"
                 },
                 "userID": {
                     "type": "string"
