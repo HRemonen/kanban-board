@@ -20,7 +20,7 @@ Kanban boards are useful for several reasons:
 - Docker
 - Docker Compose
 
-## Installation
+## Get started
 
 1. Install Docker by following the instructions for your platform:
 
