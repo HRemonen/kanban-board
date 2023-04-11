@@ -13,8 +13,13 @@ const BoardView = ({ id }: { id: string }) => {
 
   const board: Board = boardData.data
 
-  const handleOnDragEnd = ({ source, destination }: any) => {
-    console.log(source, destination)
+  const handleOnDragEnd = (props: any) => {
+    const draggedCard = props.draggableId
+    const { initialPosition, initialList } = props.source
+    const { destinationPosition, destinationList } = props.destination
+
+    console.log(props)
+    console.log(props.source, props.destination)
   }
 
   return (
