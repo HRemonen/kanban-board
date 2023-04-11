@@ -1,5 +1,5 @@
 import React from 'react'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, DragUpdate } from 'react-beautiful-dnd'
 
 import ListView from './ListsView'
 import useUserBoard from '../../hooks/useUserBoard'
@@ -13,13 +13,15 @@ const BoardView = ({ id }: { id: string }) => {
 
   const board: Board = boardData.data
 
-  const handleOnDragEnd = (props: any) => {
-    const draggedCard = props.draggableId
-    const { initialPosition, initialList } = props.source
-    const { destinationPosition, destinationList } = props.destination
+  const handleOnDragEnd = ({
+    draggableId,
+    source,
+    destination,
+  }: DragUpdate) => {
+    console.log('INITIAL', source)
+    console.log('DESTINATION', destination)
 
-    console.log(props)
-    console.log(props.source, props.destination)
+    console.log('CARD', draggableId)
   }
 
   return (
