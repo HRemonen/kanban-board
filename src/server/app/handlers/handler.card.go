@@ -88,7 +88,7 @@ func UpdateListCardPosition(c *fiber.Ctx) error {
 // @Success 200 {object} object
 // @Failure 401 {object} object
 // @Failure 404 {object} object
-// @Router /list/{id}/card/{list} [delete]
+// @Router /list/{id}/card/{card} [delete]
 func DeleteListCard(c *fiber.Ctx) error {
 	err := services.DeleteListCard(c)
 
