@@ -1,6 +1,8 @@
 import { useMutation } from 'react-query'
+
 import apiClient from '../util/apiClient'
-import { APIResponse, Card, List } from '../types'
+
+import { APIResponse, Card } from '../types'
 
 export const getSingleCard = async (id: string) => {
   const { data }: { data: APIResponse } = await apiClient.get(`/card/${id}`)
@@ -18,7 +20,15 @@ export const createListCard = async (listID: string, card: Card) => {
 }
 
 export const useUpdateListCardPosition = () => {
-  const mutationFn = async ({ listID, cardID, position }: any) => {
+  const mutationFn = async ({
+    listID,
+    cardID,
+    position,
+  }: {
+    listID: string
+    cardID: string
+    position: number
+  }) => {
     await apiClient.put(`/list/${listID}/card/${cardID}`, { position })
   }
   const mutation = useMutation(mutationFn)
