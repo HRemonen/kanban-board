@@ -60,7 +60,27 @@ const ModalView = ({ card, setShowModal }: ModalProps) => {
             {card.Description || 'No description provided'}
           </p>
         </div>
-        <div className="col-span-5 row-span-6">Info section</div>
+        <div className="col-span-5 row-span-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="font-normal text-sm text-gray-700">Assignees</div>
+            <div className="font-light text-sm text-gray-400">
+              Add assignees
+            </div>
+            <div className="font-normal text-sm text-gray-700">Labels</div>
+            <div className="font-light text-sm text-gray-400">
+              {card.Label || 'Add labels'}
+            </div>
+            <div className="font-normal text-sm text-gray-700">Status</div>
+            <div className="font-light text-sm text-gray-400">
+              <button
+                type="button"
+                className="px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-full"
+              >
+                {card.Status || 'Add status'}
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="col-span-7">Additional section (TBA)</div>
       </div>
     </div>
