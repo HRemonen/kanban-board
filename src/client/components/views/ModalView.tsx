@@ -80,7 +80,7 @@ const ModalView = ({ card, setShowModal }: ModalProps) => {
               </button>
             </div>
             <div className="my-4 border-t-2 col-span-2">
-              <div className="mt-2 hover:bg-red-300 hover:rounded-3xl">
+              <div className="mt-2 px-2 hover:bg-red-300 hover:rounded-lg">
                 <button
                   type="button"
                   className="inline-flex items-center py-2 text-red-600 text-sm font-medium"
