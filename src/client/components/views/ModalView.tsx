@@ -27,7 +27,7 @@ const ModalView = ({ card, setShowModal }: ModalProps) => {
             clipRule="evenodd"
           />
         </svg>
-        {card.Title}
+        Card information
       </h5>
       <button
         type="button"
