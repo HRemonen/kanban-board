@@ -50,18 +50,18 @@ const ModalView = ({ card, setShowModal }: ModalProps) => {
         <span className="sr-only">Close menu</span>
       </button>
       <div className="grid grid-cols-12 gap-2">
-        <div className="col-span-12">
+        <div className="col-span-12 border-b-2">
           <h3 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
             {card.Title}
           </h3>
         </div>
         <div className="col-span-7">
-          <p className="font-light text-gray-700">
+          <p className="my-4 text-sm font-thin italic text-gray-500">
             {card.Description || 'No description provided'}
           </p>
         </div>
-        <div className="col-span-5 row-span-6">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="col-span-5 row-span-6 border-l-2">
+          <div className="mx-2 grid grid-cols-2 gap-4">
             <div className="font-normal text-sm text-gray-700">Assignees</div>
             <div className="font-light text-sm text-gray-400">
               Add assignees
@@ -105,7 +105,6 @@ const ModalView = ({ card, setShowModal }: ModalProps) => {
             </div>
           </div>
         </div>
-        <div className="col-span-7">Additional section (TBA)</div>
       </div>
     </div>
   )
