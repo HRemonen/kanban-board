@@ -57,9 +57,10 @@ func CreateListCard(c *fiber.Ctx) (model.Card, error) {
 	}
 
 	card = model.Card{
-		Title:    payload.Title,
-		Position: currentPosition,
-		ListID:   list.ID,
+		Title:       payload.Title,
+		Description: payload.Description,
+		Position:    currentPosition,
+		ListID:      list.ID,
 	}
 
 	err = db.Create(&card).Error

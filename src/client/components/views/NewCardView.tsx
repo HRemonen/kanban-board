@@ -1,5 +1,5 @@
 import React from 'react'
-import { FieldValues, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useCreateNewCard } from '../../services/cardService'
 import SimpleInput from '../form/SimpleInput'
 import SimpleTextarea from '../form/SimpleTextarea'
@@ -19,6 +19,7 @@ const NewCardView = ({ list, setShowModal }: ModalProps) => {
   } = useForm<NewCard>()
 
   const onSubmit = (data: NewCard) => {
+    console.log(data)
     mutateCard.mutateAsync({
       listID: list.ID,
       card: data,
