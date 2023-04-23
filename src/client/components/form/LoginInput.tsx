@@ -1,6 +1,6 @@
 import { InputType } from '../../types'
 
-const FormInput = ({
+const LoginInput = ({
   register,
   error,
   label,
@@ -25,4 +25,4 @@ const FormInput = ({
   </div>
 )
 
-export default FormInput
+export default LoginInput

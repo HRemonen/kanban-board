@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import loginService from '../../services/authService'
 import { AuthContext } from '../../contexts/AuthContext'
 
-import FormInput from '../form/FormInput'
+import LoginInput from '../form/LoginInput'
 import { APIFailure, LoginUser } from '../../types'
 
 import login_illustration_image from '../../illustrations/login_illustration_image.svg'
@@ -70,7 +70,7 @@ const Login = () => {
           onSubmit={handleSubmit(onLogin)}
           className="flex flex-col justify-center text-left w-[80%]"
         >
-          <FormInput
+          <LoginInput
             id="email"
             type="email"
             placeholder="hello@world.com"
@@ -80,7 +80,7 @@ const Login = () => {
             error={errors.email}
           />
 
-          <FormInput
+          <LoginInput
             id="password"
             type="password"
             placeholder="Password"
