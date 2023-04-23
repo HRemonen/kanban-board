@@ -58,7 +58,7 @@ const ListView = ({ list }: { list: List }) => {
           </ul>
         )}
       </Droppable>
-      {showModal && <NewCardView setShowModal={setShowModal} />}
+      {showModal && <NewCardView list={list} setShowModal={setShowModal} />}
     </div>
   )
 }

@@ -1,21 +1,31 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
-import { NewCard } from '../../types'
+import { FieldValues, useForm } from 'react-hook-form'
+import { useCreateNewCard } from '../../services/cardService'
 import SimpleInput from '../form/SimpleInput'
 import SimpleTextarea from '../form/SimpleTextarea'
+import { List, NewCard } from '../../types'
 
 type ModalProps = {
+  list: List
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const NewCardView = ({ setShowModal }: ModalProps) => {
+const NewCardView = ({ list, setShowModal }: ModalProps) => {
+  const mutateCard = useCreateNewCard()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<NewCard>()
 
-  const onSubmit = (data: any) => console.log(data)
+  const onSubmit = (data: NewCard) => {
+    mutateCard.mutateAsync({
+      listID: list.ID,
+      card: data,
+    })
+
+    setShowModal(false)
+  }
 
   return (
     <div className="fixed top-0 right-0 z-40 h-screen p-4 bg-white w-[60%] border-l-2">
@@ -105,7 +115,7 @@ const NewCardView = ({ setShowModal }: ModalProps) => {
               <div className="my-4 border-t-2 col-span-2">
                 <div className="mt-2 px-2 hover:bg-green-300 hover:rounded-lg">
                   <button
-                    type="button"
+                    type="submit"
                     className="inline-flex items-center py-2 text-green-500 text-sm font-medium"
                   >
                     <span className="mr-2 inline-block align-text-bottom select-text overflow-visible">

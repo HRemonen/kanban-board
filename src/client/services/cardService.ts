@@ -2,7 +2,7 @@ import { useMutation } from 'react-query'
 
 import apiClient from '../util/apiClient'
 
-import { APIResponse, Card } from '../types'
+import { APIResponse, Card, NewCard } from '../types'
 import queryClient from '../util/queryClient'
 
 export const getSingleCard = async (id: string) => {
@@ -11,13 +11,22 @@ export const getSingleCard = async (id: string) => {
   return data
 }
 
-export const createListCard = async (listID: string, card: Card) => {
-  const { data }: { data: APIResponse } = await apiClient.post(
-    `/list/${listID}/card`,
-    card
-  )
+export const useCreateNewCard = () => {
+  const mutationFn = async ({
+    listID,
+    card,
+  }: {
+    listID: string
+    card: NewCard
+  }) => {
+    await apiClient.post(`/list/${listID}/card`, card)
+  }
 
-  return data
+  const mutation = useMutation(mutationFn, {
+    onSuccess: () => queryClient.invalidateQueries('board'),
+  })
+
+  return mutation
 }
 
 export const useUpdateCardPosition = () => {
