@@ -20,7 +20,7 @@ export const createListCard = async (listID: string, card: Card) => {
   return data
 }
 
-export const useUpdateListCardPosition = () => {
+export const useUpdateCardPosition = () => {
   const mutationFn = async ({
     listID,
     cardID,

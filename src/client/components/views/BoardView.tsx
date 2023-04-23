@@ -5,12 +5,12 @@ import { DragDropContext, DragUpdate } from 'react-beautiful-dnd'
 import ListView from './ListsView'
 import useUserBoard from '../../hooks/useUserBoard'
 
-import { useUpdateListCardPosition } from '../../services/cardService'
+import { useUpdateCardPosition } from '../../services/cardService'
 
 import { Board } from '../../types'
 
 const BoardView = ({ id }: { id: string }) => {
-  const mutateCardPosition = useUpdateListCardPosition()
+  const mutateCardPosition = useUpdateCardPosition()
   const { boardData, isLoading } = useUserBoard(id)
 
   if (!boardData || isLoading || !('Lists' in boardData.data)) return null
