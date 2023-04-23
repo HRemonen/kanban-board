@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import ModalView from './ModalView'
+import CardInfoView from './CardInfoView'
 
 import { Card } from '../../types'
 
@@ -28,7 +28,7 @@ const CardView = ({ card }: { card: Card }) => {
           </li>
         )}
       </Draggable>
-      {showModal && <ModalView card={card} setShowModal={setShowModal} />}
+      {showModal && <CardInfoView card={card} setShowModal={setShowModal} />}
     </>
   )
 }

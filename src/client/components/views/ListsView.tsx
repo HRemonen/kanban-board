@@ -11,6 +11,8 @@ function sortCardsByPosition(list: List): void {
 const ListView = ({ list }: { list: List }) => {
   sortCardsByPosition(list)
 
+  const handleCreateCard = () => {}
+
   return (
     <div data-cy={`list-${list.ID}`} className="w-[280px] shrink-0">
       <h3 className="uppercase mb-4">
@@ -23,6 +25,7 @@ const ListView = ({ list }: { list: List }) => {
         <button
           type="button"
           className="inline-flex items-center py-2 text-gray-600 text-sm font-medium"
+          onClick={handleCreateCard}
         >
           <span className="mr-2 inline-block align-text-bottom select-text overflow-visible">
             <svg
