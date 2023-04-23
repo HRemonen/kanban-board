@@ -1,5 +1,5 @@
 import React from 'react'
-import { Droppable, Draggable } from 'react-beautiful-dnd'
+import { Droppable } from 'react-beautiful-dnd'
 
 import { Card, List } from '../../types'
 import CardView from './CardView'
@@ -14,8 +14,32 @@ const ListView = ({ list }: { list: List }) => {
   return (
     <div data-cy={`list-${list.ID}`} className="w-[280px] shrink-0">
       <h3 className="uppercase mb-4">
-        {list.Name} ({list.Cards.length})
+        {list.Name}
+        <span className="mx-2 bg-blue-100 text-blue-800 text-sm font-semibold inline-flex items-center p-1 rounded-full">
+          {list.Cards.length}
+        </span>
       </h3>
+      <div className="mt-2 px-2 hover:bg-gray-300 hover:rounded-lg">
+        <button
+          type="button"
+          className="inline-flex items-center py-2 text-gray-600 text-sm font-medium"
+        >
+          <span className="mr-2 inline-block align-text-bottom select-text overflow-visible">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+              viewBox="0 0 16 16"
+              width="16"
+              height="16"
+              fill="currentColor"
+            >
+              <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z" />
+            </svg>
+          </span>
+          Add card
+        </button>
+      </div>
       <Droppable droppableId={list.ID}>
         {(provided) => (
           <ul
