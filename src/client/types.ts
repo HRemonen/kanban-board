@@ -88,7 +88,7 @@ export interface LoginUserSuccess extends Omit<APIResponse, 'data'> {
 
 export interface NewCard {
   title: string
-  description: string
+  description?: string
 }
 
 // FORM RELATED

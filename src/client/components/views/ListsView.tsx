@@ -17,7 +17,7 @@ const ListView = ({ list }: { list: List }) => {
     <div data-cy={`list-${list.ID}`} className="w-[280px] shrink-0">
       <h3 className="uppercase mb-4">
         {list.Name}
-        <span className="mx-2 bg-blue-100 text-blue-800 text-sm font-semibold inline-flex items-center p-1 rounded-full">
+        <span className="mx-2 inline-flex items-center justify-center bg-blue-100 text-blue-800 text-sm font-semibold px-2 py-[2px] rounded-full">
           {list.Cards.length}
         </span>
       </h3>
