@@ -61,7 +61,7 @@ const ModalView = ({ card, setShowModal }: ModalProps) => {
           </p>
         </div>
         <div className="col-span-5 row-span-6 border-l-2">
-          <div className="mx-2 grid grid-cols-2 gap-4">
+          <div className="my-4 mx-2 grid grid-cols-2 gap-4">
             <div className="font-normal text-sm text-gray-700">Assignees</div>
             <div className="font-light text-sm text-gray-400">
               Add assignees
