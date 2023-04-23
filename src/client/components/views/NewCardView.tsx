@@ -103,26 +103,25 @@ const NewCardView = ({ setShowModal }: ModalProps) => {
                 </button>
               </div>
               <div className="my-4 border-t-2 col-span-2">
-                <div className="mt-2 px-2 hover:bg-red-300 hover:rounded-lg">
+                <div className="mt-2 px-2 hover:bg-green-300 hover:rounded-lg">
                   <button
                     type="button"
-                    className="inline-flex items-center py-2 text-red-600 text-sm font-medium"
+                    className="inline-flex items-center py-2 text-green-500 text-sm font-medium"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 mr-2"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                    Delete from board
+                    <span className="mr-2 inline-block align-text-bottom select-text overflow-visible">
+                      <svg
+                        aria-hidden="true"
+                        focusable="false"
+                        role="img"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                      >
+                        <path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v1.5A1.75 1.75 0 0 1 14.25 6H1.75A1.75 1.75 0 0 1 0 4.25ZM1.75 7a.75.75 0 0 1 .75.75v5.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-5.5a.75.75 0 0 1 1.5 0v5.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25v-5.5A.75.75 0 0 1 1.75 7Zm0-4.5a.25.25 0 0 0-.25.25v1.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-1.5a.25.25 0 0 0-.25-.25ZM6.25 8h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1 0-1.5Z" />
+                      </svg>
+                    </span>
+                    Save changes
                   </button>
                 </div>
               </div>
