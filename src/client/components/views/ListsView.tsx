@@ -1,17 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 
 import { Card, List } from '../../types'
 import CardView from './CardView'
+import NewCardView from './NewCardView'
 
 function sortCardsByPosition(list: List): void {
   list.Cards.sort((a: Card, b: Card) => a.Position - b.Position)
 }
 
 const ListView = ({ list }: { list: List }) => {
+  const [showModal, setShowModal] = useState(false)
   sortCardsByPosition(list)
-
-  const handleCreateCard = () => {}
 
   return (
     <div data-cy={`list-${list.ID}`} className="w-[280px] shrink-0">
@@ -25,7 +25,7 @@ const ListView = ({ list }: { list: List }) => {
         <button
           type="button"
           className="inline-flex items-center py-2 text-gray-600 text-sm font-medium"
-          onClick={handleCreateCard}
+          onClick={() => setShowModal(true)}
         >
           <span className="mr-2 inline-block align-text-bottom select-text overflow-visible">
             <svg
@@ -58,6 +58,7 @@ const ListView = ({ list }: { list: List }) => {
           </ul>
         )}
       </Droppable>
+      {showModal && <NewCardView setShowModal={setShowModal} />}
     </div>
   )
 }

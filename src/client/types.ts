@@ -84,9 +84,23 @@ export interface LoginUserSuccess extends Omit<APIResponse, 'data'> {
   }
 }
 
+// CARD RELATED
+
+export interface NewCard {
+  title: string
+  description: string
+}
+
 // FORM RELATED
 
 export interface InputType extends InputHTMLAttributes<HTMLInputElement> {
+  register: UseFormRegister<FieldValues> | UseFormRegister<any>
+  error: FieldError | undefined
+  label: string
+  id: string
+}
+
+export interface TextareaType extends InputHTMLAttributes<HTMLTextAreaElement> {
   register: UseFormRegister<FieldValues> | UseFormRegister<any>
   error: FieldError | undefined
   label: string
