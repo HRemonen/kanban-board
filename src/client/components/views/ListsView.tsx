@@ -25,6 +25,7 @@ const ListView = ({ list }: { list: List }) => {
         <button
           type="button"
           className="inline-flex items-center py-2 text-gray-600 text-sm font-medium"
+          data-cy={`add-card-button-${list.ID}`}
           onClick={() => setShowModal(true)}
         >
           <span className="mr-2 inline-block align-text-bottom select-text overflow-visible">
