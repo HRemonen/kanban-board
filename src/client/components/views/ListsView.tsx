@@ -43,11 +43,12 @@ const ListView = ({ list }: { list: List }) => {
           Add card
         </button>
       </div>
+
       <Droppable droppableId={list.ID}>
         {(provided) => (
           <ul
             data-cy={`list-${list.ID}-cards`}
-            className="flex flex-col whitespace-nowrap overflow-y-scroll scrollbar-hide h-full pb-4 gap-2"
+            className="flex flex-col whitespace-nowrap overflow-y-scroll scrollbar-hide h-[90vh] pb-4 gap-2"
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
@@ -58,6 +59,7 @@ const ListView = ({ list }: { list: List }) => {
           </ul>
         )}
       </Droppable>
+
       {showModal && <NewCardView list={list} setShowModal={setShowModal} />}
     </div>
   )

@@ -41,7 +41,7 @@ const BoardView = ({ id }: { id: string }) => {
   return (
     <div
       data-cy={`board-${board.ID}`}
-      className="px-6 text-black h-screen overflow-auto"
+      className="px-6 text-black h-screen overflow-y-hidden"
     >
       <div className="flex flex-1 overflow-y-hidden scrollbar-hide p-4 space-x-4">
         <DragDropContext onDragEnd={handleOnDragEnd}>
