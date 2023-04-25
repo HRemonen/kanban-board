@@ -48,10 +48,19 @@ export const useUpdateCardPosition = () => {
   return mutation
 }
 
-export const deleteListCard = async (listID: string, cardID: string) => {
-  const { data }: { data: APIResponse } = await apiClient.delete(
-    `/list/${listID}/card/${cardID}`
-  )
+export const useDeleteListCard = () => {
+  const mutationFn = async ({
+    listID,
+    cardID,
+  }: {
+    listID: string
+    cardID: string
+  }) => {
+    await apiClient.delete(`/list/${listID}/card/${cardID}`)
+  }
+  const mutation = useMutation(mutationFn, {
+    onSuccess: () => queryClient.invalidateQueries('board'),
+  })
 
-  return data
+  return mutation
 }

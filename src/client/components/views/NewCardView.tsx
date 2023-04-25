@@ -12,6 +12,7 @@ type ModalProps = {
 
 const NewCardView = ({ list, setShowModal }: ModalProps) => {
   const mutateCard = useCreateNewCard()
+
   const {
     register,
     handleSubmit,
@@ -19,7 +20,6 @@ const NewCardView = ({ list, setShowModal }: ModalProps) => {
   } = useForm<NewCard>()
 
   const onSubmit = (data: NewCard) => {
-    console.log(data)
     mutateCard.mutateAsync({
       listID: list.ID,
       card: data,
