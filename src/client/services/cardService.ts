@@ -48,19 +48,6 @@ export const useUpdateCardPosition = () => {
   return mutation
 }
 
-export const updateListCardPosition = async (
-  listID: string,
-  cardID: string,
-  position: number
-) => {
-  const { data }: { data: APIResponse } = await apiClient.post(
-    `/list/${listID}/card/${cardID}`,
-    { position }
-  )
-
-  return data
-}
-
 export const deleteListCard = async (listID: string, cardID: string) => {
   const { data }: { data: APIResponse } = await apiClient.delete(
     `/list/${listID}/card/${cardID}`
