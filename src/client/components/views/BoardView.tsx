@@ -22,11 +22,6 @@ const BoardView = ({ id }: { id: string }) => {
     source,
     destination,
   }: DragUpdate) => {
-    console.log('INITIAL', source)
-    console.log('DESTINATION', destination)
-
-    console.log('CARD', draggableId)
-
     if (!destination) return null
 
     mutateCardPosition.mutateAsync({
@@ -50,7 +45,7 @@ const BoardView = ({ id }: { id: string }) => {
           ))}
         </DragDropContext>
 
-        <div className="mt-20 pl-2">
+        <div className="mt-20">
           <button
             type="button"
             aria-label="Add a new list to the board"
