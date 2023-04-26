@@ -8,6 +8,7 @@ import useUserBoard from '../../hooks/useUserBoard'
 import { useUpdateCardPosition } from '../../services/cardService'
 
 import { Board } from '../../types'
+import NewListView from './NewListView'
 
 const BoardView = ({ id }: { id: string }) => {
   const mutateCardPosition = useUpdateCardPosition()
@@ -45,26 +46,7 @@ const BoardView = ({ id }: { id: string }) => {
           ))}
         </DragDropContext>
 
-        <div className="mt-20">
-          <button
-            type="button"
-            aria-label="Add a new list to the board"
-            data-cy="add-new-list-button"
-            className="p-2 inline-block align-text-bottom select-none overflow-visible border border-gray-200 rounded-lg shadow "
-          >
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              role="img"
-              viewBox="0 0 16 16"
-              width="16"
-              height="16"
-              fill="currentColor"
-            >
-              <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z" />
-            </svg>
-          </button>
-        </div>
+        <NewListView />
       </div>
     </div>
   )

@@ -91,6 +91,12 @@ export interface NewCard {
   description?: string
 }
 
+// LIST RELATED
+
+export interface NewList {
+  name: string
+}
+
 // FORM RELATED
 
 export interface InputType extends InputHTMLAttributes<HTMLInputElement> {

@@ -20,7 +20,7 @@ const CardInfoView = ({ card, setShowModal }: ModalProps) => {
   }
 
   return (
-    <div className="fixed top-0 right-0 z-40 h-screen p-4 bg-white w-[60%] border-l-2">
+    <div className="fixed pin top-0 right-0 z-40 h-screen p-4 bg-white w-[60%] border-l-2">
       <h5
         id="drawer-label"
         className="inline-flex items-center mb-6 text-base font-semibold text-gray-500 uppercase"
