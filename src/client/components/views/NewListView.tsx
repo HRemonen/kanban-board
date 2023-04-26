@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import useCreateNewList from '../../services/listService'
+import { useCreateNewList } from '../../services/listService'
 
 import SimpleInput from '../form/SimpleInput'
 import SaveButton from '../common/SaveButton'

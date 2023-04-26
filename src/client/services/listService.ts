@@ -5,7 +5,7 @@ import apiClient from '../util/apiClient'
 import { NewList } from '../types'
 import queryClient from '../util/queryClient'
 
-const useCreateNewList = () => {
+export const useCreateNewList = () => {
   const mutationFn = async ({
     boardID,
     list,
@@ -23,4 +23,19 @@ const useCreateNewList = () => {
   return mutation
 }
 
-export default useCreateNewList
+export const useDeleteList = () => {
+  const mutationFn = async ({
+    boardID,
+    listID,
+  }: {
+    boardID: string
+    listID: string
+  }) => {
+    await apiClient.delete(`/board/${boardID}/list/${listID}`)
+  }
+  const mutation = useMutation(mutationFn, {
+    onSuccess: () => queryClient.invalidateQueries('board'),
+  })
+
+  return mutation
+}

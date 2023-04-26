@@ -9,18 +9,71 @@ function sortCardsByPosition(list: List): void {
   list.Cards.sort((a: Card, b: Card) => a.Position - b.Position)
 }
 
+const DropdownMenu = () => {
+  const [showDropdown, setShowDropdown] = useState(false)
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-50"
+        onClick={() => setShowDropdown(!showDropdown)}
+      >
+        <span className="inline-block align-text-bottom select-text overflow-visible">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            fill="currentColor"
+          >
+            <path d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+          </svg>
+        </span>
+      </button>
+      {showDropdown && (
+        <div className="absolute z-10 bg-white divide-y divide-gray-200 rounded-lg shadow w-30">
+          <ul
+            className="pt-2 text-sm text-gray-700"
+            aria-labelledby="dropdownMenuIconButton"
+          >
+            <li className="rounded-lg hover:bg-gray-100">
+              <button type="button" className="block px-4 py-2">
+                Edit
+              </button>
+            </li>
+          </ul>
+          <div className="mt-2">
+            <button
+              type="button"
+              className="block px-4 py-2 text-sm text-red-500 rounded-lg hover:bg-red-100"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 const ListView = ({ list }: { list: List }) => {
   const [showModal, setShowModal] = useState(false)
   sortCardsByPosition(list)
 
   return (
     <div data-cy={`list-${list.ID}`} className="w-[280px] shrink-0">
-      <h3 className="uppercase mb-4">
-        {list.Name}
-        <span className="mx-2 inline-flex items-center justify-center bg-blue-100 text-blue-800 text-sm font-semibold px-2 py-[2px] rounded-full">
-          {list.Cards.length}
-        </span>
-      </h3>
+      <div className="flex ">
+        <h3 className="uppercase mb-4">
+          {list.Name}
+          <span className="mx-2 inline-flex items-center justify-center bg-blue-100 text-blue-800 text-sm font-semibold px-2 py-[2px] rounded-full">
+            {list.Cards.length}
+          </span>
+        </h3>
+        <DropdownMenu />
+      </div>
       <div className="mt-2 px-2 hover:bg-gray-300 hover:rounded-lg">
         <button
           type="button"
