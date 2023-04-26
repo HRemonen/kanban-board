@@ -1,16 +1,29 @@
 import React, { useState } from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 
-import { Card, List } from '../../types'
+import { useDeleteList } from '../../services/listService'
+
 import CardView from './CardView'
 import NewCardView from './NewCardView'
+
+import { Card, List } from '../../types'
 
 function sortCardsByPosition(list: List): void {
   list.Cards.sort((a: Card, b: Card) => a.Position - b.Position)
 }
 
-const DropdownMenu = () => {
+const DropdownMenu = ({ list }: { list: List }) => {
   const [showDropdown, setShowDropdown] = useState(false)
+  const mutateList = useDeleteList()
+
+  const onListDelete = () => {
+    mutateList.mutateAsync({
+      boardID: list.BoardID,
+      listID: list.ID,
+    })
+
+    setShowDropdown(false)
+  }
 
   return (
     <div className="relative">
@@ -49,6 +62,7 @@ const DropdownMenu = () => {
             <button
               type="button"
               className="block px-4 py-2 text-sm text-red-500 rounded-lg hover:bg-red-100"
+              onClick={onListDelete}
             >
               Delete
             </button>
@@ -61,6 +75,7 @@ const DropdownMenu = () => {
 
 const ListView = ({ list }: { list: List }) => {
   const [showModal, setShowModal] = useState(false)
+
   sortCardsByPosition(list)
 
   return (
@@ -72,7 +87,7 @@ const ListView = ({ list }: { list: List }) => {
             {list.Cards.length}
           </span>
         </h3>
-        <DropdownMenu />
+        <DropdownMenu list={list} />
       </div>
       <div className="mt-2 px-2 hover:bg-gray-300 hover:rounded-lg">
         <button
