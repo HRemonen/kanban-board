@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { HiLogout } from 'react-icons/hi'
 import { AuthContext } from '../../contexts/AuthContext'
 
-const Logout = () => {
+const LogoutButton = () => {
   const { logout } = useContext(AuthContext)
   const navigate = useNavigate()
 
@@ -26,4 +26,4 @@ const Logout = () => {
   )
 }
 
-export default Logout
+export default LogoutButton

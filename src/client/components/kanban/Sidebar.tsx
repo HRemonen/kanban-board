@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { HiHome, HiTemplate, HiUserCircle } from 'react-icons/hi'
-import Logout from '../common/Logout'
+import LogoutButton from '../common/LogoutButton'
 
 interface SidebarItemProps {
   to: string
@@ -44,7 +44,7 @@ const Sidebar = () => (
           </ul>
         </div>
       </div>
-      <Logout />
+      <LogoutButton />
     </div>
   </section>
 )
