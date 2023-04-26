@@ -14,7 +14,7 @@ type CreateListProps = {
 }
 
 const AddListButton = ({ setShowCreateList }: CreateListProps) => (
-  <div className="mt-[76px]">
+  <div className="mt-[84px]">
     <button
       type="button"
       aria-label="Add a new list to the board"
@@ -45,7 +45,7 @@ const NewListView = ({ board }: { board: Board }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<NewList>()
+  } = useForm<NewList>({ shouldUnregister: true })
 
   const onSubmit = (data: NewList) => {
     mutateList.mutateAsync({
@@ -63,7 +63,7 @@ const NewListView = ({ board }: { board: Board }) => {
   return (
     <div
       data-cy="new-list-form"
-      className="relative mt-[76px] w-[280px] shrink-0 p-6 border border-gray-200 rounded-lg shadow "
+      className="relative mt-[84px] w-[280px] shrink-0 p-6 border border-gray-200 rounded-lg shadow "
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
