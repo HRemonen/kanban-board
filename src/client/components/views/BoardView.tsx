@@ -46,7 +46,7 @@ const BoardView = ({ id }: { id: string }) => {
           ))}
         </DragDropContext>
 
-        <NewListView />
+        <NewListView board={board} />
       </div>
     </div>
   )

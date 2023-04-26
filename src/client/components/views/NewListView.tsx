@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import useCreateNewList from '../../services/listService'
+
 import SimpleInput from '../form/SimpleInput'
-import { NewList } from '../../types'
 import SaveButton from '../common/SaveButton'
 import CloseMenu from '../common/CloseMenu'
+
+import { Board, NewList } from '../../types'
 
 type CreateListProps = {
   setShowCreateList: React.Dispatch<React.SetStateAction<boolean>>
@@ -34,7 +37,8 @@ const AddListButton = ({ setShowCreateList }: CreateListProps) => (
   </div>
 )
 
-const NewListView = () => {
+const NewListView = ({ board }: { board: Board }) => {
+  const mutateList = useCreateNewList()
   const [showCreateList, setShowCreateList] = useState(false)
 
   const {
@@ -44,7 +48,10 @@ const NewListView = () => {
   } = useForm<NewList>()
 
   const onSubmit = (data: NewList) => {
-    console.log(data)
+    mutateList.mutateAsync({
+      boardID: board.ID,
+      list: data,
+    })
 
     setShowCreateList(false)
   }
