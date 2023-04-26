@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { PrivateUser } from '../types'
 
 interface AuthContextType {
@@ -22,16 +22,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<PrivateUser | null>(null)
   const [token, setToken] = useState('')
 
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('user')
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser)
+      setUser(foundUser)
+    }
+  }, [])
+
   const login = (token: string, user: PrivateUser) => {
     setIsAuthenticated(true)
     setUser(user)
     setToken(token)
+    localStorage.setItem('user', JSON.stringify(user))
   }
 
   const logout = () => {
     setIsAuthenticated(false)
     setUser(null)
     setToken('')
+    localStorage.clear()
   }
 
   const contextValues = useMemo(
