@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import SimpleInput from '../form/SimpleInput'
 import { NewList } from '../../types'
 import SaveButton from '../common/SaveButton'
+import CloseMenu from '../common/CloseMenu'
 
 type CreateListProps = {
   setShowCreateList: React.Dispatch<React.SetStateAction<boolean>>
@@ -55,7 +56,7 @@ const NewListView = () => {
   return (
     <div
       data-cy="new-list-form"
-      className="mt-[76px] w-[280px] shrink-0 p-6 border border-gray-200 rounded-lg shadow "
+      className="relative mt-[76px] w-[280px] shrink-0 p-6 border border-gray-200 rounded-lg shadow "
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -76,6 +77,7 @@ const NewListView = () => {
           <SaveButton />
         </div>
       </form>
+      <CloseMenu onClick={() => setShowCreateList(false)} />
     </div>
   )
 }
