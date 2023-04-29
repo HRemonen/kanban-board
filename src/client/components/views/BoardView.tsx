@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useParams } from 'react-router-dom'
 import { DragDropContext, DragUpdate } from 'react-beautiful-dnd'
 
 import ListView from './ListsView'
@@ -10,7 +10,9 @@ import { useUpdateCardPosition } from '../../services/cardService'
 import { Board } from '../../types'
 import NewListView from './NewListView'
 
-const BoardView = ({ id }: { id: string }) => {
+const BoardView = () => {
+  const { boardID: id } = useParams()
+
   const mutateCardPosition = useUpdateCardPosition()
   const { boardData, isLoading } = useUserBoard(id)
 

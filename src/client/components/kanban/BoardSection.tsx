@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useAuthenticatedUser } from '../../contexts/AuthContext'
-import BoardView from '../views/BoardView'
+import { Board } from '../../types'
 
 const BoardSection = () => {
   const { user } = useAuthenticatedUser()
@@ -9,7 +10,12 @@ const BoardSection = () => {
 
   return (
     <div className="px-6 text-black h-screen overflow-auto">
-      <BoardView id={user.Boards[0].ID} />
+      {user.Boards.map((board: Board) => (
+        <Link key={board.ID} to={`/boards/${board.ID}`}>
+          {' '}
+          {board.Name}{' '}
+        </Link>
+      ))}
     </div>
   )
 }

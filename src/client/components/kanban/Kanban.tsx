@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import HomeSection from './HomeSection'
 import BoardSection from './BoardSection'
-import ProfileSection from './ProfileSection'
+import BoardView from '../views/BoardView'
 
 const Kanban = () => (
   <>
@@ -11,7 +11,7 @@ const Kanban = () => (
     <section className="ml-60">
       <Routes>
         <Route path="/" element={<HomeSection />} />
-        <Route path="/profile" element={<ProfileSection />} />
+        <Route path="/boards/:boardID" element={<BoardView />} />
         <Route path="/boards" element={<BoardSection />} />
       </Routes>
     </section>

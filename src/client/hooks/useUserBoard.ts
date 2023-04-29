@@ -4,7 +4,7 @@ import apiClient from '../util/apiClient'
 import { config } from '../services/authService'
 import { APIResponse } from '../types'
 
-const useUserBoard = (boardID: string) => {
+const useUserBoard = (boardID: string | undefined) => {
   const queryKey = ['board', boardID]
 
   const query = async (): Promise<APIResponse> => {

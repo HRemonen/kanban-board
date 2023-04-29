@@ -32,11 +32,6 @@ const Sidebar = () => (
           <ul className="space-y-4">
             <SidebarItem to="/" name="Home" icon={<HiHome size={20} />} />
             <SidebarItem
-              to="/profile"
-              name="Profile"
-              icon={<HiUserCircle size={20} />}
-            />
-            <SidebarItem
               to="/boards"
               name="Boards"
               icon={<HiTemplate size={20} />}
