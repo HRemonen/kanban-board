@@ -102,13 +102,13 @@ export interface NewList {
 export interface InputType extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormRegister<FieldValues> | UseFormRegister<any>
   error: FieldError | undefined
-  label: string
+  label?: string
   id: string
 }
 
 export interface TextareaType extends InputHTMLAttributes<HTMLTextAreaElement> {
   register: UseFormRegister<FieldValues> | UseFormRegister<any>
   error: FieldError | undefined
-  label: string
+  label?: string
   id: string
 }

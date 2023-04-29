@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import { useCreateNewList } from '../../services/listService'
 
-import SimpleInput from '../form/SimpleInput'
+import BorderlessTextarea from '../form/BorderlessTextarea'
 import SaveButton from '../common/SaveButton'
 import CloseMenu from '../common/CloseMenu'
 
@@ -71,12 +71,11 @@ const NewListView = ({ board }: { board: Board }) => {
       >
         <div className="">
           <div className="">
-            <SimpleInput
+            <BorderlessTextarea
               id="name"
               type="name"
               placeholder="Input list name"
               name="name"
-              label="List name"
               register={register}
               error={errors.name}
             />
