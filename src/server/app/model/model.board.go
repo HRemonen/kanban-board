@@ -9,8 +9,8 @@ import (
 
 type Board struct {
 	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name        string    `gorm:"type:varchar(20);not null;"`
-	Description string    `gorm:"type:varchar(100);"`
+	Name        string    `gorm:"type:varchar(255);not null;"`
+	Description string    `gorm:"type:text;"`
 	UserID      uuid.UUID
 	Lists       []List `gorm:"ForeignKey:BoardID;references:ID;"`
 
@@ -26,13 +26,13 @@ func (board *Board) BeforeCreate(*gorm.DB) error {
 
 type APIBoard struct {
 	ID          uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name        string    `gorm:"type:varchar(100);not null"`
-	Description string    `gorm:"type:varchar(100);"`
+	Name        string    `gorm:"type:varchar(255);not null"`
+	Description string    `gorm:"type:text;"`
 	UserID      uuid.UUID
 	Lists       []List `gorm:"ForeignKey:BoardID;references:ID;"`
 }
 
 type BoardUserInput struct {
-	Name        string `json:"name" validate:"required,ascii,gte=3,lte=20"`
-	Description string `json:"description" validate:"omitempty,ascii,lte=100"`
+	Name        string `json:"name" validate:"required,ascii,gte=3,lte=255"`
+	Description string `json:"description" validate:"omitempty,ascii"`
 }

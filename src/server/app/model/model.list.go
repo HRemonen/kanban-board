@@ -9,7 +9,7 @@ import (
 
 type List struct {
 	ID       uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Name     string    `gorm:"type:varchar(20);default:'Todo';"`
+	Name     string    `gorm:"type:varchar(255);default:'Todo';"`
 	Position uint      `gorm:"type:integer;default:0;"`
 	Cards    []Card    `gorm:"ForeignKey:ListID;references:ID;"`
 	BoardID  uuid.UUID
@@ -25,7 +25,7 @@ func (list *List) BeforeCreate(*gorm.DB) error {
 }
 
 type ListUserInput struct {
-	Name string `json:"name" validate:"required,ascii,gte=1,lte=20"`
+	Name string `json:"name" validate:"required,ascii,gte=1,lte=255"`
 }
 
 type ListPositionInput struct {
