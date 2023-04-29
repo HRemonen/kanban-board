@@ -19,7 +19,7 @@ const CardView = ({ card }: { card: Card }) => {
             <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
               <button
                 type="button"
-                className="mb-2 text-md font-light tracking-tight text-gray-900 cursor-pointer hover:underline"
+                className="break-all text-left mb-2 text-md font-light tracking-tight text-gray-900 cursor-pointer hover:underline"
                 data-cy={`view-card-info-button-${card.ID}`}
                 onClick={() => setShowModal(true)}
               >
