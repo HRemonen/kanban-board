@@ -12,8 +12,7 @@ const BoardSection = () => {
     <div className="px-6 text-black h-screen overflow-auto">
       {user.Boards.map((board: Board) => (
         <Link key={board.ID} to={`/boards/${board.ID}`}>
-          {' '}
-          {board.Name}{' '}
+          {board.Name}
         </Link>
       ))}
     </div>

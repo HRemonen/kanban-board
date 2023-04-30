@@ -10,9 +10,11 @@ const Kanban = () => (
     <Sidebar />
     <section className="ml-60">
       <Routes>
-        <Route path="/" element={<HomeSection />} />
-        <Route path="/boards/:boardID" element={<BoardView />} />
-        <Route path="/boards" element={<BoardSection />} />
+        <Route index element={<HomeSection />} />
+        <Route path="boards">
+          <Route index element={<BoardSection />} />
+          <Route path=":boardID" element={<BoardView />} />
+        </Route>
       </Routes>
     </section>
   </>
