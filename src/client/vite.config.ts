@@ -4,17 +4,11 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  build: {
-    modulePreload: false,
-    manifest: true,
-    rollupOptions: {
-      input: './index.html',
-    },
-  },
+  base: '/',
   server: {
     proxy: {
       '/api/v1': {
-        target: 'http://localhost:8080',
+        target: 'http://web:8080', // Web (API service name) instead of localhost because we are inside docker compose network: https://stackoverflow.com/questions/74281247/api-call-not-reaching-vite-proxy-target-localhost5000
         changeOrigin: true,
         secure: false,
       },
