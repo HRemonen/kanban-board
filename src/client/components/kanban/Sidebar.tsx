@@ -13,16 +13,18 @@ const SidebarItem = ({ to, name, icon }: SidebarItemProps) => (
   <li>
     <Link
       to={to}
-      className="flex items-center bg-white rounded-r-3xl font-bold text-sm text-gray-700 py-3 px-4"
+      className="w-full relative inline-flex items-center justify-start px-4 py-2 overflow-hidden font-normal transition-all bg-white rounded hover:bg-white group"
     >
-      {icon}
-      <span className="pl-4">{name}</span>
+      <span className="w-48 h-48 rounded rotate-[-45deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0" />
+      <span className="flex relative w-full text-left transition-colors duration-300 ease-in-out group-hover:text-white">
+        <i className="mx-2">{icon}</i> {name}
+      </span>
     </Link>
   </li>
 )
 
 const Sidebar = () => (
-  <section className="fixed inset-y-0 left-0 border-r bg-purple-600 border-[#635FC7] shadow-md max-h-screen w-60">
+  <section className="text-gray-700 fixed inset-y-0 left-0 border-r border-[#635FC7] shadow-md max-h-screen w-60">
     <div className="flex flex-col justify-between h-full">
       <div className="flex-grow">
         <div className="px-4 py-6 text-center">
