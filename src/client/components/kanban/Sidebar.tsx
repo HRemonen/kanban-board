@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { HiHome, HiTemplate, HiUserCircle } from 'react-icons/hi'
+import { HiHome, HiTemplate } from 'react-icons/hi'
 import LogoutButton from '../common/LogoutButton'
 
 interface SidebarItemProps {
