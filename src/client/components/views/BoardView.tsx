@@ -38,7 +38,7 @@ const BoardView = () => {
   }
 
   if (board.Lists.length === 0) {
-    const onClick = () => {
+    const handleCreateList = () => {
       mutateList.mutateAsync({
         boardID: board.ID,
         list: { name: 'Todo list' },
@@ -53,7 +53,7 @@ const BoardView = () => {
           <h2 className="text-lg text-center">
             This board is empty. Create a new list to get started.
           </h2>
-          <button type="button" onClick={onClick} className="mt-6">
+          <button type="button" onClick={handleCreateList} className="mt-6">
             + Add New List
           </button>
         </div>

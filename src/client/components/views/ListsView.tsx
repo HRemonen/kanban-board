@@ -16,7 +16,7 @@ const DropdownMenu = ({ list }: { list: List }) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const mutateList = useDeleteList()
 
-  const onListDelete = () => {
+  const handleListDelete = () => {
     mutateList.mutateAsync({
       boardID: list.BoardID,
       listID: list.ID,
@@ -62,7 +62,7 @@ const DropdownMenu = ({ list }: { list: List }) => {
             <button
               type="button"
               className="block px-4 py-2 text-sm text-red-500 rounded-lg hover:bg-red-100"
-              onClick={onListDelete}
+              onClick={handleListDelete}
             >
               Delete
             </button>
