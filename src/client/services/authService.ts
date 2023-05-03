@@ -7,10 +7,14 @@ interface Config {
   }
 }
 
-export const config: Config = { headers: { Authorization: '' } }
+export const config: Config = {
+  headers: { Authorization: sessionStorage.getItem('token') || '' },
+}
 
 const setToken = (newToken: string) => {
-  config.headers.Authorization = `bearer ${newToken}`
+  const token = `bearer ${newToken}`
+
+  sessionStorage.setItem('token', token)
 }
 
 const loginService = async ({ email, password }: LoginUser) => {

@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState('')
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('user')
+    const loggedInUser = sessionStorage.getItem('user')
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser)
       setUser(foundUser)
@@ -34,14 +34,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsAuthenticated(true)
     setUser(user)
     setToken(token)
-    localStorage.setItem('user', JSON.stringify(user))
+    sessionStorage.setItem('user', JSON.stringify(user))
   }
 
   const logout = () => {
     setIsAuthenticated(false)
     setUser(null)
     setToken('')
-    localStorage.clear()
+    sessionStorage.clear()
   }
 
   const contextValues = useMemo(
