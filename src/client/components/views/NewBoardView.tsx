@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 import useCreateBoard from '../../services/boardService'
@@ -11,6 +12,7 @@ import { NewBoard } from '../../types'
 
 const NewBoardView = () => {
   const mutateBoard = useCreateBoard()
+  const navigate = useNavigate()
 
   const {
     register,
@@ -22,6 +24,7 @@ const NewBoardView = () => {
     mutateBoard.mutateAsync({
       board: data,
     })
+    navigate('/boards')
   }
 
   return (
