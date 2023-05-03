@@ -60,14 +60,14 @@ export interface PublicUser {
   name?: string
   email: string
   password: string
-  boards: any[]
+  boards: Board[]
 }
 
 export interface PrivateUser extends PublicUser {
   role: 'user' | string
   provider: 'local' | 'google'
   photo: string
-  Boards: any[]
+  Boards: Board[]
   CreatedAt: Date
   UpdatedAt: Date
 }
