@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import { useAuthenticatedUser } from '../../contexts/AuthContext'
 
@@ -18,12 +19,12 @@ const StatsSection = () => {
               Hello {user?.name}!
             </div>
             <div className="mt-5">
-              <button
-                type="button"
+              <Link
+                to="/boards/new"
                 className="inline-flex items-center justify-center py-2 px-3 rounded-xl bg-white text-gray-800 hover:text-green-400 text-sm font-semibold transition"
               >
                 Create a new board
-              </button>
+              </Link>
             </div>
           </div>
         </div>
