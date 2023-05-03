@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useDeleteListCard, useGetCard } from '../../services/cardService'
+import { useDeleteListCard } from '../../services/cardService'
+import useCard from '../../hooks/useCard'
 
 import CloseMenu from '../common/CloseMenu'
 import { Card } from '../../types'
@@ -8,7 +9,7 @@ import { Card } from '../../types'
 const CardInfoView = () => {
   const { cardID } = useParams()
   const navigate = useNavigate()
-  const { cardData, isLoading } = useGetCard(cardID)
+  const { cardData, isLoading } = useCard(cardID)
   const mutateCard = useDeleteListCard()
 
   if (!cardData || isLoading || !('Status' in cardData.data)) return null

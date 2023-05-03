@@ -1,24 +1,9 @@
-import { useMutation, useQuery } from 'react-query'
+import { useMutation } from 'react-query'
 
 import apiClient from '../util/apiClient'
 import queryClient from '../util/queryClient'
 
-import { APIResponse, NewCard } from '../types'
-
-export const useGetCard = (cardID: string | undefined) => {
-  const queryKey = ['card', cardID]
-
-  const query = async (): Promise<APIResponse> => {
-    const { data }: { data: APIResponse } = await apiClient.get(
-      `/card/${cardID}`
-    )
-    return data
-  }
-
-  const { data: cardData, ...rest } = useQuery(queryKey, query)
-
-  return { cardData, ...rest }
-}
+import { NewCard } from '../types'
 
 export const useCreateNewCard = () => {
   const mutationFn = async ({
