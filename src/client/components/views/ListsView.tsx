@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 
+import { useCreateNewCard } from '../../services/cardService'
 import { useDeleteList } from '../../services/listService'
 
 import CardView from './CardView'
 import NewCardView from './NewCardView'
 
-import { Card, List } from '../../types'
+import { Card, List, NewCard } from '../../types'
 
 function sortCardsByPosition(list: List): void {
   list.Cards.sort((a: Card, b: Card) => a.Position - b.Position)
@@ -21,7 +22,6 @@ const DropdownMenu = ({ list }: { list: List }) => {
       boardID: list.BoardID,
       listID: list.ID,
     })
-
     setShowDropdown(false)
   }
 
@@ -74,9 +74,19 @@ const DropdownMenu = ({ list }: { list: List }) => {
 }
 
 const ListView = ({ list }: { list: List }) => {
-  const [showModal, setShowModal] = useState(false)
+  const [showCardBones, setShowCardBones] = useState(false)
+  const mutateCard = useCreateNewCard()
 
   sortCardsByPosition(list)
+
+  const handleCreateCard = (data: NewCard) => {
+    mutateCard.mutateAsync({
+      listID: list.ID,
+      card: data,
+    })
+
+    setShowCardBones(false)
+  }
 
   return (
     <div data-cy={`list-${list.ID}`} className="w-[280px] shrink-0">
@@ -94,7 +104,7 @@ const ListView = ({ list }: { list: List }) => {
           type="button"
           className="inline-flex items-center py-2 text-gray-600 text-sm font-medium"
           data-cy={`add-card-button-${list.ID}`}
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowCardBones(true)}
         >
           <span className="mr-2 inline-block align-text-bottom select-text overflow-visible">
             <svg
@@ -125,11 +135,10 @@ const ListView = ({ list }: { list: List }) => {
               <CardView key={card.ID} card={card} />
             ))}
             {provided.placeholder}
+            {showCardBones && <NewCardView onSubmit={handleCreateCard} />}
           </ul>
         )}
       </Droppable>
-
-      {showModal && <NewCardView list={list} setShowModal={setShowModal} />}
     </div>
   )
 }
