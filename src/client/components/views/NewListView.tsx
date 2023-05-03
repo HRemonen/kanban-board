@@ -63,23 +63,21 @@ const NewListView = ({ board }: { board: Board }) => {
   return (
     <div
       data-cy="new-list-form"
-      className="relative mt-[84px] w-[280px] shrink-0 p-6 border border-gray-200 rounded-lg shadow "
+      className="relative mt-[84px] w-[280px] h-[80vh] shrink-0 p-6 border border-gray-200 rounded-lg shadow "
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col text-left"
       >
-        <div className="">
-          <div className="">
-            <BorderlessTextarea
-              id="name"
-              type="name"
-              placeholder="Input list name"
-              name="name"
-              register={register}
-              error={errors.name}
-            />
-          </div>
+        <BorderlessTextarea
+          id="name"
+          type="name"
+          placeholder="Input list name"
+          name="name"
+          register={register}
+          error={errors.name}
+        />
+        <div className="absolute bottom-2">
           <SaveButton />
         </div>
       </form>

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SaveButton = () => (
-  <div className="mt-2 px-2 hover:bg-green-300 hover:rounded-lg">
+  <div className="px-2 hover:bg-green-300 hover:rounded-lg">
     <button
       type="submit"
       className="inline-flex items-center py-2 text-green-500 text-sm font-medium"
