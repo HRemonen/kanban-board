@@ -1,6 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
+import useCreateBoard from '../../services/boardService'
+
 import SaveButton from '../common/SaveButton'
 import SimpleTextarea from '../form/SimpleTextarea'
 import SimpleInput from '../form/SimpleInput'
@@ -8,14 +10,18 @@ import SimpleInput from '../form/SimpleInput'
 import { NewBoard } from '../../types'
 
 const NewBoardView = () => {
+  const mutateBoard = useCreateBoard()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<NewBoard>()
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const onSubmit = (data: NewBoard) => {
+    mutateBoard.mutateAsync({
+      board: data,
+    })
   }
 
   return (
