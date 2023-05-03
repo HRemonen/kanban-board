@@ -4,6 +4,7 @@ import Sidebar from './Sidebar'
 import HomeSection from './HomeSection'
 import BoardSection from './BoardSection'
 import BoardView from '../views/BoardView'
+import CardInfoView from '../views/CardInfoView'
 
 const Kanban = () => (
   <>
@@ -13,7 +14,9 @@ const Kanban = () => (
         <Route index element={<HomeSection />} />
         <Route path="boards">
           <Route index element={<BoardSection />} />
-          <Route path=":boardID" element={<BoardView />} />
+          <Route path=":boardID" element={<BoardView />}>
+            <Route path="view/:cardID" element={<CardInfoView />} />
+          </Route>
         </Route>
       </Routes>
     </section>

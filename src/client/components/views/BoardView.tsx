@@ -26,15 +26,13 @@ const BoardView = () => {
     source,
     destination,
   }: DragUpdate) => {
-    if (!destination) return null
+    if (!destination) return
 
     mutateCardPosition.mutateAsync({
       listID: source.droppableId,
       cardID: draggableId,
       position: destination.index,
     })
-
-    return null
   }
 
   if (board.Lists.length === 0) {
@@ -71,9 +69,8 @@ const BoardView = () => {
           {board.Lists.map((list) => (
             <ListView key={list.ID} list={list} />
           ))}
+          <NewListView board={board} />
         </DragDropContext>
-
-        <NewListView board={board} />
       </div>
     </div>
   )

@@ -1,23 +1,26 @@
 import React from 'react'
-import { Card } from '../../types'
-import { useDeleteListCard } from '../../services/cardService'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useDeleteListCard, useGetCard } from '../../services/cardService'
+
 import CloseMenu from '../common/CloseMenu'
+import { Card } from '../../types'
 
-type ModalProps = {
-  card: Card
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const CardInfoView = ({ card, setShowModal }: ModalProps) => {
+const CardInfoView = () => {
+  const { cardID } = useParams()
+  const navigate = useNavigate()
+  const { cardData, isLoading } = useGetCard(cardID)
   const mutateCard = useDeleteListCard()
+
+  if (!cardData || isLoading || !('Status' in cardData.data)) return null
+
+  const card: Card = cardData.data
 
   const onCardDelete = () => {
     mutateCard.mutateAsync({
       listID: card.ListID,
       cardID: card.ID,
     })
-
-    setShowModal(false)
+    navigate(-1)
   }
 
   return (
@@ -41,7 +44,7 @@ const CardInfoView = ({ card, setShowModal }: ModalProps) => {
         </svg>
         Card information
       </h5>
-      <CloseMenu onClick={() => setShowModal(false)} />
+      <CloseMenu onClick={() => navigate(-1)} />
       <div className="grid grid-cols-12 gap-2">
         <div className="col-span-12 border-b-2">
           <h3 className="mb-2 text-xl font-bold tracking-tight text-gray-900">
