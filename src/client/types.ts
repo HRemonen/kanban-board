@@ -59,6 +59,7 @@ export interface LoginUser {
 export interface PublicUser {
   id: string
   name?: string
+  username: string
   email: string
   password: string
   boards: Board[]

@@ -16,7 +16,7 @@ const StatsSection = () => {
         <div className="col-span-2">
           <div className="p-4 bg-green-100 rounded-xl">
             <div className="font-bold text-xl text-gray-800 leading-none">
-              Hello {user?.name}!
+              Hello {user.username}!
             </div>
             <div className="mt-5">
               <Link

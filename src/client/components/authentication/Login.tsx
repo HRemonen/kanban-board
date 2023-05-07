@@ -41,8 +41,6 @@ const Login = () => {
           const { response } = err
           const responseData: APIFailure = response?.data
 
-          console.log(responseData)
-
           if (responseData.data?.Email)
             setError('email', {
               type: 'custom',
