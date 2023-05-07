@@ -12,9 +12,9 @@ func SeedTestUsers(db *gorm.DB) error {
 	hash, _ := utils.HashPassword("salainensalasana")
 
 	users := []model.User{
-		{Name: "Alice", Email: "alice@example.com", Password: hash},
-		{Name: "Bob", Email: "bob@example.com", Password: hash},
-		{Name: "Charlie", Email: "charlie@example.com", Password: hash},
+		{Username: "Alice", Email: "alice@example.com", Password: hash},
+		{Username: "Bob", Email: "bob@example.com", Password: hash},
+		{Username: "Charlie", Email: "charlie@example.com", Password: hash},
 	}
 
 	err := db.Create(&users).Error
