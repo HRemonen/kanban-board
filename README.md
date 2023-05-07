@@ -50,7 +50,14 @@ This will start the dev environment in containers
 
 5. Run the tests:
 
-Run the tests with the following command
+Run the backend unittests with the following command
+
+```bash
+cd kanban-board/src/server/
+docker compose -f docker-compose.ci.yml up
+```
+
+Run the integration / e2e tests with the following command on the root folder
 
 ```bash
 cd kanban-board
