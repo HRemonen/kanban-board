@@ -44,7 +44,7 @@ func CreateUser(c *fiber.Ctx) (model.User, error) {
 	hash, _ := utils.HashPassword(payload.Password)
 
 	user := model.User{
-		Name:     payload.Name,
+		Username:     payload.Username,
 		Email:    strings.ToLower(payload.Email),
 		Password: hash,
 	}

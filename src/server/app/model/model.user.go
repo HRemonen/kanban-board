@@ -10,6 +10,7 @@ import (
 type User struct {
 	ID       uuid.UUID `gorm:"type:uuid;primary_key;"`
 	Name     string    `gorm:"type:varchar(255);not null;"`
+	Username string    `gorm:"type:varchar(255);uniqueIndex;not null;"`
 	Email    string    `gorm:"type:varchar(255);uniqueIndex;not null;"`
 	Password string    `gorm:"not null;"`
 	Role     string    `gorm:"type:varchar(20);default:'user';"`
@@ -29,7 +30,7 @@ func (user *User) BeforeCreate(*gorm.DB) error {
 }
 
 type RegisterUserInput struct {
-	Name            string `json:"name" validate:"required,ascii"`
+	Username        string `json:"username" validate:"required,ascii"`
 	Email           string `json:"email" validate:"required,email"`
 	Password        string `json:"password" validate:"required,gte=8,eqfield=PasswordConfirm"`
 	PasswordConfirm string `json:"passwordConfirm" validate:"required"`
@@ -50,15 +51,16 @@ type UpdateUser struct {
 }
 
 type APIUser struct {
-	ID     uuid.UUID `json:"id,omitempty"`
-	Name   string    `json:"name,omitempty"`
-	Email  string    `json:"email,omitempty"`
-	Boards []Board   `gorm:"ForeignKey:UserID;references:ID;"`
+	ID       uuid.UUID `json:"id,omitempty"`
+	Username string    `json:"username,omitempty"`
+	Email    string    `json:"email,omitempty"`
+	Boards   []Board   `gorm:"ForeignKey:UserID;references:ID;"`
 }
 
 type UserResponse struct {
 	ID        uuid.UUID `json:"id,omitempty"`
 	Name      string    `json:"name,omitempty"`
+	Username  string    `json:"username,omitempty"`
 	Email     string    `json:"email,omitempty"`
 	Role      string    `json:"role,omitempty"`
 	Provider  string    `json:"provider,omitempty"`
@@ -73,6 +75,7 @@ func FilteredResponse(user *User) UserResponse {
 	return UserResponse{
 		ID:        user.ID,
 		Email:     user.Email,
+		Username:  user.Username,
 		Name:      user.Name,
 		Role:      user.Role,
 		Verified:  user.Verified,
