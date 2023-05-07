@@ -41,24 +41,31 @@ const Login = () => {
           const { response } = err
           const responseData: APIFailure = response?.data
 
+          console.log(responseData)
+
           if (responseData.data?.Email)
             setError('email', {
               type: 'custom',
-              message: 'Invalid email or password',
+              message: 'Invalid email',
             })
-          if (responseData.data?.Password)
+          if (
+            responseData.data?.Password ||
+            responseData.message === 'Invalid password'
+          )
             setError('password', {
               type: 'custom',
-              message: 'Invalid email or password',
+              message: 'Invalid password',
             })
-          else {
-            setError('root', {
+          if (responseData.message === 'record not found')
+            setError('email', {
               type: 'custom',
-              message: responseData.message,
+              message: 'User not found',
             })
-          }
         } else {
-          console.log('Something unexpected happened', err)
+          setError('root', {
+            type: 'custom',
+            message: 'Something unexpected happened, try again.',
+          })
         }
       })
   }
