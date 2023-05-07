@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthenticatedUser } from '../../contexts/AuthContext'
+import BoardCard from './BoardCard'
+
 import { Board } from '../../types'
 
 const BoardSection = () => {
@@ -27,9 +29,7 @@ const BoardSection = () => {
           <div className="my-10">
             <div className="grid grid-cols-2 gap-x-20">
               {user.Boards.map((board: Board) => (
-                <Link key={board.ID} to={`/boards/${board.ID}`}>
-                  {board.Name}
-                </Link>
+                <BoardCard key={board.ID} board={board} />
               ))}
             </div>
           </div>
