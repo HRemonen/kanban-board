@@ -16,7 +16,7 @@ const LogoutButton = () => {
     <div className="p-4">
       <button
         type="button"
-        className="inline-flex items-center justify-center h-10 pl-14 text-white hover:text-[#EA5555] text-sm font-semibold transition"
+        className="inline-flex items-center justify-center h-10 pl-14 text-black hover:text-[#EA5555] text-sm font-semibold transition"
         onClick={onLogout}
       >
         <HiLogout size={20} />
