@@ -29,7 +29,6 @@ func PublicRoutes(app *fiber.App) {
 	board := v1.Group("/board")
 
 	board.Get("/", handlers.GetAllBoards)
-	board.Get("/:id", handlers.GetSingleBoard)
 
 	// Board related list endpoints
 	board.Post("/:id/list", handlers.CreateBoardList)
