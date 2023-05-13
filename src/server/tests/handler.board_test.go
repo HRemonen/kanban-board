@@ -211,6 +211,8 @@ func TestCreateBoard(t *testing.T) {
 
 		token string
 
+		body string
+
 		expectedStatus  string
 		expectedCode    int
 		expectedBody    string
@@ -220,6 +222,7 @@ func TestCreateBoard(t *testing.T) {
 			description:     "creates a new board when authenticated",
 			route:           "/api/v1/board",
 			token:           user.Data.Token,
+			body:            `{"name": "Test board", "description": "Testing create board handler"}`,
 			expectedStatus:  "success",
 			expectedCode:    201,
 			expectedBody:    "",
@@ -229,6 +232,7 @@ func TestCreateBoard(t *testing.T) {
 			description:     "does not create board when not authenticated",
 			route:           "/api/v1/board",
 			token:           "",
+			body:            `{"name": "Test board", "description": "Testing create board handler"}`,
 			expectedStatus:  "error",
 			expectedCode:    400,
 			expectedBody:    "",
@@ -238,10 +242,41 @@ func TestCreateBoard(t *testing.T) {
 			description:     "does not create board when unauthorized",
 			route:           "/api/v1/board",
 			token:           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA0NjE4MjYsImlhdCI6MTY4MDQyNTgyNiwibmJmIjoxNjgwNDI1ODI2LCJzdWIiOiIyN2MyM2ViNi04MThiLTRlYTMtOWU1MC04MjAwMDFkYTY0NWUifQ.k1irIqJ93ACScqVcBkXPHpS8dZTpCc2V7LFZPb-KBKw",
+			body:            `{"name": "Test board", "description": "Testing create board handler"}`,
 			expectedStatus:  "error",
 			expectedCode:    401,
 			expectedBody:    "",
 			expectedMessage: "Unauthorized action",
+		},
+		{
+			description:     "does not create board when missing name in payload",
+			route:           "/api/v1/board",
+			token:           user.Data.Token,
+			body:            `{"description": "Testing create board handler"}`,
+			expectedStatus:  "error",
+			expectedCode:    422,
+			expectedBody:    "",
+			expectedMessage: "Validation of the inputs failed",
+		},
+		{
+			description:     "does not create board when too short name in payload",
+			route:           "/api/v1/board",
+			token:           user.Data.Token,
+			body:            `{"name": "a"}`,
+			expectedStatus:  "error",
+			expectedCode:    422,
+			expectedBody:    "",
+			expectedMessage: "Validation of the inputs failed",
+		},
+		{
+			description:     "does not create board when too long name in payload",
+			route:           "/api/v1/board",
+			token:           user.Data.Token,
+			body:            `{"name": "FbM3q8JjxRa1d2y4IxHckWref3qrOf2TIWiM6cbCHG2E7bjOpQ9t150HlIS2dcIMLhebqOrfijAAIzIfTrTCfM1DmwHTKRlitGCq9UkBmvTRW5t7rZ0BUjN0XMs2IQ5GAkLDOxBEIB1ODtWpspCETVXfrjqUot4vb7CRJsYFjr4j5wIDhkyNf5lcQGrNxgG8JY8u8vq2g4oGfTQ9itKUh70GTPyO486L0H1XMWn1xmoyvudsPOf0MswYjjQJ16R5"}`,
+			expectedStatus:  "error",
+			expectedCode:    422,
+			expectedBody:    "",
+			expectedMessage: "Validation of the inputs failed",
 		},
 	}
 
@@ -249,7 +284,7 @@ func TestCreateBoard(t *testing.T) {
 		req := httptest.NewRequest(
 			"POST",
 			test.route,
-			strings.NewReader(`{"name": "Test board", "description": "Testing create board handler"}`),
+			strings.NewReader(test.body),
 		)
 		req.Header.Set("Content-Type", "application/json")
 		bearer := "Bearer " + test.token
