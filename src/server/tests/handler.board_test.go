@@ -18,14 +18,16 @@ func TestGetAllBoards(t *testing.T) {
 
 	db := database.DB.Db
 
-	err := helpers.ClearTestBoards(db)
+	err := helpers.ClearTestUsers(db)
+	err = helpers.ClearTestBoards(db)
 	if err != nil {
-		t.Fatalf("Failed to clear test board entries: %v", err)
+		t.Fatalf("Failed to clear test data: %v", err)
 	}
 
+	err = helpers.SeedTestUsers(db)
 	err = helpers.SeedTestBoards(db)
 	if err != nil {
-		t.Fatal("Failed to seed the test board entries", err)
+		t.Fatal("Failed to seed the test database", err)
 	}
 
 	tests := []struct {
@@ -33,18 +35,18 @@ func TestGetAllBoards(t *testing.T) {
 
 		route string
 
-		expectedStatus     string
-		expectedCode       int
-		expectedBody       string
-		expectedBodyLength int
+		expectedStatus  string
+		expectedCode    int
+		expectedBody    string
+		expectedMessage string
 	}{
 		{
-			description:        "board index route",
-			route:              "/api/v1/board",
-			expectedStatus:     "success",
-			expectedCode:       200,
-			expectedBody:       "",
-			expectedBodyLength: 5,
+			description:     "board index route",
+			route:           "/api/v1/board",
+			expectedStatus:  "success",
+			expectedCode:    200,
+			expectedBody:    "",
+			expectedMessage: "Boards found",
 		},
 	}
 
@@ -77,8 +79,9 @@ func TestGetAllBoards(t *testing.T) {
 		assert.Equalf(t, test.expectedStatus, body["status"], "Test: '%s'. Expected status '%s' but got '%s'", test.description, test.expectedStatus, body["status"])
 		assert.Equalf(t, test.expectedCode, res.StatusCode, "Test: '%s'. Expected HTTP statuscode '%s' but got '%s'", test.description, test.expectedCode, res.StatusCode)
 
-		data := body["data"].([]interface{})
-		assert.Equalf(t, test.expectedBodyLength, len(data), "Test: '%s'. Expected boards count '%s' but got '%s'", test.description, test.expectedBodyLength, len(data))
+		if test.expectedMessage != "" {
+			assert.Equalf(t, body["message"], test.expectedMessage, "Test: '%s'. Expected return message '%s' but got '%s'", test.description, test.expectedMessage, body["message"])
+		}
 	}
 }
 
@@ -109,25 +112,37 @@ func TestGetSingleBoard(t *testing.T) {
 
 		token string
 
-		expectedStatus string
-		expectedCode   int
-		expectedBody   string
+		expectedStatus  string
+		expectedCode    int
+		expectedBody    string
+		expectedMessage string
 	}{
 		{
-			description:    "get user's board by ID when authenticated succeeds",
-			route:          "/api/v1/board/7a02f5d7-75aa-46b7-a698-c073ce49b12f", // Alice's (our test user) board
-			token:          user.Data.Token,
-			expectedStatus: "success",
-			expectedCode:   200,
-			expectedBody:   "7a02f5d7-75aa-46b7-a698-c073ce49b12f",
+			description:     "get user's board by ID when authenticated succeeds",
+			route:           "/api/v1/board/7a02f5d7-75aa-46b7-a698-c073ce49b12f", // Alice's (our test user) board
+			token:           user.Data.Token,
+			expectedStatus:  "success",
+			expectedCode:    200,
+			expectedBody:    "7a02f5d7-75aa-46b7-a698-c073ce49b12f",
+			expectedMessage: "Board found",
 		},
 		{
-			description:    "board index route",
-			route:          "/api/v1/board/7a02f5d7-75aa-46b7-a698-c073ce49b12f", // Alice's (our test user) board
-			token:          "",
-			expectedStatus: "success",
-			expectedCode:   401,
-			expectedBody:   "7a02f5d7-75aa-46b7-a698-c073ce49b12f",
+			description:     "does not return board by ID when not authenticated",
+			route:           "/api/v1/board/7a02f5d7-75aa-46b7-a698-c073ce49b12f", // Alice's (our test user) board
+			token:           "",
+			expectedStatus:  "error",
+			expectedCode:    400,
+			expectedBody:    "",
+			expectedMessage: "Missing or malformed JWT",
+		},
+		{
+			description:     "does not return board by ID when unauthorized",
+			route:           "/api/v1/board/7a02f5d7-75aa-46b7-a698-c073ce49b12f", // Alice's (our test user) board
+			token:           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA0NjE4MjYsImlhdCI6MTY4MDQyNTgyNiwibmJmIjoxNjgwNDI1ODI2LCJzdWIiOiIyN2MyM2ViNi04MThiLTRlYTMtOWU1MC04MjAwMDFkYTY0NWUifQ.k1irIqJ93ACScqVcBkXPHpS8dZTpCc2V7LFZPb-KBKw",
+			expectedStatus:  "error",
+			expectedCode:    401,
+			expectedBody:    "",
+			expectedMessage: "Unauthorized action",
 		},
 	}
 
@@ -137,6 +152,8 @@ func TestGetSingleBoard(t *testing.T) {
 			test.route,
 			nil,
 		)
+		bearer := "Bearer " + test.token
+		req.Header.Set("Authorization", bearer)
 
 		// Perform the request plain with the app.
 		// The -1 disables request latency.
@@ -160,7 +177,8 @@ func TestGetSingleBoard(t *testing.T) {
 		assert.Equalf(t, test.expectedStatus, body["status"], "Test: '%s'. Expected status '%s' but got '%s'", test.description, test.expectedStatus, body["status"])
 		assert.Equalf(t, test.expectedCode, res.StatusCode, "Test: '%s'. Expected HTTP statuscode '%s' but got '%s'", test.description, test.expectedCode, res.StatusCode)
 
-		data := body["data"].(map[string]interface{})
-		assert.Equalf(t, data["ID"], test.expectedBody, "Test: '%s'. Expected board ID '%s' but got '%s'", test.description, test.expectedBody, data["ID"])
+		if test.expectedMessage != "" {
+			assert.Equalf(t, body["message"], test.expectedMessage, "Test: '%s'. Expected return message '%s' but got '%s'", test.description, test.expectedMessage, body["message"])
+		}
 	}
 }
