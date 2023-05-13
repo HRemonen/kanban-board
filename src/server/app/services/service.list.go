@@ -73,14 +73,24 @@ func UpdateBoardListPosition(c *fiber.Ctx) (model.List, error) {
 	var board model.Board
 	var list model.List
 
+	user, err := utils.ExtractUser(c)
+
+	if err != nil {
+		return list, errors.New("Could not get user")
+	}
+
 	payload := new(model.ListPositionInput)
 
 	boardID := c.Params("id")
 
-	err := db.Model(&board).Preload("Lists").Find(&board, "id = ?", boardID).Error
+	err = db.Model(&board).Preload("Lists").Find(&board, "id = ?", boardID).Error
 
-	if err != nil {
+	if board.ID == uuid.Nil {
 		return list, errors.New("Board not found")
+	}
+
+	if board.UserID != user.ID {
+		return list, errors.New("Unauthorized action")
 	}
 
 	c.BodyParser(payload)
@@ -135,12 +145,22 @@ func DeleteBoardList(c *fiber.Ctx) error {
 	var board model.Board
 	var list model.List
 
-	boardID := c.Params("id")
-
-	err := db.Find(&board, "id = ?", boardID).Error
+	user, err := utils.ExtractUser(c)
 
 	if err != nil {
+		return errors.New("Could not get user")
+	}
+
+	boardID := c.Params("id")
+
+	err = db.Find(&board, "id = ?", boardID).Error
+
+	if board.ID == uuid.Nil {
 		return errors.New("Board not found")
+	}
+
+	if board.UserID != user.ID {
+		return errors.New("Unauthorized action")
 	}
 
 	listID := c.Params("list")
