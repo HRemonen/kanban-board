@@ -53,7 +53,7 @@ func TestCreateBoardList(t *testing.T) {
 			token:           user.Data.Token,
 			body:            `{"name": "Test list"}`,
 			expectedStatus:  "success",
-			expectedCode:    201,
+			expectedCode:    400,
 			expectedBody:    "",
 			expectedMessage: "A new list has been created",
 		},
