@@ -81,3 +81,86 @@ func TestGetAllBoards(t *testing.T) {
 		assert.Equalf(t, test.expectedBodyLength, len(data), "Test: '%s'. Expected boards count '%s' but got '%s'", test.description, test.expectedBodyLength, len(data))
 	}
 }
+
+func TestGetSingleBoard(t *testing.T) {
+	database.SetupTestDB()
+	app := setup.Setup()
+
+	db := database.DB.Db
+
+	err := helpers.ClearTestUsers(db)
+	err = helpers.ClearTestBoards(db)
+	if err != nil {
+		t.Fatalf("Failed to clear test data: %v", err)
+	}
+
+	err = helpers.SeedTestUsers(db)
+	err = helpers.SeedTestBoards(db)
+	if err != nil {
+		t.Fatal("Failed to seed the test database", err)
+	}
+
+	user, err := helpers.LoginTestUser(app, db)
+
+	tests := []struct {
+		description string
+
+		route string
+
+		token string
+
+		expectedStatus string
+		expectedCode   int
+		expectedBody   string
+	}{
+		{
+			description:    "get user's board by ID when authenticated succeeds",
+			route:          "/api/v1/board/7a02f5d7-75aa-46b7-a698-c073ce49b12f", // Alice's (our test user) board
+			token:          user.Data.Token,
+			expectedStatus: "success",
+			expectedCode:   200,
+			expectedBody:   "7a02f5d7-75aa-46b7-a698-c073ce49b12f",
+		},
+		{
+			description:    "board index route",
+			route:          "/api/v1/board/7a02f5d7-75aa-46b7-a698-c073ce49b12f", // Alice's (our test user) board
+			token:          "",
+			expectedStatus: "success",
+			expectedCode:   401,
+			expectedBody:   "7a02f5d7-75aa-46b7-a698-c073ce49b12f",
+		},
+	}
+
+	for _, test := range tests {
+		req := httptest.NewRequest(
+			"GET",
+			test.route,
+			nil,
+		)
+
+		// Perform the request plain with the app.
+		// The -1 disables request latency.
+		res, err := app.Test(req, -1)
+
+		assert.Equalf(t, test.expectedCode, res.StatusCode, test.description)
+
+		// Read the response body
+		var body map[string]interface{}
+
+		err = json.NewDecoder(res.Body).Decode(&body)
+
+		// Reading the response body should work everytime, such that
+		// the err variable should be nil
+		assert.Nilf(t, err, test.description)
+
+		if err != nil {
+			t.Errorf("Error decoding response body: %v", err)
+		}
+
+		assert.Equalf(t, test.expectedStatus, body["status"], "Test: '%s'. Expected status '%s' but got '%s'", test.description, test.expectedStatus, body["status"])
+		assert.Equalf(t, test.expectedCode, res.StatusCode, "Test: '%s'. Expected HTTP statuscode '%s' but got '%s'", test.description, test.expectedCode, res.StatusCode)
+
+		data := body["data"].(map[string]interface{})
+		assert.Equalf(t, data["ID"], test.expectedBody, "Test: '%s'. Expected board ID '%s' but got '%s'", test.description, test.expectedBody, data["ID"])
+	}
+}
