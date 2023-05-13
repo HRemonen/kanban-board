@@ -19,7 +19,10 @@ type Board struct {
 }
 
 func (board *Board) BeforeCreate(*gorm.DB) error {
-	board.ID = uuid.New()
+	if board.ID == uuid.Nil {
+		// Generate a new ID
+		board.ID = uuid.New()
+	}
 
 	return nil
 }
