@@ -109,7 +109,9 @@ func DeleteBoard(c *fiber.Ctx) error {
 		}
 	}
 
-	err = db.Delete(&board.Lists).Error
+	if board.Lists != nil && len(board.Lists) > 0 {
+		err = db.Delete(&board.Lists).Error
+	}
 
 	if err != nil {
 		return errors.New("Could not delete board lists")
