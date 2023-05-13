@@ -25,7 +25,21 @@ func GetSingleBoard(c *fiber.Ctx) (model.APIBoard, error) {
 
 	var board model.APIBoard
 
-	err := db.Model(&model.Board{}).Preload("Lists.Cards").Find(&board, "id = ?", boardID).Error
+	user, err := utils.ExtractUser(c)
+
+	if err != nil {
+		return board, errors.New("Could not get user")
+	}
+
+	err = db.Model(&model.Board{}).Preload("Lists.Cards").Find(&board, "id = ?", boardID).Error
+
+	if board.ID == uuid.Nil {
+		return board, errors.New("Board not found")
+	}
+
+	if board.UserID != user.ID {
+		return board, errors.New("Unauthorized action")
+	}
 
 	return board, err
 }

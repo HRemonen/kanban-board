@@ -34,12 +34,15 @@ func GetAllBoards(c *fiber.Ctx) error {
 // @Tags Boards
 // @Param id path string true "Board ID"
 // @Success 200 {object} model.APIBoard
+// @Failure 401 {object} object
 // @Failure 404 {object} object
 // @Router /board/{id} [get]
 func GetSingleBoard(c *fiber.Ctx) error {
 	board, err := services.GetSingleBoard(c)
 
-	if err != nil {
+	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
+	} else if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})
 	}
 
