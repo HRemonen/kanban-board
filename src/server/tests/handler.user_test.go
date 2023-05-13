@@ -20,12 +20,12 @@ func TestGetAllUsers(t *testing.T) {
 
 	err := helpers.ClearTestUsers(db)
 	if err != nil {
-		t.Fatalf("Failed to clear test data: %v", err)
+		t.Fatalf("Failed to clear test user entries: %v", err)
 	}
 
 	err = helpers.SeedTestUsers(db)
 	if err != nil {
-		t.Fatal("Failed to seed the test database", err)
+		t.Fatal("Failed to seed the test user entries", err)
 	}
 
 	tests := []struct {
@@ -138,7 +138,7 @@ func TestGetSingleUser(t *testing.T) {
 		},
 		{
 			description:     "get non existing user by ID fails",
-			route:           "/api/v1/user/1234-1234-1245",
+			route:           "/api/v1/user/c33234a3-8f08-489e-91a9-e03c9c167a64",
 			token:           user.Data.Token,
 			expectedStatus:  "error",
 			expectedCode:    404,
