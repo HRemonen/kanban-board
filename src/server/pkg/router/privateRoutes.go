@@ -21,4 +21,9 @@ func PrivateRoutes(app *fiber.App) {
 	board.Get("/:id", middleware.JWTProtected(), handlers.GetSingleBoard)
 	board.Post("/", middleware.JWTProtected(), handlers.CreateBoard)
 	board.Delete("/:id", middleware.JWTProtected(), handlers.DeleteBoard)
+
+	// Board related list endpoints
+	board.Post("/:id/list", middleware.JWTProtected(), handlers.CreateBoardList)
+	board.Put("/:id/list/:list", middleware.JWTProtected(), handlers.UpdateBoardListPosition)
+	board.Delete("/:id/list/:list", middleware.JWTProtected(), handlers.DeleteBoardList)
 }

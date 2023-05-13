@@ -16,13 +16,16 @@ import (
 // @Param id path string true "Board ID"
 // @Param list_attrs body model.ListUserInput true "List attributes"
 // @Success 201 {object} model.List
+// @Failure 401 {object} object
 // @Failure 404 {object} object
 // @Failure 422 {object} object
 // @Router /board/{id}/list [post]
 func CreateBoardList(c *fiber.Ctx) error {
 	list, err := services.CreateBoardList(c)
 
-	if err != nil && strings.Contains(err.Error(), "Key:") {
+	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
+	} else if err != nil && strings.Contains(err.Error(), "Key:") {
 		return c.Status(422).JSON(fiber.Map{"status": "error", "message": "Validation of the inputs failed", "data": utils.ValidatorErrors(err)})
 	} else if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})

@@ -7,6 +7,7 @@ import (
 	"github.com/HRemonen/kanban-board/app/model"
 	"github.com/HRemonen/kanban-board/pkg/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -16,14 +17,24 @@ func CreateBoardList(c *fiber.Ctx) (model.List, error) {
 	var board model.Board
 	var list model.List
 
+	user, err := utils.ExtractUser(c)
+
+	if err != nil {
+		return list, errors.New("Could not get user")
+	}
+
 	payload := new(model.ListUserInput)
 
 	boardID := c.Params("id")
 
-	err := db.Model(&board).Preload("Lists").Find(&board, "id = ?", boardID).Error
+	err = db.Model(&board).Preload("Lists").Find(&board, "id = ?", boardID).Error
 
-	if err != nil {
+	if board.ID == uuid.Nil {
 		return list, errors.New("Board not found")
+	}
+
+	if board.UserID != user.ID {
+		return list, errors.New("Unauthorized action")
 	}
 
 	c.BodyParser(payload)
