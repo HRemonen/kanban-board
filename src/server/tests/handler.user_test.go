@@ -38,7 +38,7 @@ func TestGetAllUsers(t *testing.T) {
 		expectedBody   string
 	}{
 		{
-			description:    "user index route",
+			description:    "returns all users",
 			route:          "/api/v1/user",
 			expectedStatus: "success",
 			expectedCode:   200,
@@ -113,7 +113,7 @@ func TestGetSingleUser(t *testing.T) {
 		expectedMessage string
 	}{
 		{
-			description:     "get user by ID when authenticated succeeds",
+			description:     "returns user by ID when authenticated",
 			route:           "/api/v1/user/" + user.Data.User.ID.String(),
 			token:           user.Data.Token,
 			expectedStatus:  "success",
@@ -121,7 +121,7 @@ func TestGetSingleUser(t *testing.T) {
 			expectedMessage: "User Found",
 		},
 		{
-			description:     "get user by ID when not authenticated fails",
+			description:     "does not return user by ID when not authenticated",
 			route:           "/api/v1/user/" + user.Data.User.ID.String(),
 			token:           "",
 			expectedStatus:  "error",
@@ -129,7 +129,7 @@ func TestGetSingleUser(t *testing.T) {
 			expectedMessage: "Missing or malformed JWT",
 		},
 		{
-			description:     "get user by ID when unauthorized fails",
+			description:     "does not return user by ID when unauthorized",
 			route:           "/api/v1/user/" + user.Data.User.ID.String(),
 			token:           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA0NjE4MjYsImlhdCI6MTY4MDQyNTgyNiwibmJmIjoxNjgwNDI1ODI2LCJzdWIiOiIyN2MyM2ViNi04MThiLTRlYTMtOWU1MC04MjAwMDFkYTY0NWUifQ.k1irIqJ93ACScqVcBkXPHpS8dZTpCc2V7LFZPb-KBKw",
 			expectedStatus:  "error",
@@ -137,8 +137,8 @@ func TestGetSingleUser(t *testing.T) {
 			expectedMessage: "Unauthorized action",
 		},
 		{
-			description:     "get non existing user by ID fails",
-			route:           "/api/v1/user/c33234a3-8f08-489e-91a9-e03c9c167a64",
+			description:     "does not return non existing user by ID",
+			route:           "/api/v1/user/c33234a3-8f08-489e-91a9-e03c9c167a64", // This User ID does not exist
 			token:           user.Data.Token,
 			expectedStatus:  "error",
 			expectedCode:    404,
