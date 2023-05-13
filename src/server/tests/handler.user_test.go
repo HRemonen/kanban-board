@@ -110,6 +110,7 @@ func TestGetSingleUser(t *testing.T) {
 
 		expectedStatus  string
 		expectedCode    int
+		expectedBody    string
 		expectedMessage string
 	}{
 		{
@@ -118,6 +119,7 @@ func TestGetSingleUser(t *testing.T) {
 			token:           user.Data.Token,
 			expectedStatus:  "success",
 			expectedCode:    200,
+			expectedBody:    "",
 			expectedMessage: "User Found",
 		},
 		{
@@ -126,6 +128,7 @@ func TestGetSingleUser(t *testing.T) {
 			token:           "",
 			expectedStatus:  "error",
 			expectedCode:    400,
+			expectedBody:    "",
 			expectedMessage: "Missing or malformed JWT",
 		},
 		{
@@ -134,6 +137,7 @@ func TestGetSingleUser(t *testing.T) {
 			token:           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODA0NjE4MjYsImlhdCI6MTY4MDQyNTgyNiwibmJmIjoxNjgwNDI1ODI2LCJzdWIiOiIyN2MyM2ViNi04MThiLTRlYTMtOWU1MC04MjAwMDFkYTY0NWUifQ.k1irIqJ93ACScqVcBkXPHpS8dZTpCc2V7LFZPb-KBKw",
 			expectedStatus:  "error",
 			expectedCode:    401,
+			expectedBody:    "",
 			expectedMessage: "Unauthorized action",
 		},
 		{
@@ -142,6 +146,7 @@ func TestGetSingleUser(t *testing.T) {
 			token:           user.Data.Token,
 			expectedStatus:  "error",
 			expectedCode:    404,
+			expectedBody:    "",
 			expectedMessage: "Could not fetch user",
 		},
 	}
