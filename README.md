@@ -1,5 +1,4 @@
 [![Backend Unit & Integration Tests](https://github.com/HRemonen/kanban-board/actions/workflows/backend.yml/badge.svg)](https://github.com/HRemonen/kanban-board/actions/workflows/backend.yml)
-
 [![E2E Tests](https://github.com/HRemonen/kanban-board/actions/workflows/e2e.yml/badge.svg)](https://github.com/HRemonen/kanban-board/actions/workflows/e2e.yml)
 
 # Kanban Board Application
