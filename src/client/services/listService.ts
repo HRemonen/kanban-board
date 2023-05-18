@@ -4,6 +4,7 @@ import apiClient from '../util/apiClient'
 
 import { NewList } from '../types'
 import queryClient from '../util/queryClient'
+import { config } from './authService'
 
 export const useCreateNewList = () => {
   const mutationFn = async ({
@@ -13,7 +14,7 @@ export const useCreateNewList = () => {
     boardID: string
     list: NewList
   }) => {
-    await apiClient.post(`/board/${boardID}/list`, list)
+    await apiClient.post(`/board/${boardID}/list`, list, config)
   }
 
   const mutation = useMutation(mutationFn, {
@@ -31,7 +32,7 @@ export const useDeleteList = () => {
     boardID: string
     listID: string
   }) => {
-    await apiClient.delete(`/board/${boardID}/list/${listID}`)
+    await apiClient.delete(`/board/${boardID}/list/${listID}`, config)
   }
   const mutation = useMutation(mutationFn, {
     onSuccess: () => queryClient.invalidateQueries('board'),
