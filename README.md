@@ -1,6 +1,8 @@
 [![Backend Unit & Integration Tests](https://github.com/HRemonen/kanban-board/actions/workflows/backend.yml/badge.svg)](https://github.com/HRemonen/kanban-board/actions/workflows/backend.yml)
 [![E2E Tests](https://github.com/HRemonen/kanban-board/actions/workflows/e2e.yml/badge.svg)](https://github.com/HRemonen/kanban-board/actions/workflows/e2e.yml)
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/13d3837e92e6e28052d0/maintainability)](https://codeclimate.com/github/HRemonen/kanban-board/maintainability)
+
 # Kanban Board Application
 
 This is a Kanban board application built with Golang, Fiber, Postgres, Vite, React and Tailwind CSS.
