@@ -37,34 +37,32 @@ const Login = () => {
       })
       .catch((err: Error | AxiosError) => {
         setLoading(false)
-        if (axios.isAxiosError(err)) {
-          const { response } = err
-          const responseData: APIFailure = response?.data
-
-          if (responseData.data?.Email)
-            setError('email', {
-              type: 'custom',
-              message: 'Invalid email',
-            })
-          if (
-            responseData.data?.Password ||
-            responseData.message === 'Invalid password'
-          )
-            setError('password', {
-              type: 'custom',
-              message: 'Invalid password',
-            })
-          if (responseData.message === 'record not found')
-            setError('email', {
-              type: 'custom',
-              message: 'User not found',
-            })
-        } else {
+        if (!axios.isAxiosError(err)) {
           setError('root', {
             type: 'custom',
             message: 'Something unexpected happened, try again.',
           })
+          return
         }
+        const { response } = err
+        const responseData: APIFailure = response?.data
+
+        if (
+          responseData.data?.Email ||
+          responseData.message === 'record not found'
+        )
+          setError('email', {
+            type: 'custom',
+            message: 'Invalid email',
+          })
+        if (
+          responseData.data?.Password ||
+          responseData.message === 'Invalid password'
+        )
+          setError('password', {
+            type: 'custom',
+            message: 'Invalid password',
+          })
       })
   }
 
