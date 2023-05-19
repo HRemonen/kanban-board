@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
@@ -52,8 +51,6 @@ func GetUserBoards(c *fiber.Ctx) ([]model.APIBoard, error) {
 	var boards []model.APIBoard
 
 	user, err := utils.ExtractUser(c)
-
-	fmt.Println("Req user", user.ID, "boards user", userID)
 
 	if err != nil {
 		return boards, errors.New("Could not get user")
