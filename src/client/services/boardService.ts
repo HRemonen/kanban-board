@@ -5,13 +5,13 @@ import { config } from './authService'
 import apiClient from '../util/apiClient'
 import queryClient from '../util/queryClient'
 
-import { APIResponse, NewBoard } from '../types'
+import { APIResponse, BoardAPIResponse, NewBoard } from '../types'
 
 export const useUserBoard = (boardID: string | undefined) => {
   const queryKey = ['board', boardID]
 
-  const query = async (): Promise<APIResponse> => {
-    const { data }: { data: APIResponse } = await apiClient.get(
+  const query = async (): Promise<BoardAPIResponse> => {
+    const { data }: { data: BoardAPIResponse } = await apiClient.get(
       `/board/${boardID}`,
       config
     )
@@ -26,15 +26,17 @@ export const useUserBoard = (boardID: string | undefined) => {
 export const useUserBoards = (userID: string | undefined) => {
   const queryKey = ['boards', userID]
 
-  const query = async (): Promise<APIResponse> => {
-    const { data }: { data: APIResponse } = await apiClient.get(
+  const query = async (): Promise<BoardAPIResponse> => {
+    const { data }: { data: BoardAPIResponse } = await apiClient.get(
       `/board/${userID}/boards`,
       config
     )
     return data
   }
 
-  const { data: userBoardsData, ...rest } = useQuery(queryKey, query)
+  const { data: userBoardsData, ...rest } = useQuery(queryKey, query, {
+    enabled: Boolean(userID),
+  })
 
   return { userBoardsData, ...rest }
 }

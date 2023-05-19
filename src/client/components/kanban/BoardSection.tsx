@@ -1,14 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+
+import { useUserBoards } from '../../services/boardService'
 import { useAuthenticatedUser } from '../../contexts/AuthContext'
+
 import BoardCard from './BoardCard'
 
 import { Board } from '../../types'
 
 const BoardSection = () => {
   const { user } = useAuthenticatedUser()
+  const { userBoardsData, isSuccess } = useUserBoards(user?.id)
 
-  if (!user) return null
+  if (!isSuccess || !userBoardsData || !Array.isArray(userBoardsData.data))
+    return null
+
+  const boards: Board[] = userBoardsData.data
 
   return (
     <div className="px-6 text-black h-screen overflow-auto">
@@ -28,7 +35,7 @@ const BoardSection = () => {
           </div>
           <div className="my-10">
             <div className="grid grid-cols-2 gap-x-20">
-              {user.Boards.map((board: Board) => (
+              {boards.map((board: Board) => (
                 <BoardCard key={board.ID} board={board} />
               ))}
             </div>
