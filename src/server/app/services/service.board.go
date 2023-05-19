@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/HRemonen/kanban-board/app/database"
 	"github.com/HRemonen/kanban-board/app/model"
@@ -42,6 +43,29 @@ func GetSingleBoard(c *fiber.Ctx) (model.APIBoard, error) {
 	}
 
 	return board, err
+}
+
+func GetUserBoards(c *fiber.Ctx) ([]model.APIBoard, error) {
+	db := database.DB.Db
+	userID := c.Params("userID")
+
+	var boards []model.APIBoard
+
+	user, err := utils.ExtractUser(c)
+
+	fmt.Println("Req user", user.ID, "boards user", userID)
+
+	if err != nil {
+		return boards, errors.New("Could not get user")
+	}
+
+	if userID != user.ID.String() {
+		return boards, errors.New("Unauthorized action")
+	}
+
+	err = db.Model(&model.Board{}).Preload("Lists.Cards").Where(&model.Board{UserID: user.ID}).Find(&boards).Error
+
+	return boards, err
 }
 
 func CreateBoard(c *fiber.Ctx) (model.Board, error) {

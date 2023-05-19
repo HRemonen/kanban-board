@@ -49,6 +49,27 @@ func GetSingleBoard(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Board found", "data": board})
 }
 
+// GetUserBoards ... Get user's all boards
+// @Summary Get user's all boards
+// @Description get user's all boards
+// @Tags Boards
+// @Param userID path string true "User ID"
+// @Success 200 {array} model.APIBoard
+// @Failure 401 {object} object
+// @Failure 404 {object} object
+// @Router /board/{userID}/boards [get]
+func GetUserBoards(c *fiber.Ctx) error {
+	board, err := services.GetUserBoards(c)
+
+	if err != nil && strings.Contains(err.Error(), "Unauthorized action") {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "Unauthorized action", "data": nil})
+	} else if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": err.Error(), "data": nil})
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "Board found", "data": board})
+}
+
 // CreateBoard ... Create a new board
 // @Summary Create a new board
 // @Description create a new board

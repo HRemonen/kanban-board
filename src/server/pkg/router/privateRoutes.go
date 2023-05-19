@@ -19,6 +19,7 @@ func PrivateRoutes(app *fiber.App) {
 	board := v1.Group("/board")
 
 	board.Get("/:id", middleware.JWTProtected(), handlers.GetSingleBoard)
+	board.Get("/:userID/boards", middleware.JWTProtected(), handlers.GetUserBoards)
 	board.Post("/", middleware.JWTProtected(), handlers.CreateBoard)
 	board.Delete("/:id", middleware.JWTProtected(), handlers.DeleteBoard)
 
