@@ -23,6 +23,22 @@ export const useUserBoard = (boardID: string | undefined) => {
   return { boardData, ...rest }
 }
 
+export const useUserBoards = (userID: string | undefined) => {
+  const queryKey = ['boards', userID]
+
+  const query = async (): Promise<APIResponse> => {
+    const { data }: { data: APIResponse } = await apiClient.get(
+      `/board/${userID}/boards`,
+      config
+    )
+    return data
+  }
+
+  const { data: userBoardsData, ...rest } = useQuery(queryKey, query)
+
+  return { userBoardsData, ...rest }
+}
+
 export const useCreateBoard = () => {
   const mutationFn = async ({ board }: { board: NewBoard }) => {
     await apiClient.post(`/board`, board, config)
