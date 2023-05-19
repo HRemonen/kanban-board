@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom'
 import { DragDropContext, DragUpdate } from 'react-beautiful-dnd'
 
 import ListView from './ListsView'
-import useUserBoard from '../../hooks/useUserBoard'
 
 import { useUpdateCardPosition } from '../../services/cardService'
 import { useCreateNewList } from '../../services/listService'
+import { useUserBoard } from '../../services/boardService'
 
 import { Board } from '../../types'
 import NewListView from './NewListView'

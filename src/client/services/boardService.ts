@@ -1,13 +1,29 @@
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 
 import { config } from './authService'
 
 import apiClient from '../util/apiClient'
 import queryClient from '../util/queryClient'
 
-import { NewBoard } from '../types'
+import { APIResponse, NewBoard } from '../types'
 
-const useCreateBoard = () => {
+export const useUserBoard = (boardID: string | undefined) => {
+  const queryKey = ['board', boardID]
+
+  const query = async (): Promise<APIResponse> => {
+    const { data }: { data: APIResponse } = await apiClient.get(
+      `/board/${boardID}`,
+      config
+    )
+    return data
+  }
+
+  const { data: boardData, ...rest } = useQuery(queryKey, query)
+
+  return { boardData, ...rest }
+}
+
+export const useCreateBoard = () => {
   const mutationFn = async ({ board }: { board: NewBoard }) => {
     await apiClient.post(`/board`, board, config)
   }
@@ -18,5 +34,3 @@ const useCreateBoard = () => {
 
   return mutation
 }
-
-export default useCreateBoard

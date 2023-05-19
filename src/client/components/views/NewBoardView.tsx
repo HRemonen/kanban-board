@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
-import useCreateBoard from '../../services/boardService'
+import { useCreateBoard } from '../../services/boardService'
 
 import SaveButton from '../common/SaveButton'
 import SimpleTextarea from '../form/SimpleTextarea'
