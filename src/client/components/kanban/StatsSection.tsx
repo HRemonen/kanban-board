@@ -2,11 +2,23 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { useAuthenticatedUser } from '../../contexts/AuthContext'
+import { useUserBoards } from '../../services/boardService'
+
+import { Board } from '../../types'
 
 const StatsSection = () => {
   const { user } = useAuthenticatedUser()
+  const { userBoardsData, isSuccess } = useUserBoards(user?.id)
 
-  if (!user) return null
+  if (
+    !isSuccess ||
+    !userBoardsData ||
+    !Array.isArray(userBoardsData.data) ||
+    !user
+  )
+    return null
+
+  const boards: Board[] = userBoardsData.data
 
   return (
     <div>
@@ -30,7 +42,7 @@ const StatsSection = () => {
         </div>
         <div className="p-4 bg-yellow-100 rounded-xl text-gray-800">
           <div className="font-bold text-2xl leading-none">
-            {user.Boards?.length ?? 0}
+            {boards.length ?? 0}
           </div>
           <div className="mt-2">Active boards</div>
         </div>

@@ -1,15 +1,17 @@
-import { APIResponse } from '../types'
 import apiClient from '../util/apiClient'
 
-import { config } from './authService'
+import { useAuthenticatedUser } from '../contexts/AuthContext'
 
-export const getUsers = async () => {
+import { APIResponse } from '../types'
+
+export const useUsers = async () => {
   const { data }: { data: APIResponse } = await apiClient.get('/user')
 
   return data
 }
 
-export const getUserByID = async (id: string) => {
+export const useUserByID = async (id: string) => {
+  const { config } = useAuthenticatedUser()
   const { data }: { data: APIResponse } = await apiClient.get(
     `/user/${id}`,
     config

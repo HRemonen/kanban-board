@@ -5,7 +5,7 @@ import Login from './components/authentication/Login'
 import Kanban from './components/kanban/Kanban'
 
 const App = () => {
-  const { user } = useAuthenticatedUser()
+  const { user, config } = useAuthenticatedUser()
 
   return (
     <section className="relative text-white bg-white overflow-hidden max-h-screen">

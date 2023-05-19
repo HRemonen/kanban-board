@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from 'react-query'
 
-import { config } from './authService'
-
 import apiClient from '../util/apiClient'
 import queryClient from '../util/queryClient'
 
-import { APIResponse, BoardAPIResponse, NewBoard } from '../types'
+import { useAuthenticatedUser } from '../contexts/AuthContext'
+
+import { BoardAPIResponse, NewBoard } from '../types'
 
 export const useUserBoard = (boardID: string | undefined) => {
   const queryKey = ['board', boardID]
+  const { config } = useAuthenticatedUser()
 
   const query = async (): Promise<BoardAPIResponse> => {
     const { data }: { data: BoardAPIResponse } = await apiClient.get(
@@ -25,6 +26,7 @@ export const useUserBoard = (boardID: string | undefined) => {
 
 export const useUserBoards = (userID: string | undefined) => {
   const queryKey = ['boards', userID]
+  const { config } = useAuthenticatedUser()
 
   const query = async (): Promise<BoardAPIResponse> => {
     const { data }: { data: BoardAPIResponse } = await apiClient.get(
@@ -42,6 +44,8 @@ export const useUserBoards = (userID: string | undefined) => {
 }
 
 export const useCreateBoard = () => {
+  const { config } = useAuthenticatedUser()
+
   const mutationFn = async ({ board }: { board: NewBoard }) => {
     await apiClient.post(`/board`, board, config)
   }

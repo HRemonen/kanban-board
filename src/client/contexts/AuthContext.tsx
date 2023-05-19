@@ -1,9 +1,15 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { PrivateUser } from '../types'
 
+interface Config {
+  headers: {
+    Authorization: string
+  }
+}
+
 interface AuthContextType {
   user: PrivateUser | null
-  token: string
+  config: Config
   isAuthenticated: boolean
   login: (token: string, user: PrivateUser) => void
   logout: () => void
@@ -11,7 +17,9 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
-  token: '',
+  config: {
+    headers: { Authorization: '' },
+  },
   isAuthenticated: false,
   login: () => {},
   logout: () => {},
@@ -20,32 +28,43 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<PrivateUser | null>(null)
-  const [token, setToken] = useState('')
+  const [config, setConfig] = useState<Config>({
+    headers: { Authorization: '' },
+  })
 
   useEffect(() => {
-    const loggedInUser = sessionStorage.getItem('user')
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser)
+    const userToken = sessionStorage.getItem('token')
+    const loggedUser = sessionStorage.getItem('user')
+
+    if (loggedUser && userToken) {
+      const foundUser = JSON.parse(loggedUser)
       setUser(foundUser)
+      setConfig({
+        headers: { Authorization: userToken },
+      })
     }
   }, [])
 
-  const login = (token: string, user: PrivateUser) => {
+  const login = (userToken: string, loggedUser: PrivateUser) => {
     setIsAuthenticated(true)
-    setUser(user)
-    setToken(token)
-    sessionStorage.setItem('user', JSON.stringify(user))
+    setUser(loggedUser)
+    setConfig({
+      headers: { Authorization: `bearer ${userToken}` },
+    })
+    sessionStorage.setItem('user', JSON.stringify(loggedUser))
   }
 
   const logout = () => {
     setIsAuthenticated(false)
     setUser(null)
-    setToken('')
+    setConfig({
+      headers: { Authorization: '' },
+    })
     sessionStorage.clear()
   }
 
   const contextValues = useMemo(
-    () => ({ isAuthenticated, user, token, login, logout }),
+    () => ({ isAuthenticated, user, config, login, logout }),
     [login, logout]
   )
 
@@ -57,6 +76,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 }
 
 export const useAuthenticatedUser = () => {
-  const { user, token } = useContext(AuthContext)
-  return { user, token }
+  const { user, config } = useContext(AuthContext)
+  return { user, config }
 }

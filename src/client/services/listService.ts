@@ -1,12 +1,15 @@
 import { useMutation } from 'react-query'
 
 import apiClient from '../util/apiClient'
+import queryClient from '../util/queryClient'
+
+import { useAuthenticatedUser } from '../contexts/AuthContext'
 
 import { NewList } from '../types'
-import queryClient from '../util/queryClient'
-import { config } from './authService'
 
 export const useCreateNewList = () => {
+  const { config } = useAuthenticatedUser()
+
   const mutationFn = async ({
     boardID,
     list,
@@ -25,6 +28,8 @@ export const useCreateNewList = () => {
 }
 
 export const useDeleteList = () => {
+  const { config } = useAuthenticatedUser()
+
   const mutationFn = async ({
     boardID,
     listID,
