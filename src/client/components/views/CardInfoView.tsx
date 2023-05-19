@@ -1,7 +1,6 @@
 import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useDeleteListCard } from '../../services/cardService'
-import useCard from '../../hooks/useCard'
+import { useCard, useDeleteListCard } from '../../services/cardService'
 
 import CloseMenu from '../common/CloseMenu'
 import { Card } from '../../types'

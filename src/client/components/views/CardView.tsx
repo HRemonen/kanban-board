@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { Draggable } from 'react-beautiful-dnd'
-import CardInfoView from './CardInfoView'
 
 import { Card } from '../../types'
 
