@@ -47,7 +47,7 @@ export const useCreateBoard = () => {
   }
 
   const mutation = useMutation(mutationFn, {
-    onSuccess: () => queryClient.invalidateQueries('board'),
+    onSuccess: () => queryClient.invalidateQueries('boards'),
   })
 
   return mutation
