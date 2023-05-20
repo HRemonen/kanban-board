@@ -2,12 +2,20 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { Board } from '../../types'
+import DropdownMenu from '../common/DropdownMenu'
 
 const BoardCard = ({ board }: { board: Board }) => (
   <div className='relative my-2 w-[100%] rounded-xl border bg-white p-4 md:my-4'>
-    <div className='mt-2'>
+    <div className='absolute right-4 top-4'>
+      <DropdownMenu
+        handleDelete={() => {
+          console.log('heijjaa')
+        }}
+      />
+    </div>
+    <div>
       <Link
-        className='my-2 text-xl font-semibold'
+        className='mb-2 text-xl font-semibold'
         key={board.ID}
         to={`/boards/${board.ID}`}
       >

@@ -8,7 +8,7 @@ import CardView from './CardView'
 import NewCardView from './NewCardView'
 
 import { Card, List, NewCard } from '../../types'
-import DropdownMenu from './DropdownMenu'
+import DropdownMenu from '../common/DropdownMenu'
 
 function sortCardsByPosition(list: List): void {
   list.Cards.sort((a: Card, b: Card) => a.Position - b.Position)
