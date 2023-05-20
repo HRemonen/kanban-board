@@ -1,11 +1,26 @@
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 
 import apiClient from '../util/apiClient'
 import queryClient from '../util/queryClient'
 
 import { useAuthenticatedUser } from '../contexts/AuthContext'
 
-import { NewList } from '../types'
+import { ListAPIResponse, NewList } from '../types'
+
+export const useList = (listID: string | undefined) => {
+  const queryKey = ['list', listID]
+
+  const query = async (): Promise<ListAPIResponse> => {
+    const { data }: { data: ListAPIResponse } = await apiClient.get(
+      `/list/${listID}`
+    )
+    return data
+  }
+
+  const { data: listData, ...rest } = useQuery(queryKey, query)
+
+  return { listData, ...rest }
+}
 
 export const useCreateNewList = () => {
   const { config } = useAuthenticatedUser()

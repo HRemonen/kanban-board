@@ -10,13 +10,17 @@ export interface APIFailure {
 }
 
 export interface APIResponse {
-  data: PublicUser[] | PrivateUser | List | Card
+  data: PublicUser[] | PrivateUser | Card
   message: string
   status: 'success'
 }
 
 export interface BoardAPIResponse extends Omit<APIResponse, 'data'> {
   data: Board | Board[]
+}
+
+export interface ListAPIResponse extends Omit<APIResponse, 'data'> {
+  data: List[]
 }
 
 export interface Card {
