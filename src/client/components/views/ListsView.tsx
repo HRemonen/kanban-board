@@ -127,7 +127,7 @@ const ListView = ({ list }: { list: List }) => {
         {(provided) => (
           <ul
             data-cy={`list-${list.ID}-cards`}
-            className='scrollbar-hide flex h-[90vh] flex-col gap-2 overflow-y-scroll pb-4'
+            className='flex h-[90vh] flex-col gap-2 overflow-y-scroll pb-4 scrollbar-hide'
             {...provided.droppableProps}
             ref={provided.innerRef}
           >

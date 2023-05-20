@@ -64,7 +64,7 @@ const BoardView = () => {
       data-cy={`board-${board.ID}`}
       className='h-screen overflow-y-hidden px-6 text-black'
     >
-      <div className='scrollbar-hide flex flex-1 space-x-4 overflow-y-hidden p-4'>
+      <div className='flex flex-1 space-x-4 overflow-y-hidden p-4 scrollbar-hide'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {board.Lists.map((list) => (
             <ListView key={list.ID} list={list} />
