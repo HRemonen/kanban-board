@@ -21,7 +21,8 @@ export const useCreateNewList = () => {
   }
 
   const mutation = useMutation(mutationFn, {
-    onSuccess: () => queryClient.invalidateQueries('board'),
+    onSuccess: (_, variables) =>
+      queryClient.invalidateQueries(['board', variables.boardID]),
   })
 
   return mutation
@@ -40,7 +41,8 @@ export const useDeleteList = () => {
     await apiClient.delete(`/board/${boardID}/list/${listID}`, config)
   }
   const mutation = useMutation(mutationFn, {
-    onSuccess: () => queryClient.invalidateQueries('board'),
+    onSuccess: (_, variables) =>
+      queryClient.invalidateQueries(['board', variables.boardID]),
   })
 
   return mutation
