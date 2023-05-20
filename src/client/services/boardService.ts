@@ -56,3 +56,16 @@ export const useCreateBoard = () => {
 
   return mutation
 }
+
+export const useDeleteBoard = () => {
+  const { config } = useAuthenticatedUser()
+
+  const mutationFn = async ({ boardID }: { boardID: string }) => {
+    await apiClient.delete(`/board/${boardID}`, config)
+  }
+  const mutation = useMutation(mutationFn, {
+    onSuccess: () => queryClient.invalidateQueries('boards'),
+  })
+
+  return mutation
+}
