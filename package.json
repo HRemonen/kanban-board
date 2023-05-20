@@ -43,7 +43,7 @@
 	},
 	"lint-staged": {
 		"src/client/**/*.{ts,tsx}": "eslint",
-		"*.{ts,tsx,json,css,md}": "prettier --write"
+		"src/client/**/*.{ts,tsx,json,css,md}": "prettier --write"
 	},
 	"dependencies": {
 		"@types/react-beautiful-dnd": "^13.1.4"
