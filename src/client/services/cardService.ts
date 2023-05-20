@@ -3,13 +3,13 @@ import { useMutation, useQuery } from 'react-query'
 import apiClient from '../util/apiClient'
 import queryClient from '../util/queryClient'
 
-import { APIResponse, NewCard } from '../types'
+import { CardAPIResponse, NewCard } from '../types'
 
 export const useCard = (cardID: string | undefined) => {
   const queryKey = ['card', cardID]
 
-  const query = async (): Promise<APIResponse> => {
-    const { data }: { data: APIResponse } = await apiClient.get(
+  const query = async (): Promise<CardAPIResponse> => {
+    const { data }: { data: CardAPIResponse } = await apiClient.get(
       `/card/${cardID}`
     )
     return data
