@@ -21,12 +21,12 @@ services:
       - DB_MAX_IDLE_CONNECTIONS=${DB_MAX_IDLE_CONNECTIONS}
       - DB_MAX_LIFETIME_CONNECTIONS=${DB_MAX_LIFETIME_CONNECTIONS}
     ports:
-      - "127.0.0.1:8080:8080"
+      - '127.0.0.1:8080:8080'
     volumes:
       - .:/usr/src/app
     depends_on:
       - postgres
-  
+
   postgres:
     container_name: kanban-board-postgres-test
     image: postgres:alpine

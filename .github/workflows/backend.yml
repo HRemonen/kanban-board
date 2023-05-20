@@ -11,9 +11,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Prepare test data and run the tests
-        env: 
+        env:
           RANDOM_STATE: ${{secrets.RANDOM_STATE}}
           JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT: ${{secrets.JWT_SECRET_KEY_EXPIRE_MINUTES_COUNT}}
           JWT_SECRET_KEY: ${{secrets.JWT_SECRET_KEY}}

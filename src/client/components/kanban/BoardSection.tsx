@@ -18,23 +18,23 @@ const BoardSection = () => {
   const boards: Board[] = userBoardsData.data
 
   return (
-    <div className="px-6 text-black h-screen overflow-auto">
-      <div className="w-full px-4 mx-auto">
-        <div className="relative flex flex-col min-w-0 break-words bg-white w-full p-8 mb-6 mt-16">
-          <div className="flex justify-between">
-            <h1 className="text-3xl font-bold">Board section</h1>
+    <div className='h-screen overflow-auto px-6 text-black'>
+      <div className='mx-auto w-full px-4'>
+        <div className='relative mb-6 mt-16 flex w-full min-w-0 flex-col break-words bg-white p-8'>
+          <div className='flex justify-between'>
+            <h1 className='text-3xl font-bold'>Board section</h1>
             <Link
-              to="./new"
-              className="relative inline-flex items-center justify-start px-4 py-2 overflow-hidden text-sm font-light transition-all bg-white rounded hover:bg-white group"
+              to='./new'
+              className='group relative inline-flex items-center justify-start overflow-hidden rounded bg-white px-4 py-2 text-sm font-light transition-all hover:bg-white'
             >
-              <span className="w-48 h-48 rounded rotate-[-45deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0" />
-              <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+              <span className='absolute bottom-0 left-0 mb-9 ml-9 h-48 w-48 -translate-x-full translate-y-full rotate-[-45deg] rounded bg-purple-600 transition-all duration-500 ease-out group-hover:mb-32 group-hover:ml-0 group-hover:translate-x-0' />
+              <span className='relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white'>
                 Create New Board
               </span>
             </Link>
           </div>
-          <div className="my-10">
-            <div className="grid grid-cols-2 gap-x-20">
+          <div className='my-10'>
+            <div className='grid grid-cols-2 gap-x-20'>
               {boards.map((board: Board) => (
                 <BoardCard key={board.ID} board={board} />
               ))}

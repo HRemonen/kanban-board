@@ -1,44 +1,50 @@
 {
-    "env": {
-      "browser": true,
-      "es6": true,
-      "jest": true
-    },
-    "extends": [
-      "airbnb",
-      "airbnb-typescript",
-      "prettier",
-      "plugin:cypress/recommended",
-      "plugin:react/recommended",
-      "plugin:@typescript-eslint/recommended"
-    ],
-    "parserOptions": {
-      "project": ["./tsconfig.json"]
-    },
-    "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier", "cypress"],
-    "settings": {
-      "react": {
-        "pragma": "React",
-        "version": "detect"
-      }
-    },
-    "rules": {
-      "@typescript-eslint/explicit-function-return-type": 0,
-      "@typescript-eslint/explicit-module-boundary-types": 0,
-      "@typescript-eslint/no-shadow": "off",
-      "react/require-default-props": "off",
-      "react/prop-types": 0,
-      "react/react-in-jsx-scope": 0,
-      "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-      "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
-      "react/function-component-definition": [
-        2,
-        {
-          "namedComponents": "arrow-function",
-          "unnamedComponents": "arrow-function"
-        }
-      ],
-      "react/jsx-props-no-spreading": "off",
-      "import/no-cycle": "off"
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "prettier",
+    "plugin:cypress/recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "react-hooks",
+    "prettier",
+    "cypress"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
     }
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-shadow": "off",
+    "react/require-default-props": "off",
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "import/no-cycle": "off"
   }
+}

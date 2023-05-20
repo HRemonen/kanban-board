@@ -67,65 +67,65 @@ const Login = () => {
   }
 
   return (
-    <section className="bg-[#A8A4FF] md:grid md:grid-cols-2 text-center">
-      <div className="flex flex-col h-screen justify-center text-center items-center p-12">
+    <section className='bg-[#A8A4FF] text-center md:grid md:grid-cols-2'>
+      <div className='flex h-screen flex-col items-center justify-center p-12 text-center'>
         <form
           onSubmit={handleSubmit(onLogin)}
-          className="flex flex-col justify-center text-left w-[80%]"
+          className='flex w-[80%] flex-col justify-center text-left'
         >
           <LoginInput
-            id="email"
-            type="email"
-            placeholder="hello@world.com"
-            name="email"
-            label="Email"
+            id='email'
+            type='email'
+            placeholder='hello@world.com'
+            name='email'
+            label='Email'
             register={register}
             error={errors.email}
           />
 
           <LoginInput
-            id="password"
-            type="password"
-            placeholder="Password"
-            name="password"
-            label="Password"
+            id='password'
+            type='password'
+            placeholder='Password'
+            name='password'
+            label='Password'
             register={register}
             error={errors.password}
           />
 
           {!loading ? (
             <button
-              id="login-button"
-              data-cy="login-form-button"
-              type="submit"
-              className="inline-block text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-2 mb-2"
+              id='login-button'
+              data-cy='login-form-button'
+              type='submit'
+              className='mb-2 mr-2 inline-block items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50'
             >
               Login
             </button>
           ) : (
-            <div className="flex-col inline-flex items-center">
+            <div className='inline-flex flex-col items-center'>
               <LoadingSpinner />
             </div>
           )}
         </form>
 
         {errors.root && (
-          <p className="text-red-500 text-sm mt-2">{errors.root.message}</p>
+          <p className='mt-2 text-sm text-red-500'>{errors.root.message}</p>
         )}
 
-        <p className="mt-4">
+        <p className='mt-4'>
           Don&lsquo;t have an account?
           <Link
-            to="/register"
-            className="ml-2 text-blue-600 inline-flex items-center font-medium hover:underline"
+            to='/register'
+            className='ml-2 inline-flex items-center font-medium text-blue-600 hover:underline'
           >
             Register here
           </Link>
         </p>
       </div>
 
-      <div className="hidden md:flex flex-col justify-center ">
-        <img className="scale-75" src={login_illustration_image} alt="" />
+      <div className='hidden flex-col justify-center md:flex '>
+        <img className='scale-75' src={login_illustration_image} alt='' />
       </div>
     </section>
   )

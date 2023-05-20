@@ -8,9 +8,9 @@ const App = () => {
   const { user, config } = useAuthenticatedUser()
 
   return (
-    <section className="relative text-white bg-white overflow-hidden max-h-screen">
+    <section className='relative max-h-screen overflow-hidden bg-white text-white'>
       <Routes>
-        <Route path="/*" element={user ? <Kanban /> : <Login />} />
+        <Route path='/*' element={user ? <Kanban /> : <Login />} />
       </Routes>
     </section>
   )

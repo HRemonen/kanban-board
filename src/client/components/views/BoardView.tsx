@@ -45,13 +45,13 @@ const BoardView = () => {
     return (
       <div
         data-cy={`empty-board-${board.ID}`}
-        className="px-6 text-black h-screen overflow-y-hidden"
+        className='h-screen overflow-y-hidden px-6 text-black'
       >
-        <div className="flex flex-col justify-center items-center w-full h-full">
-          <h2 className="text-lg text-center">
+        <div className='flex h-full w-full flex-col items-center justify-center'>
+          <h2 className='text-center text-lg'>
             This board is empty. Create a new list to get started.
           </h2>
-          <button type="button" onClick={handleCreateList} className="mt-6">
+          <button type='button' onClick={handleCreateList} className='mt-6'>
             + Add New List
           </button>
         </div>
@@ -62,9 +62,9 @@ const BoardView = () => {
   return (
     <div
       data-cy={`board-${board.ID}`}
-      className="px-6 text-black h-screen overflow-y-hidden"
+      className='h-screen overflow-y-hidden px-6 text-black'
     >
-      <div className="flex flex-1 overflow-y-hidden scrollbar-hide p-4 space-x-4">
+      <div className='scrollbar-hide flex flex-1 space-x-4 overflow-y-hidden p-4'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {board.Lists.map((list) => (
             <ListView key={list.ID} list={list} />

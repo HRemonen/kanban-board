@@ -3,17 +3,14 @@
 const plugin = require('tailwindcss/plugin')
 
 export default {
-  mode: 'JIT',
-  content: [
-    "./index.html",
-    "./**/*.{js,ts,jsx,tsx}",
-  ],
+  mode: 'jit',
+  content: ['./index.html', './**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-        fontFamily: {
-        sans: ["Plus Jakarta Sans", "sans-serif"],
+      fontFamily: {
+        sans: ['Plus Jakarta Sans', 'sans-serif'],
       },
-    }
+    },
   },
   plugins: [
     plugin(function ({ addUtilities }) {
@@ -27,11 +24,10 @@ export default {
 
           /* Safari and Chrome */
           '&::-webkit-scrollbar': {
-            display: 'none'
-          }
-        }
-      }
-      )
-    })
+            display: 'none',
+          },
+        },
+      })
+    }),
   ],
 }
