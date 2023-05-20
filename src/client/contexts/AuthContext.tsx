@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const foundUser = JSON.parse(loggedUser)
       setUser(foundUser)
       setConfig({
-        headers: { Authorization: userToken },
+        headers: { Authorization: `bearer ${userToken}` },
       })
     }
   }, [])

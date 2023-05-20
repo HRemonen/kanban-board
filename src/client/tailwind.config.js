@@ -2,16 +2,18 @@
 
 const plugin = require('tailwindcss/plugin')
 
-module.exports = {
-  mode: 'jit',
+export default {
+  mode: 'JIT',
   content: [
     "./index.html",
     "./**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    fontFamily: {
-      sans: ["Plus Jakarta Sans", "sans-serif"],
-    },
+    extend: {
+        fontFamily: {
+        sans: ["Plus Jakarta Sans", "sans-serif"],
+      },
+    }
   },
   plugins: [
     plugin(function ({ addUtilities }) {
