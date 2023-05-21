@@ -67,7 +67,7 @@ const BoardView = () => {
       <div className='flex flex-1 space-x-4 overflow-y-hidden p-4 scrollbar-hide'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           {board.Lists.map((list) => (
-            <ListView key={list.ID} list={list} />
+            <ListView key={list.ID} listID={list.ID} />
           ))}
           <NewListView board={board} />
         </DragDropContext>

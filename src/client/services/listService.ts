@@ -5,9 +5,9 @@ import queryClient from '../util/queryClient'
 
 import { useAuthenticatedUser } from '../contexts/AuthContext'
 
-import { ListAPIResponse, NewList } from '../types'
+import { List, ListAPIResponse, NewList } from '../types'
 
-export const useList = (listID: string | undefined) => {
+export const useList = (listID: string) => {
   const queryKey = ['list', listID]
 
   const query = async (): Promise<ListAPIResponse> => {

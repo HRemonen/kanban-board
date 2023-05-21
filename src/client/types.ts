@@ -20,7 +20,7 @@ export interface BoardAPIResponse extends Omit<APIResponse, 'data'> {
 }
 
 export interface ListAPIResponse extends Omit<APIResponse, 'data'> {
-  data: List[]
+  data: List | List[]
 }
 
 export interface CardAPIResponse extends Omit<APIResponse, 'data'> {
