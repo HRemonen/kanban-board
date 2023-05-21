@@ -8,6 +8,24 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// GetSingleList ... Get a single list by ID
+// @Summary Get a single list by ID
+// @Description get a single list by ID
+// @Tags Lists
+// @Param id path string true "List ID"
+// @Success 200 {object} model.List
+// @Failure 404 {object} object
+// @Router /list/{id} [get]
+func GetSingleList(c *fiber.Ctx) error {
+	list, err := services.GetSingleList(c)
+
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "List not found", "data": nil})
+	}
+
+	return c.Status(200).JSON(fiber.Map{"status": "success", "message": "List found", "data": list})
+}
+
 // CreateBoardList ... Create a new list for a board
 // @Summary Create a new list for a board
 // @Description create a new list for a board

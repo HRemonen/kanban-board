@@ -32,6 +32,8 @@ func PublicRoutes(app *fiber.App) {
 
 	list := v1.Group("/list")
 
+	list.Get(":id", handlers.GetSingleList)
+
 	// List related card endpoints
 	list.Post("/:id/card", handlers.CreateListCard)
 	list.Put("/:id/card/:card", handlers.UpdateListCardPosition)

@@ -12,6 +12,17 @@ import (
 	"gorm.io/gorm/clause"
 )
 
+func GetSingleList(c *fiber.Ctx) (model.List, error) {
+	db := database.DB.Db
+	var list model.List
+
+	listID := c.Params("id")
+
+	err := db.Model(&model.List{}).Preload("Cards").Find(&list, "id = ?", listID).Error
+
+	return list, err
+}
+
 func CreateBoardList(c *fiber.Ctx) (model.List, error) {
 	db := database.DB.Db
 	var board model.Board
