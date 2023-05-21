@@ -32,7 +32,8 @@ export const useCreateNewCard = () => {
   }
 
   const mutation = useMutation(mutationFn, {
-    onSuccess: () => queryClient.invalidateQueries('board'),
+    onSuccess: (_, variables) =>
+      queryClient.invalidateQueries(['list', variables.listID]),
   })
 
   return mutation
@@ -51,7 +52,8 @@ export const useUpdateCardPosition = () => {
     await apiClient.put(`/list/${listID}/card/${cardID}`, { position })
   }
   const mutation = useMutation(mutationFn, {
-    onSuccess: () => queryClient.invalidateQueries('board'),
+    onSuccess: (_, variables) =>
+      queryClient.invalidateQueries(['list', variables.listID]),
   })
 
   return mutation
@@ -68,7 +70,8 @@ export const useDeleteListCard = () => {
     await apiClient.delete(`/list/${listID}/card/${cardID}`)
   }
   const mutation = useMutation(mutationFn, {
-    onSuccess: () => queryClient.invalidateQueries('board'),
+    onSuccess: (_, variables) =>
+      queryClient.invalidateQueries(['list', variables.listID]),
   })
 
   return mutation
