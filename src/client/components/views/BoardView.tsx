@@ -29,10 +29,10 @@ const BoardView = () => {
   const board: Board = boardData.data
 
   const reorder = (list: Card[], card: Card, endPosition: number) => {
-    const result = Array.from(list)
-
+    const result = Array.from(list) // no side effects man
     const currentPosition = card.Position
 
+    // Position not updated so don't do anything
     if (endPosition === currentPosition) return result
 
     const cardToUpdate = result.find((aCard) => aCard.ID === card.ID)
@@ -41,17 +41,20 @@ const BoardView = () => {
     /* eslint no-param-reassign: "error" */
 
     if (endPosition < currentPosition) {
+      // shift items between new and old position up by 1
       result.forEach((aCard) => {
         if (aCard.Position >= endPosition && aCard.Position < currentPosition)
           aCard.Position += 1
       })
     } else {
+      // shift items between new and old position down by 1
       result.forEach((aCard) => {
         if (aCard.Position > currentPosition && aCard.Position <= endPosition)
           aCard.Position -= 1
       })
     }
 
+    // Update the cards position that user wanted to move
     cardToUpdate.Position = endPosition
 
     return result
