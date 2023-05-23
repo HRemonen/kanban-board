@@ -51,10 +51,7 @@ export const useUpdateCardPosition = () => {
   }) => {
     await apiClient.put(`/list/${listID}/card/${cardID}`, { position })
   }
-  const mutation = useMutation(mutationFn, {
-    onSuccess: (_, variables) =>
-      queryClient.invalidateQueries(['list', variables.listID]),
-  })
+  const mutation = useMutation(mutationFn)
 
   return mutation
 }

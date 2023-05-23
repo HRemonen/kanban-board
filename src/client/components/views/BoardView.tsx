@@ -1,25 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { DragDropContext, DragUpdate } from 'react-beautiful-dnd'
 
 import ListView from './ListsView'
+import NewListView from './NewListView'
 
 import { useUpdateCardPosition } from '../../services/cardService'
 import { useCreateNewList } from '../../services/listService'
 import { useUserBoard } from '../../services/boardService'
 
-import { Board } from '../../types'
-import NewListView from './NewListView'
+import { Board, Card, List } from '../../types'
 
 const BoardView = () => {
   const { boardID: id } = useParams()
   const mutateList = useCreateNewList()
   const mutateCardPosition = useUpdateCardPosition()
   const { boardData, isLoading } = useUserBoard(id)
+  const [lists, setLists] = useState<List[]>()
 
-  if (!boardData || isLoading || !('Lists' in boardData.data)) return null
+  useEffect(() => {
+    if (!boardData || isLoading || !('Lists' in boardData.data)) return
+    setLists(boardData.data.Lists)
+  }, [boardData, isLoading])
+
+  if (!boardData || isLoading || !('Lists' in boardData.data) || !lists)
+    return null
 
   const board: Board = boardData.data
+
+  const reorder = (list: Card[], card: Card, endPosition: number) => {
+    const result = Array.from(list)
+
+    const currentPosition = card.Position
+
+    if (endPosition === currentPosition) return result
+
+    const cardToUpdate = result.find((aCard) => aCard.ID === card.ID)
+    if (!cardToUpdate) return result
+
+    /* eslint no-param-reassign: "error" */
+
+    if (endPosition < currentPosition) {
+      result.forEach((aCard) => {
+        if (aCard.Position >= endPosition && aCard.Position < currentPosition)
+          aCard.Position += 1
+      })
+    } else {
+      result.forEach((aCard) => {
+        if (aCard.Position > currentPosition && aCard.Position <= endPosition)
+          aCard.Position -= 1
+      })
+    }
+
+    cardToUpdate.Position = endPosition
+
+    return result
+  }
 
   const handleOnDragEnd = ({
     draggableId,
@@ -27,6 +63,25 @@ const BoardView = () => {
     destination,
   }: DragUpdate) => {
     if (!destination) return
+
+    const listToUpdate = lists.find((list) => list.ID === source.droppableId)
+    if (!listToUpdate) return
+
+    const cards: Card[] = listToUpdate.Cards
+
+    const cardToUpdate = cards.find((c) => c.ID === draggableId)
+    if (!cardToUpdate) return
+
+    const updatedList = {
+      ...listToUpdate,
+      Cards: reorder(cards, cardToUpdate, destination.index),
+    }
+
+    const updatedLists = lists.map((list) =>
+      list.ID === updatedList.ID ? { ...updatedList } : { ...list }
+    )
+
+    setLists(updatedLists)
 
     mutateCardPosition.mutateAsync({
       listID: source.droppableId,
@@ -66,8 +121,8 @@ const BoardView = () => {
     >
       <div className='flex flex-1 space-x-4 overflow-y-hidden p-4 scrollbar-hide'>
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          {board.Lists.map((list) => (
-            <ListView key={list.ID} listID={list.ID} />
+          {lists.map((list) => (
+            <ListView key={list.ID} list={list} />
           ))}
           <NewListView board={board} />
         </DragDropContext>

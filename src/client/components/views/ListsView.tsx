@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 
 import { useCreateNewCard } from '../../services/cardService'
-import { useDeleteList, useList } from '../../services/listService'
+import { useDeleteList } from '../../services/listService'
 
 import CardView from './CardView'
 import NewCardView from './NewCardView'
@@ -27,15 +27,9 @@ const ListDropdownMenu = ({ list }: { list: List }) => {
   return <DropdownMenu handleDelete={handleListDelete} />
 }
 
-const ListView = ({ listID }: { listID: string }) => {
-  const { listData, isLoading } = useList(listID)
-
+const ListView = ({ list }: { list: List }) => {
   const [showCardBones, setShowCardBones] = useState(false)
   const mutateCard = useCreateNewCard()
-
-  if (!listData || isLoading || Array.isArray(listData.data)) return null
-
-  const list = listData.data
 
   sortCardsByPosition(list)
 
