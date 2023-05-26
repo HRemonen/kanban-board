@@ -33,7 +33,7 @@ func (user *User) BeforeCreate(*gorm.DB) error {
 }
 
 type RegisterUserInput struct {
-	Username        string `json:"username" validate:"required,ascii"`
+	Username        string `json:"username" validate:"required,alphanumunicode"`
 	Email           string `json:"email" validate:"required,email"`
 	Password        string `json:"password" validate:"required,gte=8,eqfield=PasswordConfirm"`
 	PasswordConfirm string `json:"passwordConfirm" validate:"required"`
@@ -50,7 +50,7 @@ type LoginData struct {
 }
 
 type UpdateUser struct {
-	Name string `json:"name" validate:"required,ascii"`
+	Name string `json:"name" validate:"required,alphaunicode"`
 }
 
 type APIUser struct {
