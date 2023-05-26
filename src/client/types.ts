@@ -102,7 +102,7 @@ export interface LoginUserSuccess extends Omit<APIResponse, 'data'> {
 
 export interface InputType extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormRegister<FieldValues> | UseFormRegister<any>
-  error: FieldError | undefined
+  error?: FieldError | undefined
   label?: string
   id: string
 }
