@@ -93,7 +93,7 @@ const BoardView = () => {
     })
   }
 
-  if (board.Lists.length === 0) {
+  if (lists.length === 0) {
     const handleCreateList = () => {
       mutateList.mutateAsync({
         boardID: board.ID,
