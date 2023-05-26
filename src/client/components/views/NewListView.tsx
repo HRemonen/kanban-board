@@ -69,27 +69,36 @@ const NewListView = ({ board }: { board: Board }) => {
   }
 
   return (
-    <div
-      data-cy='new-list-form'
-      className='relative mt-[84px] h-[80vh] w-[280px] shrink-0 rounded-lg border border-gray-200 p-6 shadow '
-    >
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col text-left'
+    <div>
+      <div
+        data-cy='new-list-form'
+        className={`relative mt-[84px] h-[300px] w-[280px] shrink-0 rounded-lg border border-gray-200 p-6 shadow
+        ${errors.name ? 'border-red-500 text-[#EA5555]' : 'border-[#f4f7fd]'}`}
       >
-        <BorderlessTextarea
-          id='name'
-          type='name'
-          placeholder='Input list name'
-          name='name'
-          register={register}
-          error={errors.name}
-        />
-        <div className='absolute bottom-2'>
-          <SaveButton />
-        </div>
-      </form>
-      <CloseMenu onClick={() => setShowCreateList(false)} />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='flex flex-col text-left'
+        >
+          <BorderlessTextarea
+            id='name'
+            type='name'
+            name='name'
+            label='Add list'
+            placeholder='Input list name'
+            register={register}
+            error={errors.name}
+          />
+          <div className='absolute bottom-2'>
+            <SaveButton />
+          </div>
+        </form>
+        <CloseMenu onClick={() => setShowCreateList(false)} />
+      </div>
+      <div>
+        {errors.name && (
+          <p className='mt-2 text-sm text-[#EA5555]'>{errors.name.message}</p>
+        )}
+      </div>
     </div>
   )
 }
