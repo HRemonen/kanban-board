@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useCreateNewList } from '../../services/listService'
 
@@ -7,7 +8,8 @@ import BorderlessTextarea from '../form/BorderlessTextarea'
 import SaveButton from '../common/SaveButton'
 import CloseMenu from '../common/CloseMenu'
 
-import { Board, NewList } from '../../types'
+import { Board } from '../../types'
+import { NewList, NewListZod } from '../../validators/validators'
 
 type CreateListProps = {
   setShowCreateList: React.Dispatch<React.SetStateAction<boolean>>
@@ -45,7 +47,13 @@ const NewListView = ({ board }: { board: Board }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<NewList>({ shouldUnregister: true })
+  } = useForm<NewList>({
+    shouldUnregister: true,
+    resolver: zodResolver(NewListZod),
+    defaultValues: {
+      name: '',
+    },
+  })
 
   const onSubmit = (data: NewList) => {
     mutateList.mutateAsync({

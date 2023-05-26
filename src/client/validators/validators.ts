@@ -10,6 +10,15 @@ export const NewBoardZod = z.object({
 
 export type NewBoard = z.infer<typeof NewBoardZod>
 
+export const NewListZod = z.object({
+  name: z
+    .string()
+    .min(1, { message: 'List name must be 1 or more characters long' })
+    .max(255, { message: 'List name must be 255 or less characters long' }),
+})
+
+export type NewList = z.infer<typeof NewListZod>
+
 export const NewCardZod = z.object({
   title: z
     .string()
