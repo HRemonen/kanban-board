@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import useClickOutside from '../../hooks/useClickOutside'
+
 import { useCreateNewList } from '../../services/listService'
 
 import BorderlessTextarea from '../form/BorderlessTextarea'
@@ -10,7 +12,6 @@ import CloseMenu from '../common/CloseMenu'
 
 import { Board } from '../../types'
 import { NewList, NewListZod } from '../../validators/validators'
-import useClickOutside from '../../hooks/useClickOutside'
 
 type CreateListProps = {
   setShowCreateList: React.Dispatch<React.SetStateAction<boolean>>

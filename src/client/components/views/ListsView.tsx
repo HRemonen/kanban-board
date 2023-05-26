@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 
-import { useCreateNewCard } from '../../services/cardService'
 import { useDeleteList } from '../../services/listService'
 
 import CardView from './CardView'
 import NewCardView from './NewCardView'
-
-import { Card, List, NewCard } from '../../types'
 import DropdownMenu from '../common/DropdownMenu'
+
+import { Card, List } from '../../types'
 
 function sortCardsByPosition(list: List): void {
   list.Cards.sort((a: Card, b: Card) => a.Position - b.Position)
@@ -28,19 +27,10 @@ const ListDropdownMenu = ({ list }: { list: List }) => {
 }
 
 const ListView = ({ list }: { list: List }) => {
+  const newCardRef = useRef(null)
   const [showCardBones, setShowCardBones] = useState(false)
-  const mutateCard = useCreateNewCard()
 
   sortCardsByPosition(list)
-
-  const handleCreateCard = (data: NewCard) => {
-    mutateCard.mutateAsync({
-      listID: list.ID,
-      card: data,
-    })
-
-    setShowCardBones(false)
-  }
 
   return (
     <div data-cy={`list-${list.ID}`} className='w-[280px] shrink-0'>
@@ -53,29 +43,7 @@ const ListView = ({ list }: { list: List }) => {
         </h3>
         <ListDropdownMenu list={list} />
       </div>
-      <div className='mt-2 px-2 hover:rounded-lg hover:bg-gray-300'>
-        <button
-          type='button'
-          className='inline-flex items-center py-2 text-sm font-medium text-gray-600'
-          data-cy={`add-card-button-${list.ID}`}
-          onClick={() => setShowCardBones(true)}
-        >
-          <span className='mr-2 inline-block select-text overflow-visible align-text-bottom'>
-            <svg
-              aria-hidden='true'
-              focusable='false'
-              role='img'
-              viewBox='0 0 16 16'
-              width='16'
-              height='16'
-              fill='currentColor'
-            >
-              <path d='M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z' />
-            </svg>
-          </span>
-          Add card
-        </button>
-      </div>
+      <NewCardView list={list} />
 
       <Droppable droppableId={list.ID}>
         {(provided) => (
@@ -89,7 +57,6 @@ const ListView = ({ list }: { list: List }) => {
               <CardView key={card.ID} card={card} />
             ))}
             {provided.placeholder}
-            {showCardBones && <NewCardView onSubmit={handleCreateCard} />}
           </ul>
         )}
       </Droppable>
