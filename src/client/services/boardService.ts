@@ -5,7 +5,7 @@ import queryClient from '../util/queryClient'
 
 import { useAuthenticatedUser } from '../contexts/AuthContext'
 
-import { NewBoard } from '../validators/boards'
+import { NewBoard } from '../validators/validators'
 import { BoardAPIResponse } from '../types'
 
 export const useUserBoard = (boardID: string | undefined) => {

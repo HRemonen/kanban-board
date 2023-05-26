@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useCreateBoard } from '../../services/boardService'
 
@@ -9,7 +9,7 @@ import SaveButton from '../common/SaveButton'
 import SimpleTextarea from '../form/SimpleTextarea'
 import SimpleInput from '../form/SimpleInput'
 
-import { NewBoardZod, NewBoard } from '../../validators/boards'
+import { NewBoardZod, NewBoard } from '../../validators/validators'
 
 const NewBoardView = () => {
   const mutateBoard = useCreateBoard()
@@ -18,7 +18,6 @@ const NewBoardView = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<NewBoard>({
     resolver: zodResolver(NewBoardZod),

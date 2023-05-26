@@ -3,7 +3,8 @@ import { useMutation, useQuery } from 'react-query'
 import apiClient from '../util/apiClient'
 import queryClient from '../util/queryClient'
 
-import { CardAPIResponse, NewCard } from '../types'
+import { NewCard } from '../validators/validators'
+import { CardAPIResponse } from '../types'
 
 export const useCard = (cardID: string | undefined) => {
   const queryKey = ['card', cardID]

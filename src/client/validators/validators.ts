@@ -9,3 +9,13 @@ export const NewBoardZod = z.object({
 })
 
 export type NewBoard = z.infer<typeof NewBoardZod>
+
+export const NewCardZod = z.object({
+  title: z
+    .string()
+    .min(3, { message: 'Card title must be 3 or more characters long' })
+    .max(255, { message: 'Card title must be 255 or less characters long' }),
+  description: z.string().optional(),
+})
+
+export type NewCard = z.infer<typeof NewCardZod>

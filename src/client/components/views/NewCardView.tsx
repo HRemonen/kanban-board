@@ -1,9 +1,10 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 import BorderlessInput from '../form/BorderlessInput'
 
-import { NewCard } from '../../types'
+import { NewCardZod, NewCard } from '../../validators/validators'
 
 type NewCardProps = {
   onSubmit: (data: NewCard) => void
@@ -14,7 +15,14 @@ const NewCardView = ({ onSubmit }: NewCardProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<NewCard>()
+  } = useForm<NewCard>({
+    resolver: zodResolver(NewCardZod),
+    defaultValues: {
+      title: '',
+    },
+  })
+
+  console.log(errors)
 
   return (
     <div className='max-w-sm rounded-lg border-2 border-dashed border-gray-200 bg-white py-3 pl-6 shadow'>

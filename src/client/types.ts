@@ -98,13 +98,6 @@ export interface LoginUserSuccess extends Omit<APIResponse, 'data'> {
   }
 }
 
-// CARD RELATED
-
-export interface NewCard {
-  title: string
-  description?: string
-}
-
 // LIST RELATED
 
 export interface NewList {
