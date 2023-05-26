@@ -25,7 +25,7 @@ func (list *List) BeforeCreate(*gorm.DB) error {
 }
 
 type ListUserInput struct {
-	Name string `json:"name" validate:"required,alphanumunicode,gte=1,lte=255"`
+	Name string `json:"name" validate:"required,gte=1,lte=255"`
 }
 
 type ListPositionInput struct {

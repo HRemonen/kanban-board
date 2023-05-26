@@ -27,8 +27,8 @@ func (card *Card) BeforeCreate(*gorm.DB) error {
 }
 
 type CardUserInput struct {
-	Title       string `json:"title" validate:"required,ascii,gte=3,lte=255"`
-	Description string `json:"description" validate:"omitempty,alphanumunicode"`
+	Title       string `json:"title" validate:"required,gte=3,lte=255"`
+	Description string `json:"description" validate:"omitempty"`
 }
 
 type CardPositionInput struct {
@@ -36,8 +36,8 @@ type CardPositionInput struct {
 }
 
 type UpdateCard struct {
-	Title       string `json:"title" validate:"omitempty,ascii,gte=3,lte=255"`
-	Description string `json:"description" validate:"omitempty,alphanumunicode"`
-	Status      string `json:"status" validate:"omitempty,alpha,lte=10"`
-	Label       string `json:"label" validate:"omitempty,alpha,lte=10"`
+	Title       string `json:"title" validate:"omitempty,gte=3,lte=255"`
+	Description string `json:"description" validate:"omitempty"`
+	Status      string `json:"status" validate:"omitempty,lte=10"`
+	Label       string `json:"label" validate:"omitempty,lte=10"`
 }
