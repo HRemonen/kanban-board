@@ -5,7 +5,8 @@ import queryClient from '../util/queryClient'
 
 import { useAuthenticatedUser } from '../contexts/AuthContext'
 
-import { BoardAPIResponse, NewBoard } from '../types'
+import { NewBoard } from '../validators/boards'
+import { BoardAPIResponse } from '../types'
 
 export const useUserBoard = (boardID: string | undefined) => {
   const queryKey = ['board', boardID]

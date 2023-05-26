@@ -111,13 +111,6 @@ export interface NewList {
   name: string
 }
 
-// BOARD RELATED
-
-export interface NewBoard {
-  name: string
-  description?: string
-}
-
 // FORM RELATED
 
 export interface InputType extends InputHTMLAttributes<HTMLInputElement> {
