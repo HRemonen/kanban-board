@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -10,6 +10,7 @@ import CloseMenu from '../common/CloseMenu'
 
 import { Board } from '../../types'
 import { NewList, NewListZod } from '../../validators/validators'
+import useClickOutside from '../../hooks/useClickOutside'
 
 type CreateListProps = {
   setShowCreateList: React.Dispatch<React.SetStateAction<boolean>>
@@ -40,8 +41,11 @@ const AddListButton = ({ setShowCreateList }: CreateListProps) => (
 )
 
 const NewListView = ({ board }: { board: Board }) => {
-  const mutateList = useCreateNewList()
+  const newListRef = useRef(null)
   const [showCreateList, setShowCreateList] = useState(false)
+  const mutateList = useCreateNewList()
+
+  useClickOutside(newListRef, setShowCreateList)
 
   const {
     register,
@@ -71,6 +75,7 @@ const NewListView = ({ board }: { board: Board }) => {
   return (
     <div>
       <div
+        ref={newListRef}
         data-cy='new-list-form'
         className={`relative mt-[84px] h-[300px] w-[280px] shrink-0 rounded-lg border border-gray-200 p-6 shadow
         ${errors.name ? 'border-red-500 text-[#EA5555]' : 'border-[#f4f7fd]'}`}
