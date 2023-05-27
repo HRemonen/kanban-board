@@ -1,6 +1,9 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { enqueueSnackbar } from 'notistack'
+
 import { HiLogout } from 'react-icons/hi'
+
 import { AuthContext } from '../../contexts/AuthContext'
 
 const LogoutButton = () => {
@@ -10,6 +13,9 @@ const LogoutButton = () => {
   const onLogout = () => {
     logout()
     navigate('/')
+    enqueueSnackbar('Logout success', {
+      variant: 'success',
+    })
   }
 
   return (
