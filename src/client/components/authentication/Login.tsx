@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import axios, { AxiosError } from 'axios'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
+import { enqueueSnackbar } from 'notistack'
 
 import loginService from '../../services/authService'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -33,6 +34,9 @@ const Login = () => {
       .then((response) => {
         login(response.data.token, response.data.user)
         navigate('/')
+        enqueueSnackbar(`Login success ${response.data.user.username}`, {
+          variant: 'success',
+        })
       })
       .catch((err: Error | AxiosError) => {
         if (!axios.isAxiosError(err)) {
