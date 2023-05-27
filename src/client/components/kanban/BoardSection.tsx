@@ -34,7 +34,7 @@ const BoardSection = () => {
             </Link>
           </div>
           <div className='my-10'>
-            <div className='grid grid-cols-2 gap-x-20'>
+            <div className='columns-1 gap-4 lg:columns-2 xl:columns-3'>
               {boards.map((board: Board) => (
                 <BoardCard key={board.ID} board={board} />
               ))}

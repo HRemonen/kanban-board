@@ -17,7 +17,7 @@ const BoardCard = ({ board }: { board: Board }) => {
   }
 
   return (
-    <div className='relative my-2 w-[100%] rounded-xl border bg-white p-4 md:my-4'>
+    <div className='relative mb-4 break-inside-avoid-column rounded-xl border bg-white p-4'>
       <div className='absolute right-4 top-4'>
         <DropdownMenu handleDelete={handleBoardDelete} />
       </div>

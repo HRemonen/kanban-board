@@ -40,7 +40,9 @@ const Login = () => {
       })
       .catch((err: Error | AxiosError) => {
         if (!axios.isAxiosError(err)) {
-          console.log('Could not log in at the moment')
+          enqueueSnackbar('Could not log in at the moment', {
+            variant: 'error',
+          })
           return
         }
         const { response } = err
