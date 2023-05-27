@@ -32,16 +32,11 @@ const Login = () => {
     await loginService(loginInput)
       .then((response) => {
         login(response.data.token, response.data.user)
-        setLoading(false)
         navigate('/')
       })
       .catch((err: Error | AxiosError) => {
-        setLoading(false)
         if (!axios.isAxiosError(err)) {
-          setError('root', {
-            type: 'custom',
-            message: 'Something unexpected happened, try again.',
-          })
+          console.log('Could not log in at the moment')
           return
         }
         const { response } = err
@@ -64,6 +59,7 @@ const Login = () => {
             message: 'Invalid password',
           })
       })
+      .finally(() => setLoading(false))
   }
 
   return (
